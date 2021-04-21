@@ -112,7 +112,7 @@ class Create2010PALSARARD(PBPTQProcessTool):
         # Create output mask file.
         rsgislib.imagecalc.imageMath(msk_file, self.params['vmsk_img'], "b1", "KEA", rsgis_utils.getGDALDataTypeFromImg(msk_file))
         rsgislib.rastergis.populateStats(self.params['vmsk_img'], True, True, True)
-
+        
         ####### Add Mask descriptions ##########
         rat_img_dataset = gdal.Open(self.params['vmsk_img'], gdal.GA_Update)
         Histogram = rat.readColumn(rat_img_dataset, "Histogram")
@@ -131,10 +131,9 @@ class Create2010PALSARARD(PBPTQProcessTool):
         rat_img_dataset = None
         ########################################
 
-
         rsgislib.imagecalc.imageMath(date_file, self.params['date_img'], "b1", "KEA", rsgis_utils.getGDALDataTypeFromImg(date_file))
         rsgislib.rastergis.populateStats(self.params['date_img'], True, True, True)
-
+        
         ##################### Define Dates #######################
         rat_img_dataset = gdal.Open(self.params['date_img'], gdal.GA_Update)
         Histogram = rat.readColumn(rat_img_dataset, "Histogram")
@@ -160,12 +159,14 @@ class Create2010PALSARARD(PBPTQProcessTool):
         rat.writeColumn(rat_img_dataset, "Year", Aqu_Date_Year)
         rat_img_dataset = None
         #############################################################
-
-        rsgislib.imagecalc.imageMath(linci_file, self.params['linci_img'], "b1", "GTIFF", rsgis_utils.getGDALDataTypeFromImg(linci_file))
+        
+        rsgislib.imagecalc.imageMath(linci_file, self.params['linci_img'], "b1", "KEA", rsgis_utils.getGDALDataTypeFromImg(linci_file))
         rsgislib.rastergis.populateStats(self.params['linci_img'], True, True, True)
-
+        
         if os.path.exists(self.params['tmp_dir']):
             shutil.rmtree(self.params['tmp_dir'])
+
+
 
     def required_fields(self, **kwargs):
         return ["tile", "arch_file", "sar_img", "date_img", "vmsk_img", "linci_img", "tmp_dir"]
