@@ -55,6 +55,9 @@ class Create2010PALSARARD(PBPTQProcessTool):
         linci_file_pattern = '*_linci'
 
         extract_data_dir = os.path.join(self.params['tmp_dir'], '{}_data'.format(self.params['tile']))
+        if not os.path.exists(extract_data_dir):
+            os.mkdir(extract_data_dir)
+
         # Extract the data archive
         extractGZTarFile(self.params['arch_file'], extract_data_dir)
 
