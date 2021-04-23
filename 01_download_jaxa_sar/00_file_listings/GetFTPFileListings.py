@@ -1,7 +1,24 @@
 import sys
 import ftplib
-import rsgislib
 import os.path
+
+
+def writeList2File(dataList, outFile):
+    """
+    Write a list a text file, one line per item.
+
+    :param dataList: List of values to be written to the output file.
+    :param out_file: File path to the output file.
+
+    """
+    try:
+        f = open(outFile, 'w')
+        for item in dataList:
+            f.write(str(item) + '\n')
+        f.flush()
+        f.close()
+    except Exception as e:
+        raise e
 
 def traverseFTP(ftp, dir):
     dirs = []
@@ -27,8 +44,7 @@ def getFTPListings(ftpURL, ftpPath, outputFile):
     print("Getting list of files")
     ftpFiles = traverseFTP(ftpConn, ftpPath)
     
-    rsgisUtils = rsgislib.RSGISPyUtils()
-    rsgisUtils.writeList2File(ftpFiles, outputFile)
+    writeList2File(ftpFiles, outputFile)
     print("Finished")
 
 
