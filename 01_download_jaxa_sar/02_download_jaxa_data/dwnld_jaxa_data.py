@@ -158,7 +158,7 @@ def create_tile_lut(jaxa_server_lst_file, dir2ignore):
 
 def find_run_dwnlds(jaxa_tile_lst_file, jaxa_server_lst_file, dir2ignore, jaxa_server_adrs, out_dir, err_tiles_file):
     jaxa_server_lut = create_tile_lut(jaxa_server_lst_file, dir2ignore)
-    pprint.pprint(jaxa_server_lut)
+    #pprint.pprint(jaxa_server_lut)
 
     jaxa_tile_lst = readTextFile2List(jaxa_tile_lst_file)
 
