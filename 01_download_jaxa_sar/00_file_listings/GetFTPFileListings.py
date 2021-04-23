@@ -38,8 +38,8 @@ def getFTPListings(ftpURL, ftpPath, outputFile):
 #getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS/ext1/PALSAR_MSC/25m_MSC/2007', './JAXA_PALSAR_2007_FileLst.txt')
 
 getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2015', './JAXA_PALSAR2_2015_FileLst.txt')
-getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2016', './JAXA_PALSAR2_2016_FileLst.txt')
-getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext2/PALSAR-2_MSC/25m_MSC/2017', './JAXA_PALSAR2_2017_FileLst.txt')
+#getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2016', './JAXA_PALSAR2_2016_FileLst.txt')
+#getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext2/PALSAR-2_MSC/25m_MSC/2017', './JAXA_PALSAR2_2017_FileLst.txt')
 
 #getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/JERS-1_MSC/25m_MSC/1996/', './JAXA_JERS-1_1996_FileLst.txt')
 
