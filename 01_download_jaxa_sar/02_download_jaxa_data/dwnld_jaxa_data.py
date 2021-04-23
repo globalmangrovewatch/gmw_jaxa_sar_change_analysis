@@ -159,6 +159,7 @@ def create_tile_lut(jaxa_server_lst_file, dir2ignore):
 def find_run_dwnlds(jaxa_tile_lst_file, jaxa_server_lst_file, dir2ignore, jaxa_server_adrs, out_dir, err_tiles_file):
     jaxa_server_lut = create_tile_lut(jaxa_server_lst_file, dir2ignore)
     pprint.pprint(jaxa_server_lut)
+
     jaxa_tile_lst = readTextFile2List(jaxa_tile_lst_file)
 
     no_file_tiles = list()
@@ -167,7 +168,7 @@ def find_run_dwnlds(jaxa_tile_lst_file, jaxa_server_lst_file, dir2ignore, jaxa_s
             file2dwnld = jaxa_server_lut[jaxa_tile]
             file_name = os.path.basename(file2dwnld)
             out_file_path = os.path.join(out_dir, file_name)
-            print(out_file_path)
+            #print(out_file_path)
             if not os.path.exists(out_file_path):
                 downloadFile(jaxa_server_adrs, file2dwnld, out_file_path, time_out=1200, username=None, password=None)
             elif os.path.getsize(out_file_path) < 1000:
@@ -181,6 +182,7 @@ def find_run_dwnlds(jaxa_tile_lst_file, jaxa_server_lst_file, dir2ignore, jaxa_s
     #pprint.pprint(no_file_tiles)
     print("Did not have tiles for {} of {} tiles.".format(len(no_file_tiles), len(jaxa_tile_lst)))
     writeList2File(no_file_tiles, err_tiles_file)
+
 
 find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '1996', 'ftp.eorc.jaxa.jp', '/data/1996', './unavailable_1996_tiles.txt')
 find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_PALSAR_2007_FileLst.txt', '2007', 'ftp.eorc.jaxa.jp', '/data/2007', './unavailable_2007_tiles.txt')
