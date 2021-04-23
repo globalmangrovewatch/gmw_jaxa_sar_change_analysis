@@ -180,16 +180,16 @@ def find_run_dwnlds(jaxa_tile_lst_file, jaxa_server_lst_file, dir2ignore, jaxa_s
     print("Did not have tiles for {} of {} tiles.".format(len(no_file_tiles), len(jaxa_tile_lst)))
     writeList2File(no_file_tiles, err_tiles_file)
 
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '1996', 'ftp.eorc.jaxa.jp', './1996')
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2007', 'ftp.eorc.jaxa.jp', './2007')
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2008', 'ftp.eorc.jaxa.jp', './2008')
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2009', 'ftp.eorc.jaxa.jp', './2009')
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2010', 'ftp.eorc.jaxa.jp', './2010')
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2015', 'ftp.eorc.jaxa.jp', './2015')
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2016', 'ftp.eorc.jaxa.jp', './2016')
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2017', 'ftp.eorc.jaxa.jp', './2017')
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2019', 'ftp.eorc.jaxa.jp', './2019')
-find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2020', 'ftp.eorc.jaxa.jp', './2020')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '1996', 'ftp.eorc.jaxa.jp', '/data/1996')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2007', 'ftp.eorc.jaxa.jp', '/data/2007')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2008', 'ftp.eorc.jaxa.jp', '/data/2008')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2009', 'ftp.eorc.jaxa.jp', '/data/2009')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2010', 'ftp.eorc.jaxa.jp', '/data/2010')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2015', 'ftp.eorc.jaxa.jp', '/data/2015')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2016', 'ftp.eorc.jaxa.jp', '/data/2016')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2017', 'ftp.eorc.jaxa.jp', '/data/2017')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2019', 'ftp.eorc.jaxa.jp', '/data/2019')
+find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '2020', 'ftp.eorc.jaxa.jp', '/data/2020')
 
 #100Gb per year = ~1Tb
 
