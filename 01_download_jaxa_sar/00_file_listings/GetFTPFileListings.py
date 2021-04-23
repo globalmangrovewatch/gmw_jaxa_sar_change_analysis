@@ -32,7 +32,7 @@ def traverseFTP(ftp, dir):
         return nondirs
 
     for subdir in sorted(dirs):
-        print(subdir)
+        #print(subdir)
         tmpFilesLst = traverseFTP(ftp, subdir)
         nondirs = nondirs + tmpFilesLst
     return nondirs
@@ -45,7 +45,7 @@ def getFTPListings(ftpURL, ftpPath, outputFile):
     ftpFiles = traverseFTP(ftpConn, ftpPath)
     
     writeList2File(ftpFiles, outputFile)
-    print("Finished")
+    print("Finished: {}".format(outputFile))
 
 
 #getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS/ext1/PALSAR_MSC/25m_MSC/2010', './JAXA_PALSAR_2010_FileLst.txt')
@@ -53,9 +53,13 @@ def getFTPListings(ftpURL, ftpPath, outputFile):
 #getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS/ext1/PALSAR_MSC/25m_MSC/2008', './JAXA_PALSAR_2008_FileLst.txt')
 #getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS/ext1/PALSAR_MSC/25m_MSC/2007', './JAXA_PALSAR_2007_FileLst.txt')
 
-getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2015', './JAXA_PALSAR2_2015_FileLst.txt')
+#getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2015', './JAXA_PALSAR2_2015_FileLst.txt')
 #getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2016', './JAXA_PALSAR2_2016_FileLst.txt')
-#getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext2/PALSAR-2_MSC/25m_MSC/2017', './JAXA_PALSAR2_2017_FileLst.txt')
+
+#getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2017', './JAXA_PALSAR2_2017_FileLst.txt')
+#getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2018', './JAXA_PALSAR2_2018_FileLst.txt')
+getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2019', './JAXA_PALSAR2_2019_FileLst.txt')
+getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/ext1/PALSAR-2_MSC/25m_MSC/2020', './JAXA_PALSAR2_2020_FileLst.txt')
 
 #getFTPListings('ftp.eorc.jaxa.jp', '/pub/ALOS-2/JERS-1_MSC/25m_MSC/1996/', './JAXA_JERS-1_1996_FileLst.txt')
 
