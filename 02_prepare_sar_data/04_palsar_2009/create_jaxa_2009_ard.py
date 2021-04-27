@@ -36,10 +36,10 @@ def extractGZTarFile(in_file, out_dir):
     os.chdir(cwd)
 
 
-class Create2007PALSARARD(PBPTQProcessTool):
+class Create2009PALSARARD(PBPTQProcessTool):
 
     def __init__(self):
-        super().__init__(cmd_name='create_jaxa_2007_ard.py', descript=None)
+        super().__init__(cmd_name='create_jaxa_2009_ard.py', descript=None)
 
     def do_processing(self, **kwargs):
         if not os.path.exists(self.params['tmp_dir']):
@@ -75,10 +75,10 @@ class Create2007PALSARARD(PBPTQProcessTool):
             print("Could not find HV file in '{}'".format(extract_data_dir))
             raise e
 
-        hh_dB_file = os.path.join(self.params['tmp_dir'], '{}_2007_hh_dB.kea'.format(self.params['tile']))
+        hh_dB_file = os.path.join(self.params['tmp_dir'], '{}_2009_hh_dB.kea'.format(self.params['tile']))
         rsgislib.imagecalc.imageMath(hh_file, hh_dB_file, '(10 * log10(b1^2) - 83.0)*100', 'KEA', rsgislib.TYPE_16INT)
 
-        hv_dB_file = os.path.join(self.params['tmp_dir'], '{}_2007_hv_dB.kea'.format(self.params['tile']))
+        hv_dB_file = os.path.join(self.params['tmp_dir'], '{}_2009_hv_dB.kea'.format(self.params['tile']))
         rsgislib.imagecalc.imageMath(hv_file, hv_dB_file, '(10 * log10(b1^2) - 83.0)*100', 'KEA', rsgislib.TYPE_16INT)
 
         # Add HH/HV ratio.
@@ -199,6 +199,6 @@ class Create2007PALSARARD(PBPTQProcessTool):
         os.mkdir(self.params['tmp_dir'])
 
 if __name__ == "__main__":
-    Create2007PALSARARD().std_run()
+    Create2009PALSARARD().std_run()
 
 
