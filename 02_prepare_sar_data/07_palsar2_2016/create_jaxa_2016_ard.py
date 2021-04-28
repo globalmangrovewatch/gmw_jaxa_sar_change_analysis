@@ -54,6 +54,13 @@ class Create2016PALSAR2ARD(PBPTQProcessTool):
         date_file_pattern = '*_date_F02DAR'
         linci_file_pattern = '*_linci_F02DAR'
 
+        hh_p2_fp_file_pattern = '*_sl_HH_FP6QAR'
+        hv_p2_fp_file_pattern = '*_sl_HV_FP6QAR'
+
+        mask_fp_file_pattern = '*_mask_FP6QAR'
+        date_fp_file_pattern = '*_date_FP6QAR'
+        linci_fp_file_pattern = '*_linci_FP6QAR'
+
         extract_data_dir = os.path.join(self.params['tmp_dir'], '{}_data'.format(self.params['tile']))
         if not os.path.exists(extract_data_dir):
             os.mkdir(extract_data_dir)
@@ -61,19 +68,26 @@ class Create2016PALSAR2ARD(PBPTQProcessTool):
         # Extract the data archive
         extractGZTarFile(self.params['arch_file'], extract_data_dir)
 
-        # ALOS PALSAR
+        # ALOS-2 PALSAR-2
         # File files
-        ref_launch_date = datetime.datetime(2006, 1, 24)
+        ref_launch_date = datetime.datetime(2014, 5, 24)
         try:
             hh_file = rsgis_utils.findFile(extract_data_dir, hh_p2_file_pattern)
         except Exception as e:
-            print("Could not find HH file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                hh_file = rsgis_utils.findFile(extract_data_dir, hh_p2_fp_file_pattern)
+            except Exception as e:
+                print("Could not find HH file in '{}'".format(extract_data_dir))
+                raise e
+
         try:
             hv_file = rsgis_utils.findFile(extract_data_dir, hv_p2_file_pattern)
         except Exception as e:
-            print("Could not find HV file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                hv_file = rsgis_utils.findFile(extract_data_dir, hv_p2_fp_file_pattern)
+            except Exception as e:
+                print("Could not find HV file in '{}'".format(extract_data_dir))
+                raise e
 
         hh_dB_file = os.path.join(self.params['tmp_dir'], '{}_2016_hh_dB.kea'.format(self.params['tile']))
         rsgislib.imagecalc.imageMath(hh_file, hh_dB_file, '(10 * log10(b1^2) - 83.0)*100', 'KEA', rsgislib.TYPE_16INT)
@@ -87,32 +101,43 @@ class Create2016PALSAR2ARD(PBPTQProcessTool):
         rsgislib.imagecalc.bandMath(hhhv_file, 'hv==0?0:(hh/hv)*1000', 'KEA', rsgislib.TYPE_16INT, band_defns)
 
         # Stack Image bands
-        #sar_stack_file = os.path.join(self.params['tmp_dir'], '{}_palsar_2016_dB.kea'.format(self.params['tile']))
-        rsgislib.imageutils.stackImageBands([hh_dB_file, hv_dB_file, hhhv_file], ["HH", "HV", "HH/HV"], self.params['sar_img'], None, 0, 'KEA', rsgislib.TYPE_16INT)
+        # sar_stack_file = os.path.join(self.params['tmp_dir'], '{}_palsar_2016_dB.kea'.format(self.params['tile']))
+        rsgislib.imageutils.stackImageBands([hh_dB_file, hv_dB_file, hhhv_file], ["HH", "HV", "HH/HV"],
+                                            self.params['sar_img'], None, 0, 'KEA', rsgislib.TYPE_16INT)
         rsgislib.imageutils.popImageStats(self.params['sar_img'], usenodataval=True, nodataval=0, calcpyramids=True)
 
         try:
             msk_file = rsgis_utils.findFile(extract_data_dir, mask_file_pattern)
         except Exception as e:
-            print("Could not find Mask file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                msk_file = rsgis_utils.findFile(extract_data_dir, mask_fp_file_pattern)
+            except Exception as e:
+                print("Could not find Mask file in '{}'".format(extract_data_dir))
+                raise e
 
         try:
             date_file = rsgis_utils.findFile(extract_data_dir, date_file_pattern)
         except Exception as e:
-            print("Could not find Date file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                date_file = rsgis_utils.findFile(extract_data_dir, date_fp_file_pattern)
+            except Exception as e:
+                print("Could not find Date file in '{}'".format(extract_data_dir))
+                raise e
 
         try:
             linci_file = rsgis_utils.findFile(extract_data_dir, linci_file_pattern)
         except Exception as e:
-            print("Could not find Incidence Angle file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                linci_file = rsgis_utils.findFile(extract_data_dir, linci_fp_file_pattern)
+            except Exception as e:
+                print("Could not find Incidence Angle file in '{}'".format(extract_data_dir))
+                raise e
 
         # Create output mask file.
-        rsgislib.imagecalc.imageMath(msk_file, self.params['vmsk_img'], "b1", "KEA", rsgis_utils.getGDALDataTypeFromImg(msk_file))
+        rsgislib.imagecalc.imageMath(msk_file, self.params['vmsk_img'], "b1", "KEA",
+                                     rsgis_utils.getGDALDataTypeFromImg(msk_file))
         rsgislib.rastergis.populateStats(self.params['vmsk_img'], True, True, True)
-        
+
         ####### Add Mask descriptions ##########
         rat_img_dataset = gdal.Open(self.params['vmsk_img'], gdal.GA_Update)
         Histogram = rat.readColumn(rat_img_dataset, "Histogram")
@@ -131,9 +156,10 @@ class Create2016PALSAR2ARD(PBPTQProcessTool):
         rat_img_dataset = None
         ########################################
 
-        rsgislib.imagecalc.imageMath(date_file, self.params['date_img'], "b1", "KEA", rsgis_utils.getGDALDataTypeFromImg(date_file))
+        rsgislib.imagecalc.imageMath(date_file, self.params['date_img'], "b1", "KEA",
+                                     rsgis_utils.getGDALDataTypeFromImg(date_file))
         rsgislib.rastergis.populateStats(self.params['date_img'], True, True, True)
-        
+
         ##################### Define Dates #######################
         rat_img_dataset = gdal.Open(self.params['date_img'], gdal.GA_Update)
         Histogram = rat.readColumn(rat_img_dataset, "Histogram")
@@ -159,14 +185,13 @@ class Create2016PALSAR2ARD(PBPTQProcessTool):
         rat.writeColumn(rat_img_dataset, "Year", Aqu_Date_Year)
         rat_img_dataset = None
         #############################################################
-        
-        rsgislib.imagecalc.imageMath(linci_file, self.params['linci_img'], "b1", "KEA", rsgis_utils.getGDALDataTypeFromImg(linci_file))
+
+        rsgislib.imagecalc.imageMath(linci_file, self.params['linci_img'], "b1", "KEA",
+                                     rsgis_utils.getGDALDataTypeFromImg(linci_file))
         rsgislib.rastergis.populateStats(self.params['linci_img'], True, True, True)
-        
+
         if os.path.exists(self.params['tmp_dir']):
             shutil.rmtree(self.params['tmp_dir'])
-
-
 
     def required_fields(self, **kwargs):
         return ["tile", "arch_file", "sar_img", "date_img", "vmsk_img", "linci_img", "tmp_dir"]
@@ -197,6 +222,7 @@ class Create2016PALSAR2ARD(PBPTQProcessTool):
         if os.path.exists(self.params['tmp_dir']):
             shutil.rmtree(self.params['tmp_dir'])
         os.mkdir(self.params['tmp_dir'])
+
 
 if __name__ == "__main__":
     Create2016PALSAR2ARD().std_run()

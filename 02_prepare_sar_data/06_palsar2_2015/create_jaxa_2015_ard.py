@@ -68,9 +68,9 @@ class Create2015PALSAR2ARD(PBPTQProcessTool):
         # Extract the data archive
         extractGZTarFile(self.params['arch_file'], extract_data_dir)
 
-        # ALOS PALSAR
+        # ALOS-2 PALSAR-2
         # File files
-        ref_launch_date = datetime.datetime(2006, 1, 24)
+        ref_launch_date = datetime.datetime(2014, 5, 24)
         try:
             hh_file = rsgis_utils.findFile(extract_data_dir, hh_p2_file_pattern)
         except Exception as e:
