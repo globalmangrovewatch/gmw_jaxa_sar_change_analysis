@@ -47,12 +47,12 @@ class Create2015PALSAR2ARD(PBPTQProcessTool):
 
         rsgis_utils = rsgislib.RSGISPyUtils()
 
-        hh_p1_file_pattern = '*_sl_HH'
-        hv_p1_file_pattern = '*_sl_HV'
+        hh_p2_file_pattern = '*_sl_HH_F02DAR'
+        hv_p2_file_pattern = '*_sl_HV_F02DAR'
 
-        mask_file_pattern = '*_mask'
-        date_file_pattern = '*_date'
-        linci_file_pattern = '*_linci'
+        mask_file_pattern = '*_mask_F02DAR'
+        date_file_pattern = '*_date_F02DAR'
+        linci_file_pattern = '*_linci_F02DAR'
 
         extract_data_dir = os.path.join(self.params['tmp_dir'], '{}_data'.format(self.params['tile']))
         if not os.path.exists(extract_data_dir):
@@ -65,12 +65,12 @@ class Create2015PALSAR2ARD(PBPTQProcessTool):
         # File files
         ref_launch_date = datetime.datetime(2006, 1, 24)
         try:
-            hh_file = rsgis_utils.findFile(extract_data_dir, hh_p1_file_pattern)
+            hh_file = rsgis_utils.findFile(extract_data_dir, hh_p2_file_pattern)
         except Exception as e:
             print("Could not find HH file in '{}'".format(extract_data_dir))
             raise e
         try:
-            hv_file = rsgis_utils.findFile(extract_data_dir, hv_p1_file_pattern)
+            hv_file = rsgis_utils.findFile(extract_data_dir, hv_p2_file_pattern)
         except Exception as e:
             print("Could not find HV file in '{}'".format(extract_data_dir))
             raise e
