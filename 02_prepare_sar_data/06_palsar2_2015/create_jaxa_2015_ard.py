@@ -54,6 +54,13 @@ class Create2015PALSAR2ARD(PBPTQProcessTool):
         date_file_pattern = '*_date_F02DAR'
         linci_file_pattern = '*_linci_F02DAR'
 
+        hh_p2_fp_file_pattern = '*_sl_HH_FP6QAR'
+        hv_p2_fp_file_pattern = '*_sl_HV_FP6QAR'
+
+        mask_fp_file_pattern = '*_mask_FP6QAR'
+        date_fp_file_pattern = '*_date_FP6QAR'
+        linci_fp_file_pattern = '*_linci_FP6QAR'
+
         extract_data_dir = os.path.join(self.params['tmp_dir'], '{}_data'.format(self.params['tile']))
         if not os.path.exists(extract_data_dir):
             os.mkdir(extract_data_dir)
@@ -67,13 +74,20 @@ class Create2015PALSAR2ARD(PBPTQProcessTool):
         try:
             hh_file = rsgis_utils.findFile(extract_data_dir, hh_p2_file_pattern)
         except Exception as e:
-            print("Could not find HH file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                hh_file = rsgis_utils.findFile(extract_data_dir, hh_p2_fp_file_pattern)
+            except Exception as e:
+                print("Could not find HH file in '{}'".format(extract_data_dir))
+                raise e
+
         try:
             hv_file = rsgis_utils.findFile(extract_data_dir, hv_p2_file_pattern)
         except Exception as e:
-            print("Could not find HV file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                hv_file = rsgis_utils.findFile(extract_data_dir, hv_p2_fp_file_pattern)
+            except Exception as e:
+                print("Could not find HV file in '{}'".format(extract_data_dir))
+                raise e
 
         hh_dB_file = os.path.join(self.params['tmp_dir'], '{}_2015_hh_dB.kea'.format(self.params['tile']))
         rsgislib.imagecalc.imageMath(hh_file, hh_dB_file, '(10 * log10(b1^2) - 83.0)*100', 'KEA', rsgislib.TYPE_16INT)
@@ -94,20 +108,29 @@ class Create2015PALSAR2ARD(PBPTQProcessTool):
         try:
             msk_file = rsgis_utils.findFile(extract_data_dir, mask_file_pattern)
         except Exception as e:
-            print("Could not find Mask file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                msk_file = rsgis_utils.findFile(extract_data_dir, mask_fp_file_pattern)
+            except Exception as e:
+                print("Could not find Mask file in '{}'".format(extract_data_dir))
+                raise e
 
         try:
             date_file = rsgis_utils.findFile(extract_data_dir, date_file_pattern)
         except Exception as e:
-            print("Could not find Date file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                date_file = rsgis_utils.findFile(extract_data_dir, date_fp_file_pattern)
+            except Exception as e:
+                print("Could not find Date file in '{}'".format(extract_data_dir))
+                raise e
 
         try:
             linci_file = rsgis_utils.findFile(extract_data_dir, linci_file_pattern)
         except Exception as e:
-            print("Could not find Incidence Angle file in '{}'".format(extract_data_dir))
-            raise e
+            try:
+                linci_file = rsgis_utils.findFile(extract_data_dir, linci_fp_file_pattern)
+            except Exception as e:
+                print("Could not find Incidence Angle file in '{}'".format(extract_data_dir))
+                raise e
 
         # Create output mask file.
         rsgislib.imagecalc.imageMath(msk_file, self.params['vmsk_img'], "b1", "KEA", rsgis_utils.getGDALDataTypeFromImg(msk_file))
