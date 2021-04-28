@@ -10,7 +10,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
         rsgis_utils = rsgislib.RSGISPyUtils()
-        jaxa_tile_lst = rsgis_utils.readTextFile2List(kwargs['tiles_path'])
+        jaxa_tile_lst = rsgis_utils.readTextFile2List(kwargs['tile_list'])
 
         for tile in jaxa_tile_lst:
             tile_imgs = glob.glob(kwargs['tiles_srch_path'].format(tile))
