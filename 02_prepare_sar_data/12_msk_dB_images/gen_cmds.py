@@ -30,7 +30,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/*/*/*_db.kea')
+        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/*/*/*_db.kea',
+                              tmp_dir='/scratch/a.pfb/gmw_v2_gapfill/tmp')
         self.pop_params_db()
         self.create_slurm_sub_sh("mask_dB_images", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
