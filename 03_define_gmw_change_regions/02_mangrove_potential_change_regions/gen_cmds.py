@@ -17,16 +17,17 @@ class GenCmds(PBPTGenQProcessToolCmds):
             gmw_buf_chng_rgns_img = os.path.join(kwargs['out_tiles_dir'], '{}_v3_init_chng_rgns.kea'.format(tile_basename))
             diff_dB_img = os.path.join(kwargs['diff_dB_img_path'], '{}_dmaxmin_hh_db_mskd.kea'.format(tile))
 
-            if (not os.path.exists(gmw_buf_chng_rgns_img)):
-                c_dict = dict()
-                c_dict['tile'] = tile
-                c_dict['gmw_buf_tile'] = gmw_buf_tile
-                c_dict['diff_dB_img'] = diff_dB_img
-                c_dict['gmw_buf_chng_rgns_img'] = gmw_buf_chng_rgns_img
-                c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_buf_chng_rgns".format(tile_basename))
-                if not os.path.exists(c_dict['tmp_dir']):
-                    os.mkdir(c_dict['tmp_dir'])
-                self.params.append(c_dict)
+            if os.path.exists(diff_dB_img):
+                if (not os.path.exists(gmw_buf_chng_rgns_img)):
+                    c_dict = dict()
+                    c_dict['tile'] = tile
+                    c_dict['gmw_buf_tile'] = gmw_buf_tile
+                    c_dict['diff_dB_img'] = diff_dB_img
+                    c_dict['gmw_buf_chng_rgns_img'] = gmw_buf_chng_rgns_img
+                    c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_buf_chng_rgns".format(tile_basename))
+                    if not os.path.exists(c_dict['tmp_dir']):
+                        os.mkdir(c_dict['tmp_dir'])
+                    self.params.append(c_dict)
 
 
     def run_gen_commands(self):
