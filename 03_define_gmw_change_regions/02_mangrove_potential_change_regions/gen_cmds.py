@@ -12,7 +12,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         img_tiles = glob.glob(kwargs['in_tiles_path'])
         for gmw_buf_tile in img_tiles:
             tile_basename = self.get_file_basename(gmw_buf_tile, n_comps=2)
-            tile = tile_basename.split('_', 1)
+            tile = tile_basename.split('_')[1]
 
             gmw_buf_chng_rgns_img = os.path.join(kwargs['out_tiles_dir'], '{}_v3_init_chng_rgns.kea'.format(tile_basename))
             diff_dB_img = os.path.join(kwargs['diff_dB_img_path'], '{}_dmaxmin_hh_db_mskd.kea'.format(tile))
