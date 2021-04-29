@@ -9,7 +9,7 @@ logger = logging.getLogger(__name__)
 class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
-        img_tiles = glob.glob(kwargs['in_tiles_path'])
+        img_tiles = glob.glob(kwargs['tiles_path'])
         for gmw_potent_chng_tile in img_tiles:
             tile_basename = self.get_file_basename(gmw_potent_chng_tile)
             tile = tile_basename.split('_')[0]
