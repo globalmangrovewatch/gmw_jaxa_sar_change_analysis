@@ -26,6 +26,9 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     c_dict['out_min_dB_img'] = out_min_dB_img
                     c_dict['out_max_dB_img'] = out_max_dB_img
                     c_dict['out_diff_dB_img'] = out_diff_dB_img
+                    c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_min_max_dB".format(tile))
+                    if not os.path.exists(c_dict['tmp_dir']):
+                        os.mkdir(c_dict['tmp_dir'])
                     self.params.append(c_dict)
 
 
@@ -34,7 +37,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
                               tiles_srch_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/*/{}/*_db_mskd.kea',
                               out_min_dB_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/min_dB',
                               out_max_dB_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/max_dB',
-                              out_diff_dB_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/dmaxmin_dB')
+                              out_diff_dB_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/dmaxmin_dB',
+                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.pop_params_db()
         self.create_slurm_sub_sh("calc_min_max_dB", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
