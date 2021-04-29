@@ -22,7 +22,7 @@ class FindPotentialMngChngRegions(PBPTQProcessTool):
 
         band_defns = [rsgislib.imagecalc.BandDefn('gmw_buf', self.params['gmw_buf_tile'], 1),
                       rsgislib.imagecalc.BandDefn('difHH', self.params['diff_dB_img'], 1)]
-        rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], '(gmw_buf=1)&&(difHH>800)?1:0', 'KEA', rsgislib.TYPE_16INT, band_defns)
+        rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], '(gmw_buf==1)&&(difHH>800)?1:0', 'KEA', rsgislib.TYPE_16INT, band_defns)
         rsgislib.rastergis.populateStats(self.params['gmw_buf_chng_rgns_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         
         if os.path.exists(self.params['tmp_dir']):
