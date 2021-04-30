@@ -32,8 +32,10 @@ class FindPotentialMngChngRegions(PBPTQProcessTool):
         else:
             band_defns = [rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1),
                           rsgislib.imagecalc.BandDefn('gmw_buf', self.params['gmw_buf_tile'], 1),
+                          rsgislib.imagecalc.BandDefn('minHH', self.params['min_dB_img'], 1),
+                          rsgislib.imagecalc.BandDefn('maxHH', self.params['max_dB_img'], 1),
                           rsgislib.imagecalc.BandDefn('difHH', self.params['diff_dB_img'], 1)]
-            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:(gmw_buf==1)&&(difHH>800)?1:0', 'KEA', rsgislib.TYPE_16INT, band_defns)
+            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:(gmw_buf==1)&&(difHH>800)&&(minHH<-1000)&&(maxHH>-1500)?1:0', 'KEA', rsgislib.TYPE_16INT, band_defns)
             rsgislib.rastergis.populateStats(self.params['gmw_buf_chng_rgns_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         
         if os.path.exists(self.params['tmp_dir']):
@@ -42,7 +44,7 @@ class FindPotentialMngChngRegions(PBPTQProcessTool):
 
 
     def required_fields(self, **kwargs):
-        return ["tile", "gmw_tile", "gmw_buf_tile", "diff_dB_img", "gmw_buf_chng_rgns_img", "tmp_dir"]
+        return ["tile", "gmw_tile", "gmw_buf_tile", "min_dB_img", "max_dB_img", "diff_dB_img", "gmw_buf_chng_rgns_img", "tmp_dir"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
