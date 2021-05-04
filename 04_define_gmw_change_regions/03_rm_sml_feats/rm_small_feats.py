@@ -20,31 +20,36 @@ class RMSmallPotentChangeFeatures(PBPTQProcessTool):
         if not os.path.exists(self.params['tmp_dir']):
             os.mkdir(self.params['tmp_dir'])
 
-        inverse_init_msk = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk.kea')
+        inverse_init_msk = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk.kea'.format(self.params['tile']))
         band_defns = [rsgislib.imagecalc.BandDefn('chg_msk', self.params['gmw_pot_chng_rgns_img'], 1)]
         rsgislib.imagecalc.bandMath(inverse_init_msk, 'chg_msk==1?0:1', 'KEA', rsgislib.TYPE_8UINT, band_defns)
 
-        inverse_init_msk_clumps = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk_clumps.kea')
+        inverse_init_msk_clumps = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk_clumps.kea'.format(self.params['tile']))
         rsgislib.segmentation.clump(inverse_init_msk, inverse_init_msk_clumps, 'KEA', False, 0, False)
         rsgislib.rastergis.populateStats(inverse_init_msk_clumps, addclrtab=False, calcpyramids=False, ignorezero=True)
 
-        inverse_init_msk_clumps_rmsml = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk_clumps_rmsml.kea')
+        inverse_init_msk_clumps_rmsml = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk_clumps_rmsml.kea'.format(self.params['tile']))
         rsgislib.segmentation.rmSmallClumps(inverse_init_msk_clumps, inverse_init_msk_clumps_rmsml, 16, 'KEA')
 
-        init_msk_fill_sml = os.path.join(self.params['tmp_dir'], '{}_init_msk_fill_sml.kea')
-        band_defns = [rsgislib.imagecalc.BandDefn('inv_chg_msk', inverse_init_msk_clumps_rmsml, 1),
+        inverse_init_msk_rmsml = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk_rmsml.kea'.format(self.params['tile']))
+        band_defns = [rsgislib.imagecalc.BandDefn('chg_clps', inverse_init_msk_clumps_rmsml, 1)]
+        rsgislib.imagecalc.bandMath(inverse_init_msk_rmsml, 'chg_clps>0?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+
+
+        init_msk_fill_sml = os.path.join(self.params['tmp_dir'], '{}_init_msk_fill_sml.kea'.format(self.params['tile']))
+        band_defns = [rsgislib.imagecalc.BandDefn('inv_chg_msk', inverse_init_msk_rmsml, 1),
                       rsgislib.imagecalc.BandDefn('chg_msk', self.params['gmw_pot_chng_rgns_img'], 1)]
         rsgislib.imagecalc.bandMath(init_msk_fill_sml, '(chg_msk==0)&&(inv_chg_msk==0)?1:chg_msk', 'KEA', rsgislib.TYPE_16INT, band_defns)
 
-        init_msk_fill_clumps = os.path.join(self.params['tmp_dir'], '{}init_msk_fill_sml_clumps.kea')
+        init_msk_fill_clumps = os.path.join(self.params['tmp_dir'], '{}_init_msk_fill_sml_clumps.kea'.format(self.params['tile']))
         rsgislib.segmentation.clump(init_msk_fill_sml, init_msk_fill_clumps, 'KEA', False, 0, False)
         rsgislib.rastergis.populateStats(init_msk_fill_clumps, addclrtab=False, calcpyramids=False, ignorezero=True)
 
-        init_msk_fill_clumps_rmsml = os.path.join(self.params['tmp_dir'], '{}init_msk_fill_sml_clumps_rmsml.kea')
+        init_msk_fill_clumps_rmsml = os.path.join(self.params['tmp_dir'], '{}_init_msk_fill_sml_clumps_rmsml.kea'.format(self.params['tile']))
         rsgislib.segmentation.rmSmallClumps(init_msk_fill_clumps, init_msk_fill_clumps_rmsml, 5, 'KEA')
 
         band_defns = [rsgislib.imagecalc.BandDefn('chg_msk', init_msk_fill_clumps_rmsml, 1)]
-        rsgislib.imagecalc.bandMath(self.params['gmw_rmsml_chng_rgns_img'], 'chg_msk==0?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.imagecalc.bandMath(self.params['gmw_rmsml_chng_rgns_img'], 'chg_msk>0?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
         rsgislib.rastergis.populateStats(self.params['gmw_rmsml_chng_rgns_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         
         if os.path.exists(self.params['tmp_dir']):
