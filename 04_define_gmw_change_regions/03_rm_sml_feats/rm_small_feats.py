@@ -26,10 +26,10 @@ class RMSmallPotentChangeFeatures(PBPTQProcessTool):
 
         inverse_init_msk_clumps = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk_clumps.kea')
         rsgislib.segmentation.clump(inverse_init_msk, inverse_init_msk_clumps, 'KEA', False, 0, False)
+        rsgislib.rastergis.populateStats(inverse_init_msk_clumps, addclrtab=False, calcpyramids=False, ignorezero=True)
 
         inverse_init_msk_clumps_rmsml = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk_clumps_rmsml.kea')
         rsgislib.segmentation.rmSmallClumps(inverse_init_msk_clumps, inverse_init_msk_clumps_rmsml, 10, 'KEA')
-        rsgislib.rastergis.populateStats(inverse_init_msk_clumps_rmsml, addclrtab=False, calcpyramids=False, ignorezero=True)
 
         init_msk_fill_sml = os.path.join(self.params['tmp_dir'], '{}_init_msk_fill_sml.kea')
         band_defns = [rsgislib.imagecalc.BandDefn('chg_msk', inverse_init_msk_clumps_rmsml, 1)]
