@@ -29,18 +29,19 @@ class RMSmallPotentChangeFeatures(PBPTQProcessTool):
         rsgislib.rastergis.populateStats(inverse_init_msk_clumps, addclrtab=False, calcpyramids=False, ignorezero=True)
 
         inverse_init_msk_clumps_rmsml = os.path.join(self.params['tmp_dir'], '{}_inv_init_msk_clumps_rmsml.kea')
-        rsgislib.segmentation.rmSmallClumps(inverse_init_msk_clumps, inverse_init_msk_clumps_rmsml, 10, 'KEA')
+        rsgislib.segmentation.rmSmallClumps(inverse_init_msk_clumps, inverse_init_msk_clumps_rmsml, 16, 'KEA')
 
         init_msk_fill_sml = os.path.join(self.params['tmp_dir'], '{}_init_msk_fill_sml.kea')
-        band_defns = [rsgislib.imagecalc.BandDefn('chg_msk', inverse_init_msk_clumps_rmsml, 1)]
-        rsgislib.imagecalc.bandMath(init_msk_fill_sml, 'chg_msk==0?1:0', 'KEA', rsgislib.TYPE_16INT, band_defns)
+        band_defns = [rsgislib.imagecalc.BandDefn('inv_chg_msk', inverse_init_msk_clumps_rmsml, 1),
+                      rsgislib.imagecalc.BandDefn('chg_msk', self.params['gmw_pot_chng_rgns_img'], 1)]
+        rsgislib.imagecalc.bandMath(init_msk_fill_sml, '(chg_msk==0)&&(inv_chg_msk==0)?1:chg_msk', 'KEA', rsgislib.TYPE_16INT, band_defns)
 
         init_msk_fill_clumps = os.path.join(self.params['tmp_dir'], '{}init_msk_fill_sml_clumps.kea')
         rsgislib.segmentation.clump(init_msk_fill_sml, init_msk_fill_clumps, 'KEA', False, 0, False)
         rsgislib.rastergis.populateStats(init_msk_fill_clumps, addclrtab=False, calcpyramids=False, ignorezero=True)
 
         init_msk_fill_clumps_rmsml = os.path.join(self.params['tmp_dir'], '{}init_msk_fill_sml_clumps_rmsml.kea')
-        rsgislib.segmentation.rmSmallClumps(init_msk_fill_clumps, init_msk_fill_clumps_rmsml, 3, 'KEA')
+        rsgislib.segmentation.rmSmallClumps(init_msk_fill_clumps, init_msk_fill_clumps_rmsml, 5, 'KEA')
 
         band_defns = [rsgislib.imagecalc.BandDefn('chg_msk', init_msk_fill_clumps_rmsml, 1)]
         rsgislib.imagecalc.bandMath(self.params['gmw_rmsml_chng_rgns_img'], 'chg_msk==0?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
