@@ -23,9 +23,12 @@ class CreateImageTile(PBPTQProcessTool):
         tile_bbox = rsgis_utils.getImageBBOX(self.params['gmw_tile'])
 
         base_data_img = rsgislib.imageutils.imagelut.getRasterLyr(tile_bbox, self.params['lut_file'], self.params['lut_lyr'], self.params['tmp_dir'])
-
-        rsgislib.imageutils.resampleImage2Match(self.params['gmw_tile'], base_data_img, self.params['out_img'], 'KEA', 'cubicspline', datatype=rsgislib.TYPE_16INT, noDataVal=-32768)
-        rsgislib.imageutils.popImageStats(self.params['out_img'], usenodataval=True, nodataval=-32768, calcpyramids=True)
+        if base_data_img is not None:
+            rsgislib.imageutils.resampleImage2Match(self.params['gmw_tile'], base_data_img, self.params['out_img'], 'KEA', 'cubicspline', datatype=rsgislib.TYPE_16INT, noDataVal=-32768)
+            rsgislib.imageutils.popImageStats(self.params['out_img'], usenodataval=True, nodataval=-32768, calcpyramids=True)
+        else:
+            rsgislib.imageutils.createCopyImage(self.params['gmw_tile'], self.params['out_img'], 1, 0, 'KEA', rsgislib.TYPE_16INT)
+            rsgislib.imageutils.popImageStats(self.params['out_img'], usenodataval=True, nodataval=-32768, calcpyramids=True)
 
         if os.path.exists(self.params['tmp_dir']):
             shutil.rmtree(self.params['tmp_dir'])
