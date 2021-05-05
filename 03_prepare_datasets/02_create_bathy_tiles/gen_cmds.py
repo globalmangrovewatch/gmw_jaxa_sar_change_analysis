@@ -13,15 +13,15 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for gmw_tile in img_tiles:
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
-            gmw_srtm_img = os.path.join(kwargs['out_tiles_dir'], '{}_bathy.kea'.format(tile_basename))
+            gmw_bathy_img = os.path.join(kwargs['out_tiles_dir'], '{}_bathy.kea'.format(tile_basename))
 
-            if (not os.path.exists(gmw_srtm_img)):
+            if (not os.path.exists(gmw_bathy_img)):
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
                 c_dict['lut_file'] = kwargs['lut_file']
                 c_dict['lut_lyr'] = kwargs['lut_lyr']
-                c_dict['out_img'] = gmw_srtm_img
+                c_dict['out_img'] = gmw_bathy_img
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_bathy_tile".format(tile_basename))
                 if not os.path.exists(c_dict['tmp_dir']):
                     os.mkdir(c_dict['tmp_dir'])
