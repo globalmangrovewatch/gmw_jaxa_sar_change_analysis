@@ -35,7 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                               out_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/other_base_data/bathymetry_gmw_tiles',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.pop_params_db()
-        self.create_slurm_sub_sh("buffer_gmw_regions", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
+        self.create_slurm_sub_sh("bathymetry_gmw_tiles", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
