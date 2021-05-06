@@ -26,6 +26,7 @@ class CreateImageTile(PBPTQProcessTool):
         # Clump the initial mask so we can find the region which is connected to the ocean.
         binMaskInitClumps = os.path.join(self.params['tmp_dir'], '{}_binmskinit_clumps.kea'.format(self.params['tile']))
         rsgislib.segmentation.clump(binMaskInit, binMaskInitClumps, 'KEA', False, 0)
+        rsgislib.rastergis.populateStats(binMaskInitClumps, True, True, True)
 
         # Populate clumps with binary ocean mask.
         rsgislib.rastergis.populateRATWithStats(self.params['inv_gadm_img'], binMaskInitClumps, [rsgislib.rastergis.BandAttStats(band=1, maxField='OceanMask')])
