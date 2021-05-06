@@ -11,11 +11,12 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def gen_command_info(self, **kwargs):
         img_tiles = glob.glob(kwargs['gmw_tiles'])
         for gmw_tile in img_tiles:
+            basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
             gmw_gadm_img = os.path.join(kwargs['gadm_tiles_dir'], '{}_gadm.kea'.format(tile_basename))
             gmw_coastal_img = os.path.join(kwargs['coastal_tiles_dir'], '{}_coastal_area.kea'.format(tile_basename))
-            gmw_dist_img = os.path.join(kwargs['gmw_dist_dir'], '{}_dist_pxls.kea'.format(tile_basename))
+            gmw_dist_img = os.path.join(kwargs['gmw_dist_dir'], '{}_dist_pxls.kea'.format(basename))
             gmw_srtm_img = os.path.join(kwargs['srtm_tiles_dir'], '{}_srtm.kea'.format(tile_basename))
             gmw_bathy_img = os.path.join(kwargs['bathy_tiles_dir'], '{}_bathy.kea'.format(tile_basename))
             gmw_ocean_img = os.path.join(kwargs['ocean_tile_dir'], '{}_ocean_water.kea'.format(tile_basename))
