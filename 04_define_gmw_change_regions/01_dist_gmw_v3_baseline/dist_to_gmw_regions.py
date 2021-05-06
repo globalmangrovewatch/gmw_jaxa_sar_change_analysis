@@ -32,11 +32,6 @@ class DistGMWRegions(PBPTQProcessTool):
         if os.path.exists(self.params['out_img']):
             os.remove(self.params['out_img'])
 
-        # Reset the tmp dir
-        if os.path.exists(self.params['tmp_dir']):
-            shutil.rmtree(self.params['tmp_dir'])
-        os.mkdir(self.params['tmp_dir'])
-
 if __name__ == "__main__":
     DistGMWRegions().std_run()
 
