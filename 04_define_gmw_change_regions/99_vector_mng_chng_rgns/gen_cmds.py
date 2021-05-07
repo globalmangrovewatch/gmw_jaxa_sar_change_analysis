@@ -25,8 +25,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_v3_init_change_regions/*.kea',
-                              tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_v3_init_change_regions_vecs')
+        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/pot_gmw_chng_ocean_chg_rgns/*.kea',
+                              tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/pot_gmw_chng_ocean_chg_rgns_vecs')
         self.pop_params_db()
         self.create_slurm_sub_sh("vectorise_mng_potent_chng_rgns", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
