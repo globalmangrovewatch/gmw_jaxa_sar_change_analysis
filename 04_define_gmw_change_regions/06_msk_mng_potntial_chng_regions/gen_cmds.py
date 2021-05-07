@@ -14,7 +14,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
-            pot_ocean_chng_img = os.path.join(kwargs['pot_jaxa_chng_tiles_dir'], '{}_pot_chng_ocean_chg_rgns.kea'.format(tile_basename))
+            pot_ocean_chng_img = os.path.join(kwargs['pot_chng_regs_tiles_dir'], '{}_pot_chng_ocean_chg_rgns.kea'.format(tile_basename))
             pot_sar_chng_img = os.path.join(kwargs['pot_jaxa_chng_tiles_dir'], '{}_v3_init_chng_rgns_rmsml.kea'.format(tile_basename))
 
             out_img = os.path.join(kwargs['out_dir'], '{}_gmw_v3_pot_chng_ocean_chg_rgns.kea'.format(tile_basename))
