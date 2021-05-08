@@ -67,7 +67,7 @@ class CreateTimeseriesComps(PBPTQProcessTool):
         else:
             input_imgs.append(self.params['end_img'])
 
-        rsgislib.imageutils.stackImageBands(input_imgs, band_names, self.params['out_img'], 32767, 32767, 'GTIFF', rsgislib.TYPE_16INT)
+        rsgislib.imageutils.stackImageBands(input_imgs, band_names, self.params['out_img'], None, 32767, 'GTIFF', rsgislib.TYPE_16INT)
         rsgislib.imageutils.popImageStats(self.params['out_img'], usenodataval=True, nodataval=32767, calcpyramids=True)
 
         if os.path.exists(self.params['tmp_dir']):
