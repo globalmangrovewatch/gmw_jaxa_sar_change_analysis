@@ -20,7 +20,7 @@ class CreateImageTile(PBPTQProcessTool):
             os.mkdir(self.params['tmp_dir'])
 
         if self.params['sar_img'] is None:
-            rsgislib.imagecalc.imageMath(self.params['water_occur_img'], self.params['out_img'], '(b1>80)&&(b1<=100)?1:0', 'KEA', rsgislib.TYPE_8UINT)
+            rsgislib.imagecalc.imageMath(self.params['water_occur_img'], self.params['out_img'], '(b1>60)&&(b1<=100)?1:0', 'KEA', rsgislib.TYPE_8UINT)
             rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         else:
             per_water_msk_img = os.path.join(self.params['tmp_dir'], '{}_perm_water.kea'.format(self.params['tile']))
@@ -58,7 +58,7 @@ class CreateImageTile(PBPTQProcessTool):
             band_defns = [rsgislib.imagecalc.BandDefn('woccur', self.params['water_occur_img'], 1),
                           rsgislib.imagecalc.BandDefn('hh', self.params['sar_img'], 1),
                           rsgislib.imagecalc.BandDefn('hv', self.params['sar_img'], 2)]
-            exp = '(woccur > 5) && (hh > {}) && (hv > {})?1:0'.format(sar_hh_water_thres, sar_hv_water_thres)
+            exp = '(woccur > 5) && (hh < {}) && (hv < {})?1:0'.format(sar_hh_water_thres, sar_hv_water_thres)
             rsgislib.imagecalc.bandMath(self.params['out_img'], exp, 'KEA', rsgislib.TYPE_8UINT, band_defns)
             rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
