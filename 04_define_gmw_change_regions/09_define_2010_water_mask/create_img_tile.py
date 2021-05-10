@@ -20,7 +20,7 @@ class CreateImageTile(PBPTQProcessTool):
             os.mkdir(self.params['tmp_dir'])
 
         if self.params['sar_img'] is None:
-            rsgislib.imagecalc.imageMath(self.params['water_occur_img'], self.params['out_img'], '(b1>5)&&(b1<=100)?1:0', 'KEA', rsgislib.TYPE_8UINT)
+            rsgislib.imagecalc.imageMath(self.params['water_occur_img'], self.params['out_img'], '(b1>20)&&(b1<=100)?1:0', 'KEA', rsgislib.TYPE_8UINT)
             rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         else:
             per_water_msk_img = os.path.join(self.params['tmp_dir'], '{}_perm_water.kea'.format(self.params['tile']))
@@ -34,8 +34,8 @@ class CreateImageTile(PBPTQProcessTool):
 
                 sar_water_percent = rsgislib.imagecalc.bandPercentile(per_water_sar_img, 0.99, 30000)
 
-                sar_hh_water_thres = sar_water_percent[0] - (sar_water_percent[0] * 0.1)
-                sar_hv_water_thres = sar_water_percent[1] - (sar_water_percent[1] * 0.1)
+                sar_hh_water_thres = sar_water_percent[0] - (sar_water_percent[0] * 0.15)
+                sar_hv_water_thres = sar_water_percent[1] - (sar_water_percent[1] * 0.15)
 
             else:
                 per_water_msk_img = os.path.join(self.params['tmp_dir'], '{}_perm_water.kea'.format(self.params['tile']))
@@ -49,8 +49,8 @@ class CreateImageTile(PBPTQProcessTool):
 
                     sar_water_percent = rsgislib.imagecalc.bandPercentile(per_water_sar_img, 0.99, 30000)
 
-                    sar_hh_water_thres = sar_water_percent[0] - (sar_water_percent[0] * 0.1)
-                    sar_hv_water_thres = sar_water_percent[1] - (sar_water_percent[1] * 0.1)
+                    sar_hh_water_thres = sar_water_percent[0] - (sar_water_percent[0] * 0.15)
+                    sar_hv_water_thres = sar_water_percent[1] - (sar_water_percent[1] * 0.15)
                 else:
                     sar_hh_water_thres = -1600
                     sar_hv_water_thres = -1900
