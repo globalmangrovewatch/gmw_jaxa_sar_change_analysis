@@ -50,7 +50,7 @@ class CreateImageTile(PBPTQProcessTool):
 
     def required_fields(self, **kwargs):
         return ["tile", "gmw_tile", "pot_chng_rgns_img", "add_rgns_vec_file", "add_rgns_vec_lyr", "rm_rgns_vec_file",
-                "rm_rgns_vec_lyr", "not_mng_qa_vec_file", "not_mng_qa_vec_lyr" "out_img", "tmp_dir"]
+                "rm_rgns_vec_lyr", "not_mng_qa_vec_file", "not_mng_qa_vec_lyr", "out_img", "tmp_dir"]
 
 
     def outputs_present(self, **kwargs):
