@@ -14,7 +14,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
             pot_chng_rgns_img = os.path.join(kwargs['pot_chng_regs_tiles_dir'], '{}_gmw_v3_pot_chng_ocean_chg_rgns_up_gmwv2_nasa.kea'.format(tile_basename))
-            out_img = os.path.join(kwargs['out_dir'], '{}_gmw_v3_pot_chng_ocean_chg_rgns_up_gmwv2_nasa.kea'.format(tile_basename))
+            out_img = os.path.join(kwargs['out_dir'], '{}_gmw_v3_pot_chng_ocean_chg_rgns_up_gmwv2_nasa_qad.kea'.format(tile_basename))
 
             if (not os.path.exists(out_img)):
                 c_dict = dict()
