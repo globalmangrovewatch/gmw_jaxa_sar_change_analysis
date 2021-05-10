@@ -40,7 +40,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_qa/*.kea',
                               sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
                               water_occur_dir='/scratch/a.pfb/gmw_v3_change/data/other_base_data/water_occurance_gmw_tiles',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/pot_gmw_chng_ocean_chg_rgns_nasa_gmwv2_updates',
+                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_init_water_mask',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_2010_water_msk", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
