@@ -17,7 +17,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             sar_scn_dir = os.path.join(kwargs['sar_tiles_dir'], tile_name)
 
-            water_msk_img = os.path.join(kwargs['water_msk_dir'], '{}_water_occur.kea'.format(tile_basename))
+            water_msk_img = os.path.join(kwargs['water_msk_dir'], '{}_2010_water_mask.kea'.format(tile_basename))
             sar_img = os.path.join(sar_scn_dir, '{}_2010_db.kea'.format(tile_name))
             if not os.path.exists(sar_img):
                 sar_img = None
