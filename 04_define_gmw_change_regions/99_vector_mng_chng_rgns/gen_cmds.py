@@ -17,6 +17,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             gmw_potent_chng_tile_vec = os.path.join(kwargs['tiles_out_vec'], '{}_vec.gpkg'.format(tile_basename))
 
             if (not os.path.exists(gmw_potent_chng_tile_vec)):
+                print("rm {}".format(gmw_potent_chng_tile))
                 c_dict = dict()
                 c_dict['tile'] = tile
                 c_dict['gmw_potent_chng_tile'] = gmw_potent_chng_tile
