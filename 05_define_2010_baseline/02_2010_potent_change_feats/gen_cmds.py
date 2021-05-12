@@ -14,6 +14,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
+            gmw_init_msk_img = os.path.join(kwargs['gmw_init_tiles'], '{}_tile_gmw_v3_init_qad.kea'.format(tile_basename))
             water_msk_img = os.path.join(kwargs['water_msk_dir'], '{}_2010_water_mask.kea'.format(tile_basename))
             pot_chng_rgns_img = os.path.join(kwargs['potent_chg_rgns_dir'], '{}_gmw_v3_pot_chng_ocean_chg_rgns_up_gmwv2_nasa_qad.kea'.format(tile_basename))
 
@@ -22,6 +23,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
             if (not os.path.exists(out_img)):
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
+                c_dict['gmw_tile'] = gmw_tile
+                c_dict['gmw_init_msk_img'] = gmw_init_msk_img
                 c_dict['water_msk_img'] = water_msk_img
                 c_dict['pot_chng_rgns_img'] = pot_chng_rgns_img
                 c_dict['out_img'] = out_img
@@ -30,6 +33,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
+                              gmw_init_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_qa',
                               water_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_init_water_mask',
                               potent_chg_rgns_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/pot_gmw_chng_ocean_chg_rgns_nasa_gmwv2_updates_qad',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn')
