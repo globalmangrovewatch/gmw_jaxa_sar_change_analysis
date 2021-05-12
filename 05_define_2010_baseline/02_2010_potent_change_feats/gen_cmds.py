@@ -25,9 +25,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['water_msk_img'] = water_msk_img
                 c_dict['pot_chng_rgns_img'] = pot_chng_rgns_img
                 c_dict['out_img'] = out_img
-                c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_2010_v3_chg_rng".format(tile_basename))
-                if not os.path.exists(c_dict['tmp_dir']):
-                    os.mkdir(c_dict['tmp_dir'])
                 self.params.append(c_dict)
 
 
@@ -35,8 +32,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
                               water_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_init_water_mask',
                               potent_chg_rgns_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/pot_gmw_chng_ocean_chg_rgns_nasa_gmwv2_updates_qad',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
+                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn')
         self.pop_params_db()
         self.create_slurm_sub_sh("2010_v3_chg_rgn", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
