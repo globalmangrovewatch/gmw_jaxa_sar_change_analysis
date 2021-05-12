@@ -54,6 +54,11 @@ class CreateImageTile(PBPTQProcessTool):
                 else:
                     sar_hh_water_thres = -1600
                     sar_hv_water_thres = -1900
+                    
+            if sar_hh_water_thres > -1400:
+                sar_hh_water_thres = -1400
+            if sar_hv_water_thres > -1700:
+                sar_hv_water_thres = -1700
 
             print("sar_hh_water_thres = {}".format(sar_hh_water_thres))
             print("sar_hv_water_thres = {}".format(sar_hv_water_thres))
