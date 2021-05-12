@@ -19,10 +19,11 @@ class CreateImageTile(PBPTQProcessTool):
         if not os.path.exists(self.params['tmp_dir']):
             os.mkdir(self.params['tmp_dir'])
 
-            band_defns = [rsgislib.imagecalc.BandDefn('wmsk', self.params['water_msk_img'], 1),
-                          rsgislib.imagecalc.BandDefn('pchng', self.params['pot_chng_rgns_img'], 1)]
-            rsgislib.imagecalc.bandMath(self.params['out_img'], '(pchng==1)&&(wmsk==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
-            rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
+        band_defns = [rsgislib.imagecalc.BandDefn('wmsk', self.params['water_msk_img'], 1),
+                      rsgislib.imagecalc.BandDefn('pchng', self.params['pot_chng_rgns_img'], 1)]
+        
+        rsgislib.imagecalc.bandMath(self.params['out_img'], '(pchng==1)&&(wmsk==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
         if os.path.exists(self.params['tmp_dir']):
             shutil.rmtree(self.params['tmp_dir'])
