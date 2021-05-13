@@ -40,7 +40,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                               potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_stats_rgn',
                               sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2009',
                               sar_year='2009',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_2009_pxl_vals')
+                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_2009_pxl_vals')
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_2010_2009_pxl_vals", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
