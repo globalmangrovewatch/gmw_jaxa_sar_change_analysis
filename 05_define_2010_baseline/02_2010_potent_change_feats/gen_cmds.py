@@ -21,6 +21,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_img = os.path.join(kwargs['out_dir'], '{}_2010_v3_chg_rgn.kea'.format(tile_basename))
 
             if (not os.path.exists(out_img)):
+                print("rm {}".format(water_msk_img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
