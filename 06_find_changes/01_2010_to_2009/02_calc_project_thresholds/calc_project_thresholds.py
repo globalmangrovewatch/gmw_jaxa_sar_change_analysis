@@ -92,7 +92,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         print("nmng_hh: {}".format(out_thres_lut['nmng_hh']))
         if num_vars == 2:
             out_thres_lut['nmng_hv'] = 0.0
-            out_thres_lut['nmng_hv'] = float(calc_chng_threshold(data[..., 1], max_val=-1200, min_val=-2800, low_thres=True))
+            out_thres_lut['nmng_hv'] = float(calc_chng_threshold(data[..., 1], max_val=-1400, min_val=-3000, low_thres=True))
             print("nmng_hv: {}".format(out_thres_lut['nmng_hv']))
         data = None
         fH5.close()
