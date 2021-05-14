@@ -24,10 +24,6 @@ def mask_data_to_valid(data, lower_limit=None, upper_limit=None):
 def calc_chng_threshold(data, max_val, min_val, init_thres, low_thres=True):
     if len(data.shape) > 1:
         raise Exception("Expecting a single variable.")
-    print("Mean: {}".format(numpy.mean(data)))
-    print("Std Dev: {}".format(numpy.std(data)))
-    print("Min: {}".format(numpy.min(data)))
-    print("Max: {}".format(numpy.max(data)))
 
     def _opt_fun(x, *args):
         data = args[0]
@@ -75,6 +71,8 @@ class CalcProjectThreholds(PBPTQProcessTool):
         out_thres_lut = dict()
         out_thres_lut['mng_hh'] = 0.0
         out_thres_lut['nmng_hh'] = 0.0
+        out_thres_lut['mng_hv'] = 0.0
+        out_thres_lut['nmng_hv'] = 0.0
 
         # Merge mangrove data
         if len(self.params['mng_data_files']) > 1:
@@ -90,7 +88,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
             merged_nmng_data = os.path.join(self.params['tmp_dir'], "{}_merged_nmng.h5".format(self.params['gmw_prj']))
             rsgislib.imageutils.mergeExtractedHDF5Data(self.params['nmng_data_files'], merged_nmng_data)
         elif len(self.params['nmng_data_files']) == 1:
-            merged_mng_data = self.params['nmng_data_files'][0]
+            merged_nmng_data = self.params['nmng_data_files'][0]
         else:
             raise Exception("No non-mangrove data files!")
 
@@ -100,16 +98,13 @@ class CalcProjectThreholds(PBPTQProcessTool):
         print(data_shp)
         num_vars = data_shp[1]
         mng_data = numpy.array(fH5['DATA/DATA'])
-        print(mng_data.shape)
-        print(mng_data)
         mng_data = mask_data_to_valid(mng_data, lower_limit=-5000, upper_limit=2000)
-        print(mng_data.shape)
-        out_thres_lut['mng_hh'] = float(calc_chng_threshold(mng_data[..., 0], max_val=-800, min_val=-1800, init_thres=-1200, low_thres=False))
-        print("mng_hh: {}".format(out_thres_lut['mng_hh']))
-        if num_vars == 2:
-            out_thres_lut['mng_hv'] = 0.0
-            out_thres_lut['mng_hv'] = float(calc_chng_threshold(mng_data[..., 1], max_val=-1200, min_val=-2400, init_thres=-1400, low_thres=False))
-            print("mng_hv: {}".format(out_thres_lut['mng_hv']))
+        if mng_data.shape[1] > 1000:
+            out_thres_lut['mng_hh'] = float(calc_chng_threshold(mng_data[..., 0], max_val=-800, min_val=-1800, init_thres=-1200, low_thres=False))
+            print("mng_hh: {}".format(out_thres_lut['mng_hh']))
+            if num_vars == 2:
+                out_thres_lut['mng_hv'] = float(calc_chng_threshold(mng_data[..., 1], max_val=-1200, min_val=-2400, init_thres=-1400, low_thres=False))
+                print("mng_hv: {}".format(out_thres_lut['mng_hv']))
         mng_data = None
         fH5.close()
 
@@ -119,12 +114,12 @@ class CalcProjectThreholds(PBPTQProcessTool):
         num_vars = data_shp[1]
         nmng_data = numpy.array(fH5['DATA/DATA'])
         nmng_data = mask_data_to_valid(nmng_data, lower_limit=-5000, upper_limit=2000)
-        out_thres_lut['nmng_hh'] = float(calc_chng_threshold(nmng_data[..., 0], max_val=-800, min_val=-2000, init_thres=-1200, low_thres=True))
-        print("nmng_hh: {}".format(out_thres_lut['nmng_hh']))
-        if num_vars == 2:
-            out_thres_lut['nmng_hv'] = 0.0
-            out_thres_lut['nmng_hv'] = float(calc_chng_threshold(nmng_data[..., 1], max_val=-1400, min_val=-3000, init_thres=-2000, low_thres=True))
-            print("nmng_hv: {}".format(out_thres_lut['nmng_hv']))
+        if nmng_data.shape[1] > 1000:
+            out_thres_lut['nmng_hh'] = float(calc_chng_threshold(nmng_data[..., 0], max_val=-800, min_val=-2000, init_thres=-1200, low_thres=True))
+            print("nmng_hh: {}".format(out_thres_lut['nmng_hh']))
+            if num_vars == 2:
+                out_thres_lut['nmng_hv'] = float(calc_chng_threshold(nmng_data[..., 1], max_val=-1400, min_val=-3000, init_thres=-2000, low_thres=True))
+                print("nmng_hv: {}".format(out_thres_lut['nmng_hv']))
         nmng_data = None
         fH5.close()
 
