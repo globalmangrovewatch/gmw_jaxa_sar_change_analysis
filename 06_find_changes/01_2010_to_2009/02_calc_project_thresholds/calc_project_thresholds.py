@@ -12,7 +12,7 @@ import scipy.stats
 logger = logging.getLogger(__name__)
 
 
-def calc_chng_threshold(data, max_val, min_val, low_thres=True):
+def calc_chng_threshold(data, max_val, min_val, init_thres, low_thres=True):
     if len(data.shape) > 1:
         raise Exception("Expecting a single variable.")
 
@@ -35,7 +35,9 @@ def calc_chng_threshold(data, max_val, min_val, low_thres=True):
 
         return kur_skew
 
-    opt_rslt = scipy.optimize.dual_annealing(_opt_fun, bounds=[(min_val, max_val)], args=[data], x0=[-1200])
+    opt_rslt = scipy.optimize.dual_annealing(_opt_fun, bounds=[(min_val, max_val)], args=[data], x0=[init_thres])
+
+    #print(opt_rslt)
 
     out_thres = None
     if opt_rslt.success:
@@ -76,12 +78,12 @@ class CalcProjectThreholds(PBPTQProcessTool):
         data_shp = fH5['DATA/DATA'].shape
         print(data_shp)
         num_vars = data_shp[1]
-        data = numpy.array(fH5['DATA/DATA'])
-        out_thres_lut['mng_hh'] = float(calc_chng_threshold(data[..., 0], max_val=-800, min_val=-1800, low_thres=False))
+        mng_data = numpy.array(fH5['DATA/DATA'])
+        out_thres_lut['mng_hh'] = float(calc_chng_threshold(mng_data[..., 0], max_val=-800, min_val=-1800, init_thres=-1200, low_thres=False))
         print("mng_hh: {}".format(out_thres_lut['mng_hh']))
         if num_vars == 2:
             out_thres_lut['mng_hv'] = 0.0
-            out_thres_lut['mng_hv'] = float(calc_chng_threshold(data[..., 1], max_val=-1200, min_val=-2400, low_thres=False))
+            out_thres_lut['mng_hv'] = float(calc_chng_threshold(mng_data[..., 1], max_val=-1200, min_val=-2400, init_thres=-1400, low_thres=False))
             print("mng_hv: {}".format(out_thres_lut['mng_hv']))
         data = None
         fH5.close()
@@ -90,12 +92,12 @@ class CalcProjectThreholds(PBPTQProcessTool):
         fH5 = h5py.File(merged_nmng_data, 'r')
         data_shp = fH5['DATA/DATA'].shape
         num_vars = data_shp[1]
-        data = numpy.array(fH5['DATA/DATA'])
-        out_thres_lut['nmng_hh'] = float(calc_chng_threshold(data[..., 0], max_val=-800, min_val=-2000, low_thres=True))
+        nmng_data = numpy.array(fH5['DATA/DATA'])
+        out_thres_lut['nmng_hh'] = float(calc_chng_threshold(nmng_data[..., 0], max_val=-800, min_val=-2000, init_thres=-1200, low_thres=True))
         print("nmng_hh: {}".format(out_thres_lut['nmng_hh']))
         if num_vars == 2:
             out_thres_lut['nmng_hv'] = 0.0
-            out_thres_lut['nmng_hv'] = float(calc_chng_threshold(data[..., 1], max_val=-1400, min_val=-3000, low_thres=True))
+            out_thres_lut['nmng_hv'] = float(calc_chng_threshold(nmng_data[..., 1], max_val=-1400, min_val=-3000, init_thres=-2000, low_thres=True))
             print("nmng_hv: {}".format(out_thres_lut['nmng_hv']))
         data = None
         fH5.close()
