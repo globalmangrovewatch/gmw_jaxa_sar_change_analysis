@@ -39,7 +39,7 @@ def calc_chng_threshold(data, max_val, min_val, init_thres, low_thres=True):
         skew = scipy.stats.skew(data_sub)
         # Product of kurtosis and skewness
         kur_skew = abs(kurtosis + skew)
-        
+
         return kur_skew
 
     opt_rslt = scipy.optimize.dual_annealing(_opt_fun, bounds=[(min_val, max_val)], args=[data], x0=[init_thres])
@@ -73,12 +73,22 @@ class CalcProjectThreholds(PBPTQProcessTool):
         out_thres_lut['nmng_hh'] = 0.0
 
         # Merge mangrove data
-        merged_mng_data = os.path.join(self.params['tmp_dir'], "{}_merged_mng.h5".format(self.params['gmw_prj']))
-        rsgislib.imageutils.mergeExtractedHDF5Data(self.params['mng_data_files'], merged_mng_data)
+        if len(self.params['mng_data_files']) > 1:
+            merged_mng_data = os.path.join(self.params['tmp_dir'], "{}_merged_mng.h5".format(self.params['gmw_prj']))
+            rsgislib.imageutils.mergeExtractedHDF5Data(self.params['mng_data_files'], merged_mng_data)
+        elif len(self.params['mng_data_files']) == 1:
+            merged_mng_data = self.params['mng_data_files'][0]
+        else:
+            raise Exception("No mangrove data files!")
 
         # merge non-mangrove data
-        merged_nmng_data = os.path.join(self.params['tmp_dir'], "{}_merged_nmng.h5".format(self.params['gmw_prj']))
-        rsgislib.imageutils.mergeExtractedHDF5Data(self.params['nmng_data_files'], merged_nmng_data)
+        if len(self.params['nmng_data_files']) > 1:
+            merged_nmng_data = os.path.join(self.params['tmp_dir'], "{}_merged_nmng.h5".format(self.params['gmw_prj']))
+            rsgislib.imageutils.mergeExtractedHDF5Data(self.params['nmng_data_files'], merged_nmng_data)
+        elif len(self.params['nmng_data_files']) == 1:
+            merged_mng_data = self.params['nmng_data_files'][0]
+        else:
+            raise Exception("No non-mangrove data files!")
 
         # Get threshold for Mangrove Data
         fH5 = h5py.File(merged_mng_data, 'r')
