@@ -40,6 +40,9 @@ def calc_chng_threshold(data, max_val, min_val, low_thres=True):
     out_thres = None
     if opt_rslt.success:
         out_thres = opt_rslt.x[0]
+        print("Success in retrieving threshold... {}".format(out_thres))
+    else:
+        print(opt_rslt)
 
     return out_thres
 
