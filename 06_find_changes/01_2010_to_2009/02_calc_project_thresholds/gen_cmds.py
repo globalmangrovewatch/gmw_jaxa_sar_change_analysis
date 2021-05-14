@@ -33,7 +33,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     c_dict = dict()
                     c_dict['gmw_prj'] = gmw_prj
                     c_dict['mng_data_files'] = mng_data_files
-                    c_dict['nmng_data_file'] = nmng_data_files
+                    c_dict['nmng_data_files'] = nmng_data_files
                     c_dict['out_file'] = out_file
                     c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_chng_thres".format(gmw_prj, kwargs['sar_year']))
                     if not os.path.exists(c_dict['tmp_dir']):
