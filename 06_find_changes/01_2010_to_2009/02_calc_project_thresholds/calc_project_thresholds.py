@@ -25,6 +25,11 @@ def calc_chng_threshold(data, max_val, min_val, init_thres, low_thres=True):
     if len(data.shape) > 1:
         raise Exception("Expecting a single variable.")
 
+    print("Mean: {}".format(numpy.mean(data)))
+    print("Std Dev: {}".format(numpy.std(data)))
+    print("Min: {}".format(numpy.min(data)))
+    print("Max: {}".format(numpy.max(data)))
+
     def _opt_fun(x, *args):
         data = args[0]
         if low_thres:
