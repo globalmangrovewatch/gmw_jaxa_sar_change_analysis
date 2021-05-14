@@ -74,11 +74,11 @@ class CalcProjectThreholds(PBPTQProcessTool):
         print(data_shp)
         num_vars = data_shp[1]
         data = numpy.array(fH5['DATA/DATA'])
-        out_thres_lut['mng_hh'] = calc_chng_threshold(data[..., 0], max_val=-800, min_val=-1800, low_thres=False)
+        out_thres_lut['mng_hh'] = float(calc_chng_threshold(data[..., 0], max_val=-800, min_val=-1800, low_thres=False))
         print("mng_hh: {}".format(out_thres_lut['mng_hh']))
         if num_vars == 2:
             out_thres_lut['mng_hv'] = 0.0
-            out_thres_lut['mng_hv'] = calc_chng_threshold(data[..., 1], max_val=-1200, min_val=-2400, low_thres=False)
+            out_thres_lut['mng_hv'] = float(calc_chng_threshold(data[..., 1], max_val=-1200, min_val=-2400, low_thres=False))
             print("mng_hv: {}".format(out_thres_lut['mng_hv']))
         data = None
         fH5.close()
@@ -88,11 +88,11 @@ class CalcProjectThreholds(PBPTQProcessTool):
         data_shp = fH5['DATA/DATA'].shape
         num_vars = data_shp[1]
         data = numpy.array(fH5['DATA/DATA'])
-        out_thres_lut['nmng_hh'] = calc_chng_threshold(data[..., 0], max_val=-800, min_val=-2000, low_thres=True)
+        out_thres_lut['nmng_hh'] = float(calc_chng_threshold(data[..., 0], max_val=-800, min_val=-2000, low_thres=True))
         print("nmng_hh: {}".format(out_thres_lut['nmng_hh']))
         if num_vars == 2:
             out_thres_lut['nmng_hv'] = 0.0
-            out_thres_lut['nmng_hv'] = calc_chng_threshold(data[..., 1], max_val=-1200, min_val=-2800, low_thres=True)
+            out_thres_lut['nmng_hv'] = float(calc_chng_threshold(data[..., 1], max_val=-1200, min_val=-2800, low_thres=True))
             print("nmng_hv: {}".format(out_thres_lut['nmng_hv']))
         data = None
         fH5.close()
