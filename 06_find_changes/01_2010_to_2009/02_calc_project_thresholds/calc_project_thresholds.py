@@ -12,6 +12,15 @@ import scipy.stats
 logger = logging.getLogger(__name__)
 
 
+def mask_data_to_valid(data, lower_limit=None, upper_limit=None):
+    data = data[numpy.isfinite(data).all(axis=1)]
+    if lower_limit is not None:
+        data = data[numpy.any(data > lower_limit, axis=1)]
+    if upper_limit is not None:
+        data = data[numpy.any(data < upper_limit, axis=1)]
+    return data
+
+
 def calc_chng_threshold(data, max_val, min_val, init_thres, low_thres=True):
     if len(data.shape) > 1:
         raise Exception("Expecting a single variable.")
@@ -30,9 +39,7 @@ def calc_chng_threshold(data, max_val, min_val, init_thres, low_thres=True):
         skew = scipy.stats.skew(data_sub)
         # Product of kurtosis and skewness
         kur_skew = abs(kurtosis + skew)
-
-        #print("{}\t{} : {} : {}".format(x, kurtosis, skew, kur_skew))
-
+        
         return kur_skew
 
     opt_rslt = scipy.optimize.dual_annealing(_opt_fun, bounds=[(min_val, max_val)], args=[data], x0=[init_thres])
@@ -79,13 +86,14 @@ class CalcProjectThreholds(PBPTQProcessTool):
         print(data_shp)
         num_vars = data_shp[1]
         mng_data = numpy.array(fH5['DATA/DATA'])
+        mng_data = mask_data_to_valid(mng_data, lower_limit=-5000, upper_limit=2000)
         out_thres_lut['mng_hh'] = float(calc_chng_threshold(mng_data[..., 0], max_val=-800, min_val=-1800, init_thres=-1200, low_thres=False))
         print("mng_hh: {}".format(out_thres_lut['mng_hh']))
         if num_vars == 2:
             out_thres_lut['mng_hv'] = 0.0
             out_thres_lut['mng_hv'] = float(calc_chng_threshold(mng_data[..., 1], max_val=-1200, min_val=-2400, init_thres=-1400, low_thres=False))
             print("mng_hv: {}".format(out_thres_lut['mng_hv']))
-        data = None
+        mng_data = None
         fH5.close()
 
         # Get threshold for Non-Mangrove Data
@@ -93,13 +101,14 @@ class CalcProjectThreholds(PBPTQProcessTool):
         data_shp = fH5['DATA/DATA'].shape
         num_vars = data_shp[1]
         nmng_data = numpy.array(fH5['DATA/DATA'])
+        nmng_data = mask_data_to_valid(nmng_data, lower_limit=-5000, upper_limit=2000)
         out_thres_lut['nmng_hh'] = float(calc_chng_threshold(nmng_data[..., 0], max_val=-800, min_val=-2000, init_thres=-1200, low_thres=True))
         print("nmng_hh: {}".format(out_thres_lut['nmng_hh']))
         if num_vars == 2:
             out_thres_lut['nmng_hv'] = 0.0
             out_thres_lut['nmng_hv'] = float(calc_chng_threshold(nmng_data[..., 1], max_val=-1400, min_val=-3000, init_thres=-2000, low_thres=True))
             print("nmng_hv: {}".format(out_thres_lut['nmng_hv']))
-        data = None
+        nmng_data = None
         fH5.close()
 
         # Export output thresholds.
