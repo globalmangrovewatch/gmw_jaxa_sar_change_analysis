@@ -24,7 +24,6 @@ def mask_data_to_valid(data, lower_limit=None, upper_limit=None):
 def calc_chng_threshold(data, max_val, min_val, init_thres, low_thres=True):
     if len(data.shape) > 1:
         raise Exception("Expecting a single variable.")
-
     print("Mean: {}".format(numpy.mean(data)))
     print("Std Dev: {}".format(numpy.std(data)))
     print("Min: {}".format(numpy.min(data)))
@@ -101,7 +100,10 @@ class CalcProjectThreholds(PBPTQProcessTool):
         print(data_shp)
         num_vars = data_shp[1]
         mng_data = numpy.array(fH5['DATA/DATA'])
+        print(mng_data.shape)
+        print(mng_data)
         mng_data = mask_data_to_valid(mng_data, lower_limit=-5000, upper_limit=2000)
+        print(mng_data.shape)
         out_thres_lut['mng_hh'] = float(calc_chng_threshold(mng_data[..., 0], max_val=-800, min_val=-1800, init_thres=-1200, low_thres=False))
         print("mng_hh: {}".format(out_thres_lut['mng_hh']))
         if num_vars == 2:
