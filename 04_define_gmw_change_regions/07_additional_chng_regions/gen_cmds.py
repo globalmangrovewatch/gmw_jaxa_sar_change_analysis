@@ -35,7 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_qa/*.kea',
+        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
                               pot_chng_regs_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/pot_gmw_chng_ocean_chg_rgns',
                               nasa_chng_tiles='/scratch/a.pfb/gmw_v3_change/data/other_base_data/nasa_change',
                               gmw_v2_union_tiles='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_union',

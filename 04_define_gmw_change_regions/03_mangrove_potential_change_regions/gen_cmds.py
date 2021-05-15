@@ -50,7 +50,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        self.gen_command_info(in_tiles_path='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_qa/*.kea',
+        self.gen_command_info(in_tiles_path='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
                               tiles_buf_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_v3_init_buffer/',
                               min_dB_img_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/min_dB',
                               max_dB_img_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/max_dB',
