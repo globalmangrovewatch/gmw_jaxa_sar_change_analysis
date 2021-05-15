@@ -19,6 +19,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             gmw_rmsml_chng_rgns_img = os.path.join(kwargs['out_tiles_dir'], '{}_v3_init_chng_rgns_rmsml.kea'.format(tile_basename))
 
             if (not os.path.exists(gmw_rmsml_chng_rgns_img)):
+                print("rm {}".format(gmw_pot_chng_rgns_img))
                 c_dict = dict()
                 c_dict['tile'] = tile
                 c_dict['gmw_tile'] = gmw_tile
