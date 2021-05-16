@@ -18,7 +18,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             nmng_chng_img = os.path.join(kwargs['chng_img_dir'], '{}_{}_not_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
 
             out_gmw_up_msk = os.path.join(kwargs['out_dir'], '{}_{}_v3_init.kea'.format(tile_basename, kwargs['sar_year']))
-            out_gmw_up_potent_chng_msk = os.path.join(kwargs['out_dir'], '{}_{}_v3_init.kea'.format(tile_basename, kwargs['sar_year']))
+            out_gmw_up_potent_chng_msk = os.path.join(kwargs['out_dir'], '{}_{}_v3_chg_rgn.kea'.format(tile_basename, kwargs['sar_year']))
 
             if (not os.path.exists(out_gmw_up_msk)) or (not os.path.exists(out_gmw_up_potent_chng_msk)):
                 c_dict = dict()
