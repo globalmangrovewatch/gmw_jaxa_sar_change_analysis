@@ -1,6 +1,7 @@
 from pbprocesstools.pbpt_q_process import PBPTQProcessTool
 import logging
 import os
+import pprint
 import shutil
 import rsgislib
 import rsgislib.imageutils
@@ -99,7 +100,8 @@ class CalcProjectThreholds(PBPTQProcessTool):
         num_vars = data_shp[1]
         mng_data = numpy.array(fH5['DATA/DATA'])
         mng_data = mask_data_to_valid(mng_data, lower_limit=-5000, upper_limit=2000)
-        if mng_data.shape[1] > 1000:
+        print(mng_data.shape)
+        if mng_data.shape[0] > 1000:
             out_thres_lut['mng_hh'] = float(calc_chng_threshold(mng_data[..., 0], max_val=-800, min_val=-1800, init_thres=-1200, low_thres=False))
             print("mng_hh: {}".format(out_thres_lut['mng_hh']))
             if num_vars == 2:
@@ -114,7 +116,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         num_vars = data_shp[1]
         nmng_data = numpy.array(fH5['DATA/DATA'])
         nmng_data = mask_data_to_valid(nmng_data, lower_limit=-5000, upper_limit=2000)
-        if nmng_data.shape[1] > 1000:
+        if nmng_data.shape[0] > 1000:
             out_thres_lut['nmng_hh'] = float(calc_chng_threshold(nmng_data[..., 0], max_val=-800, min_val=-2000, init_thres=-1200, low_thres=True))
             print("nmng_hh: {}".format(out_thres_lut['nmng_hh']))
             if num_vars == 2:
@@ -122,6 +124,8 @@ class CalcProjectThreholds(PBPTQProcessTool):
                 print("nmng_hv: {}".format(out_thres_lut['nmng_hv']))
         nmng_data = None
         fH5.close()
+        
+        pprint.pprint(out_thres_lut)
 
         # Export output thresholds.
         rsgis_utils.writeDict2JSON(out_thres_lut, self.params['out_file'])

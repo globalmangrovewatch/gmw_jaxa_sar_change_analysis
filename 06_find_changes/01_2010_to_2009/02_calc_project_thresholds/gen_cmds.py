@@ -30,6 +30,11 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 out_file = os.path.join(kwargs['out_dir'], '{}_{}_chng_thres.json'.format(gmw_prj, kwargs['sar_year']))
 
                 if (not os.path.exists(out_file)):
+                    for data_file in mng_data_files:
+                        print("rm {}".format(data_file))
+                    for data_file in nmng_data_files:
+                        print("rm {}".format(data_file))
+
                     c_dict = dict()
                     c_dict['gmw_prj'] = gmw_prj
                     c_dict['mng_data_files'] = mng_data_files

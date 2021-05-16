@@ -1,6 +1,7 @@
 from pbprocesstools.pbpt_q_process import PBPTQProcessTool
 import logging
 import os
+import pprint
 import rsgislib
 import rsgislib.rastergis
 import rsgislib.imagecalc
@@ -16,6 +17,7 @@ class CreateImageTile(PBPTQProcessTool):
         if self.params['sar_img'] is not None:
             rsgis_utils = rsgislib.RSGISPyUtils()
             thres_lut = rsgis_utils.readJSON2Dict(self.params['gmw_proj_thres_file'])
+            pprint.pprint(thres_lut)
 
             # Threshold the mangrove regions (Mangroves > Not Mangroves)
             if (thres_lut['mng_hh'] < 0.0) and (thres_lut['mng_hv'] < 0.0):
