@@ -13,7 +13,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for h5_file in h5_files:
             basename = self.get_file_basename(h5_file)
 
-            out_cmp_file = os.path.join(kwargs['out_dir'], "{}_cmp.txt")
+            out_cmp_file = os.path.join(kwargs['out_dir'], "{}_cmp.txt".format(basename))
 
             if not os.path.exists(out_cmp_file):
                 c_dict = dict()
