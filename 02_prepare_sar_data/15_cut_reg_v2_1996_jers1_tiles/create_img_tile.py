@@ -28,7 +28,7 @@ class CreateImageTile(PBPTQProcessTool):
         min_val, max_val = rsgislib.imagecalc.getImageBandMinMax(self.params['out_img'], 1, True, 32767)
         print("Min: {}".format(min_val))
         print("Max: {}".format(max_val))
-        
+
         if (max_val - min_val) < 100:
             os.remove(self.params['out_img'])
 

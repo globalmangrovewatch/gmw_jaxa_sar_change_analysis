@@ -30,8 +30,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     if not os.path.exists(out_sar_scn_dir):
                         os.mkdir(out_sar_scn_dir)
 
-                    out_img = os.path.join(out_sar_scn_dir, '{}_1996_db.kea'.format(tile_basename))
-                    out_cmp_file = os.path.join(kwargs['out_dir'], '{}_1996_sar.txt'.format(tile_basename))
+                    out_img = os.path.join(out_sar_scn_dir, '{}_1996_db.kea'.format(tile_name))
+                    out_cmp_file = os.path.join(kwargs['out_dir'], '{}_1996_sar.txt'.format(tile_name))
 
                     if (not os.path.exists(out_cmp_file)):
                         c_dict = dict()
