@@ -9,6 +9,9 @@ logger = logging.getLogger(__name__)
 class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
+        if not os.path.exists(kwargs['out_dir']):
+            os.mkdir(kwargs['out_dir'])
+
         h5_files = glob.glob(kwargs['input_files'])
         for h5_file in h5_files:
             basename = self.get_file_basename(h5_file)
