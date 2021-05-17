@@ -19,7 +19,7 @@ class CreateImageTile(PBPTQProcessTool):
         if not os.path.exists(self.params['tmp_dir']):
             os.mkdir(self.params['tmp_dir'])
 
-        tmp_tile_img = os.path.join(self.params['tmp_dir'], "{}_1996_db_tile.kea")
+        tmp_tile_img = os.path.join(self.params['tmp_dir'], "{}_1996_db_tile.kea".format(self.params['tile']))
         rsgislib.imageutils.resampleImage2Match(self.params['gmw_tile'], self.params['jers1_prj_dB_file'], tmp_tile_img, 'KEA', 'nearestneighbour', datatype=rsgislib.TYPE_32FLOAT, noDataVal=999, multicore=False)
 
         rsgislib.imagecalc.imageMath(tmp_tile_img, self.params['out_img'], 'b1==999?32767:b1*100', 'KEA', rsgislib.TYPE_16INT)
