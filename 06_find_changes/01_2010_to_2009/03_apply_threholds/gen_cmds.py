@@ -38,6 +38,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_nmng_chng = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
 
             if (not os.path.exists(out_mng_chng)) or (not os.path.exists(out_nmng_chng)):
+                if (sar_vld_img is not None) and os.path.exists(sar_vld_img):
+                    print("rm {}".format(sar_vld_img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
