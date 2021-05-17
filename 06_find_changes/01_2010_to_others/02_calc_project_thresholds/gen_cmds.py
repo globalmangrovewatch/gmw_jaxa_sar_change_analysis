@@ -9,6 +9,9 @@ logger = logging.getLogger(__name__)
 class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
+        if not os.path.exists(kwargs['out_dir']):
+            os.mkdir(kwargs['out_dir'])
+
         rsgis_utils = rsgislib.RSGISPyUtils()
         prjs_lut = rsgis_utils.readJSON2Dict(kwargs['prjs_lut_file'])
         for gmw_prj in prjs_lut:
