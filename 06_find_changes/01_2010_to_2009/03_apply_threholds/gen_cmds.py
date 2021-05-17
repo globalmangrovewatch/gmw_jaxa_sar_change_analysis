@@ -24,7 +24,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             sar_scn_dir = os.path.join(kwargs['sar_tiles_dir'], tile_name)
             if os.path.exists(sar_scn_dir):
                 sar_img = os.path.join(sar_scn_dir, '{}_{}_db.kea'.format(tile_name, kwargs['sar_year']))
-                sar_vld_img = os.path.join(sar_scn_dir, '{}_{}_vmsk.kea'.format(tile_name, kwargs['sar_year']))
+                sar_vld_img = os.path.join(sar_scn_dir, '{}_{}_bin_vmsk.kea'.format(tile_name, kwargs['sar_year']))
                 if not os.path.exists(sar_img):
                     sar_img = None
                     sar_vld_img = None
