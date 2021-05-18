@@ -23,7 +23,7 @@ class CreateImageTile(PBPTQProcessTool):
         rsgislib.rastergis.populateStats(chng_clumps, addclrtab=False, calcpyramids=False, ignorezero=True)
 
         chng_clumps_rmsml = os.path.join(self.params['tmp_dir'], '{}_chng_clumps_rmsml.kea'.format(self.params['tile']))
-        rsgislib.segmentation.rmSmallClumps(chng_clumps, chng_clumps_rmsml, 3, 'KEA')
+        rsgislib.segmentation.rmSmallClumps(chng_clumps, chng_clumps_rmsml, 4, 'KEA')
 
         band_defns = [rsgislib.imagecalc.BandDefn('chg_clps', chng_clumps_rmsml, 1)]
         rsgislib.imagecalc.bandMath(self.params['out_img'], 'chg_clps>0?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
