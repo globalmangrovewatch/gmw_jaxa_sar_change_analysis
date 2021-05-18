@@ -18,13 +18,15 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile = tile_basename.split('_')[0]
 
             gmw_potent_chng_tile_vec = os.path.join(kwargs['tiles_out_vec'], '{}_vec.gpkg'.format(tile_basename))
+            out_cmp_file = os.path.join(kwargs['tiles_out_vec'], '{}.txt'.format(tile_basename))
 
-            if (not os.path.exists(gmw_potent_chng_tile_vec)):
+            if (not os.path.exists(out_cmp_file)):
                 print("rm {}".format(gmw_potent_chng_tile))
                 c_dict = dict()
                 c_dict['tile'] = tile
                 c_dict['gmw_potent_chng_tile'] = gmw_potent_chng_tile
                 c_dict['gmw_potent_chng_tile_vec'] = gmw_potent_chng_tile_vec
+                c_dict['out_cmp_file'] = out_cmp_file
                 self.params.append(c_dict)
 
 

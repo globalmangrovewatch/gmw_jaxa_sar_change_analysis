@@ -1,7 +1,7 @@
 from pbprocesstools.pbpt_q_process import PBPTQProcessTool
 import logging
 import os
-import shutil
+import pathlib
 import rsgislib
 import rsgislib.vectorutils
 
@@ -22,10 +22,12 @@ class VectoriseMngPotentChgnRgns(PBPTQProcessTool):
                                                          self.params['gmw_potent_chng_tile'], imgBandNo=1,
                                                          maskImg= self.params['gmw_potent_chng_tile'], imgMaskBandNo=1)
 
+        pathlib.Path(self.params['out_cmp_file']).touch()
+
 
 
     def required_fields(self, **kwargs):
-        return ["tile", "gmw_potent_chng_tile", "gmw_potent_chng_tile_vec"]
+        return ["tile", "gmw_potent_chng_tile", "gmw_potent_chng_tile_vec", "out_cmp_file"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
