@@ -9,6 +9,9 @@ logger = logging.getLogger(__name__)
 class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
+        if not os.path.exists(kwargs['out_dir']):
+            os.mkdir(kwargs['out_dir'])
+
         img_tiles = glob.glob(kwargs['tiles_path'])
         for gmw_potent_chng_tile in img_tiles:
             tile_basename = self.get_file_basename(gmw_potent_chng_tile)
@@ -26,10 +29,10 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_init_water_mask/*.kea',
-                              tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_init_water_mask_vecs')
+        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_chng_from_2010/*.kea',
+                              tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_chng_from_2010_vecs')
         self.pop_params_db()
-        self.create_slurm_sub_sh("gmw_2010_init_water_mask_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
+        self.create_slurm_sub_sh("gmw_v2_chng_from_2010_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
