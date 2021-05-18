@@ -16,7 +16,7 @@ class CreateImageTile(PBPTQProcessTool):
     def do_processing(self, **kwargs):
         band_defns = [rsgislib.imagecalc.BandDefn('gmw10', self.params['gmw_tile'], 1),
                       rsgislib.imagecalc.BandDefn('gmwUnion', self.params['gmw_v2_union_img'], 1)]
-        rsgislib.imagecalc.bandMath(self.params['out_img'], '(gmw10==1)&& (gmwUnion==1)?0:1', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.imagecalc.bandMath(self.params['out_img'], '(gmw10==0)&&(gmwUnion==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
         rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
 
