@@ -14,9 +14,13 @@ class VectoriseMngPotentChgnRgns(PBPTQProcessTool):
         super().__init__(cmd_name='vectorise_mng_potent_chng_rgns.py', descript=None)
 
     def do_processing(self, **kwargs):
-        rsgislib.vectorutils.polygoniseRaster2VecLyr(self.params['gmw_potent_chng_tile_vec'], 'mng_potent_chng', 'GPKG',
-                                                     self.params['gmw_potent_chng_tile'], imgBandNo=1,
-                                                     maskImg= self.params['gmw_potent_chng_tile'], imgMaskBandNo=1)
+        pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['gmw_potent_chng_tile'], vals=[1])
+        print("N Pixels: ", pxl_count[0])
+
+        if pxl_count[0] > 0:
+            rsgislib.vectorutils.polygoniseRaster2VecLyr(self.params['gmw_potent_chng_tile_vec'], 'mng_potent_chng', 'GPKG',
+                                                         self.params['gmw_potent_chng_tile'], imgBandNo=1,
+                                                         maskImg= self.params['gmw_potent_chng_tile'], imgMaskBandNo=1)
 
 
 
