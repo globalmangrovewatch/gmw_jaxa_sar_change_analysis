@@ -42,6 +42,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_rmsml_not_mng_chng".format(tile_basename, kwargs['sar_year']))
                 if not os.path.exists(c_dict['tmp_dir']):
                     os.mkdir(c_dict['tmp_dir'])
+                self.params.append(c_dict)
 
 
     def run_gen_commands(self):
