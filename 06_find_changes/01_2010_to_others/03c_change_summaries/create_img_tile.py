@@ -5,7 +5,6 @@ import shutil
 import rsgislib
 import rsgislib.rastergis
 import rsgislib.imagecalc
-import rsgislib.segmentation
 
 logger = logging.getLogger(__name__)
 
@@ -15,32 +14,12 @@ class CreateImageTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_img_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
-        if not os.path.exists(self.params['tmp_dir']):
-            os.mkdir(self.params['tmp_dir'])
-        pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['chng_img'], vals=[1])
-        print("N Pixels: ", pxl_count[0])
+        rsgislib.imagecalc.calcMultiImgBandStats(self.params['chng_imgs'], self.params['out_img'], rsgislib.SUMTYPE_MAX, 'KEA', rsgislib.TYPE_8UINT, 0, False)
+        rsgislib.rastergis.populateStats(self.params['out_img'], True, True, True)
 
-        if pxl_count[0] > 0:
-            chng_clumps = os.path.join(self.params['tmp_dir'], '{}_chng_clumps.kea'.format(self.params['tile']))
-            rsgislib.segmentation.clump(self.params['chng_img'], chng_clumps, 'KEA', False, 0, False)
-            rsgislib.rastergis.populateStats(chng_clumps, addclrtab=False, calcpyramids=False, ignorezero=True)
-
-            chng_clumps_rmsml = os.path.join(self.params['tmp_dir'], '{}_chng_clumps_rmsml.kea'.format(self.params['tile']))
-            rsgislib.segmentation.rmSmallClumps(chng_clumps, chng_clumps_rmsml, 4, 'KEA')
-
-            band_defns = [rsgislib.imagecalc.BandDefn('chg_clps', chng_clumps_rmsml, 1)]
-            rsgislib.imagecalc.bandMath(self.params['out_img'], 'chg_clps>0?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
-            rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
-        else:
-            band_defns = [rsgislib.imagecalc.BandDefn('chg', self.params['chng_img'], 1)]
-            rsgislib.imagecalc.bandMath(self.params['out_img'], 'chg', 'KEA', rsgislib.TYPE_8UINT, band_defns)
-            rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
-
-        if os.path.exists(self.params['tmp_dir']):
-            shutil.rmtree(self.params['tmp_dir'])
 
     def required_fields(self, **kwargs):
-        return ["tile", "chng_img", "out_img", "tmp_dir"]
+        return ["tile", "chng_imgs", "out_img"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
@@ -51,9 +30,6 @@ class CreateImageTile(PBPTQProcessTool):
         # Remove the output files.
         if os.path.exists(self.params['out_img']):
             os.remove(self.params['out_img'])
-
-        if os.path.exists(self.params['tmp_dir']):
-            shutil.rmtree(self.params['tmp_dir'])
 
 if __name__ == "__main__":
     CreateImageTile().std_run()
