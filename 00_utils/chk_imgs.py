@@ -98,7 +98,8 @@ def check_gdal_image_file(gdal_img, check_bands=True, nbands=0):
         try:
             if os.path.splitext(gdal_img)[1].lower() == '.kea':
                 file_ok = check_hdf5_file(gdal_img)
-                err_str = "Error with KEA/HDF5 file."
+                if not file_ok:
+                    err_str = "Error with KEA/HDF5 file."
             if file_ok:
                 raster_ds = gdal.Open(gdal_img, gdal.GA_ReadOnly)
                 if raster_ds is None:
@@ -139,12 +140,33 @@ def check_gdal_image_file(gdal_img, check_bands=True, nbands=0):
         err_str = 'File does not exist.'
     return file_ok, err_str
 
+def _run_img_chk(img_params):
+    img = img_params[0]
+    nbands = img_params[1]
+    rmerr = img_params[2]
+    printnames = img_params[3]
+    if printnames:
+        print(img)
+    try:
+        file_ok, err_str = check_gdal_image_file(img, check_bands=True, nbands=nbands)
+        if not file_ok:
+            if rmerr:
+                os.remove(img)
+                print("Removed {}".format(img))
+            else:
+                print("rm {}".format(img))
+    except:
+        if rmerr:
+            os.remove(img)
+            print("Removed {}".format(img))
+        else:
+            print("rm {}".format(img))
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser( description="A utility which can be used to check whether a GDAL "
                                                   "compatible file is valid and if there are any errors or warnings.")
     parser.add_argument("-i", "--input", type=str, required=True, help="Input file path")
-    parser.add_argument("--size", type=int, default=0, help="Check file sizes - remove lowest X percent")
     parser.add_argument("--rmerr", action='store_true', default=False, help="Delete error files from system.")
     parser.add_argument("--printnames", action='store_true', default=False, help="Print file names as checking")
     parser.add_argument("--nbands", type=int, default=0, help="Check the number of bands is correct. Ignored if 0; Default.")
@@ -153,46 +175,27 @@ if __name__ == "__main__":
     print(args.input)
 
     imgs = glob.glob(args.input)
-    if args.size > 0:
-        file_sizes = []
-        for img in imgs:
-            file_sizes.append(os.path.getsize(img))
-
-        file_sizes = numpy.array(file_sizes)
-        low_thres = numpy.percentile(file_sizes, [args.size])
-        print(low_thres)
-
-        print("Lowest {} percent file size:".format(args.size))
-        imgs_glb_ok = list()
-        for img in imgs:
-            if os.path.getsize(img) < low_thres:
-                if args.rmerr:
-                    os.remove(img)
-                    print("Removed {}".format(img))
-                else:
-                    print("rm {}".format(img))
-            else:
-                imgs_glb_ok.append(img)
-        imgs = imgs_glb_ok
-
 
     print("File Checks:")
-    for img in imgs:
-        if args.printnames:
+
+    from multiprocessing import Pool
+    processes_pool = Pool(1)
+    try:
+        for img in imgs:
             print(img)
-        try:
-            file_ok, err_str = check_gdal_image_file(img, check_bands=True, nbands=args.nbands)
-            if not file_ok:
+            try:
+                params = [img, args.nbands, args.rmerr, args.printnames]
+                result = processes_pool.apply_async(_run_img_chk, args=[params])
+                result.get(timeout=1)
+            except Exception as e:
                 if args.rmerr:
                     os.remove(img)
                     print("Removed {}".format(img))
                 else:
                     print("rm {}".format(img))
-        except:
-            if args.rmerr:
-                os.remove(img)
-                print("Removed {}".format(img))
-            else:
-                print("rm {}".format(img))
+                continue
+        processes_pool.join()
+    except Exception as inst:
+        print("The out exception is {}".format(inst))
 
     print("Finish")
