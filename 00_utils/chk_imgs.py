@@ -122,9 +122,8 @@ if __name__ == "__main__":
                                                   "compatible file is valid and if there are any errors or warnings.")
     parser.add_argument("-i", "--input", type=str, required=True, help="Input file path")
     parser.add_argument("--size", type=int, default=0, help="Check file sizes - remove lowest X percent")
-    parser.add_argument("--rmerr", action='store_true', default=False, help="Specifiy that the indiviudal raster "
-                                                                             "bands should NOT be checked (Default "
-                                                                             "False; i.e., bands are checked).")
+    parser.add_argument("--rmerr", action='store_true', default=False, help="Delete error files from system.")
+    parser.add_argument("--printname", action='store_true', default=False, help="Print file names as checking")
 
     args = parser.parse_args()
     print(args.input)
@@ -155,6 +154,8 @@ if __name__ == "__main__":
 
     print("File Checks:")
     for img in imgs:
+        if args.printnames:
+            print(img)
         try:
             file_ok, err_str = check_gdal_image_file(img, check_bands=True)
             if not file_ok:
