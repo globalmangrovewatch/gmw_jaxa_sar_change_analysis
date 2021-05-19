@@ -74,6 +74,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         nmng_hh_glb_lmts = [-1999.16027657, -1254.55570656]
         nmng_hv_glb_lmts = [-2506.76941836, -2172.45179869]
 
+
         if out_thres_lut['mng_hh_low'] < mng_hh_glb_lmts[0]:
             out_thres_lut['mng_hh_low'] = mng_hh_glb_lmts[0]
         if out_thres_lut['mng_hh_up'] > mng_hh_glb_lmts[1]:

@@ -23,6 +23,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             gmw_prj = tile_prj_lut[tile_name]
             gmw_proj_thres_file = os.path.join(kwargs['thres_files_dir'], '{}_{}_chng_thres.json'.format(gmw_prj, kwargs['sar_year']))
+            gmw_proj_thres_lmit_file = os.path.join(kwargs['threshold_limits_dir'], '{}_thres_limits.json'.format(gmw_prj))
 
             sar_scn_dir = os.path.join(kwargs['sar_tiles_dir'], tile_name)
             if os.path.exists(sar_scn_dir):
@@ -50,6 +51,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['sar_img'] = sar_img
                 c_dict['sar_vld_img'] = sar_vld_img
                 c_dict['gmw_proj_thres_file'] = gmw_proj_thres_file
+                c_dict['gmw_proj_thres_lmit_file'] = gmw_proj_thres_lmit_file
                 c_dict['out_mng_chng'] = out_mng_chng
                 c_dict['out_nmng_chng'] = out_nmng_chng
                 self.params.append(c_dict)
@@ -66,6 +68,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                   potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn',
                                   sar_tiles_dir=sar_tiles_dir,
                                   sar_year=year,
+                                  threshold_limits_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_prj_thres_limits',
                                   thres_files_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_prj_thres'.format(year),
                                   out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs'.format(year))
 
