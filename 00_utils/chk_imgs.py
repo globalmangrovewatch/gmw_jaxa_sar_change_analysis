@@ -145,6 +145,7 @@ if __name__ == "__main__":
             if os.path.getsize(img) < low_thres:
                 if args.rmerr:
                     os.remove(img)
+                    print("Removed {}".format(img))
                 else:
                     print("rm {}".format(img))
             else:
@@ -159,11 +160,13 @@ if __name__ == "__main__":
             if not file_ok:
                 if args.rmerr:
                     os.remove(img)
+                    print("Removed {}".format(img))
                 else:
                     print("rm {}".format(img))
         except:
             if args.rmerr:
                 os.remove(img)
+                print("Removed {}".format(img))
             else:
                 print("rm {}".format(img))
 
