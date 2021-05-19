@@ -118,19 +118,18 @@ if __name__ == "__main__":
     low_thres = numpy.percentile(file_sizes, [5])
     print(low_thres)
 
+    print("Lowest 1 percent file size:")
     for img in imgs:
         if os.path.getsize(img) < low_thres:
             print("rm {}".format(img))
 
 
-
-    """
+    print("File Checks:")
     for img in imgs:
-        print(img)
         try:
             file_ok, err_str = check_gdal_image_file(img, check_bands=True)
             if not file_ok:
                 print("rm {}".format(img))
         except:
             print("rm {}".format(img))
-    """
+
