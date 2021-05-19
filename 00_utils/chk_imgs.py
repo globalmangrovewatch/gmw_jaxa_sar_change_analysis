@@ -115,7 +115,7 @@ if __name__ == "__main__":
         file_sizes.append(os.path.getsize(img))
 
     file_sizes = numpy.array(file_sizes)
-    low_thres = numpy.percentile(file_sizes, [5])
+    low_thres = numpy.percentile(file_sizes, [1])
     print(low_thres)
 
     print("Lowest 1 percent file size:")
