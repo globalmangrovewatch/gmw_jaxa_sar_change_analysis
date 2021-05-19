@@ -113,13 +113,17 @@ def check_gdal_image_file(gdal_img, check_bands=True, nbands=0):
 
                 if file_ok and check_bands:
                     n_img_bands = raster_ds.RasterCount
-                    for n in range(n_img_bands):
-                        band = n + 1
-                        img_band = raster_ds.GetRasterBand(band)
-                        if img_band is None:
-                            file_ok = False
-                            err_str = 'GDAL could not open band {} in the dataset, returned None.'.format(band)
-                            break
+                    if n_img_bands < 1:
+                        file_ok = False
+                        err_str = 'Image says it does not have any image bands.'
+                    else:
+                        for n in range(n_img_bands):
+                            band = n + 1
+                            img_band = raster_ds.GetRasterBand(band)
+                            if img_band is None:
+                                file_ok = False
+                                err_str = 'GDAL could not open band {} in the dataset, returned None.'.format(band)
+                                break
                 raster_ds = None
         except Exception as e:
             file_ok = False
