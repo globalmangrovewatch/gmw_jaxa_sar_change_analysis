@@ -195,6 +195,6 @@ if __name__ == "__main__":
                 continue
         processes_pool.join()
     except Exception as inst:
-        print("The out exception is {}".format(inst))
+        print("Finished with pool")
 
     print("Finish")
