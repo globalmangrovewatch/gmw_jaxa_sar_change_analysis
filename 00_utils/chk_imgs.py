@@ -54,13 +54,18 @@ def check_gdal_image_file(gdal_img, check_bands=True):
         gdal.UseExceptions()
         print("HERE #1")
         try:
-            fH5 = h5py.File(h5_file, 'r')
-            if fH5 is None:
-                file_ok = False
-                err_str = 'h5py could not open the dataset as returned a Null dataset.'
-                raise Exception(err_str)
+            if os.path.splitext(gdal_img)[1] == '.kea':
+                print("HERE #2")
+                fH5 = h5py.File(gdal_img, 'r')
+                print("HERE #3")
+                if fH5 is None:
+                    print("HERE #3a")
+                    file_ok = False
+                    err_str = 'h5py could not open the dataset as returned a Null dataset.'
+                    raise Exception(err_str)
+            print("HERE #4")
             raster_ds = gdal.Open(gdal_img, gdal.GA_ReadOnly)
-            print("HERE #2")
+            print("HERE #5")
             if raster_ds is None:
                 file_ok = False
                 err_str = 'GDAL could not open the dataset, returned None.'
