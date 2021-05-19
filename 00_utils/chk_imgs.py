@@ -93,22 +93,22 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser( description="A utility which can be used to check whether a GDAL "
                                                   "compatible file is valid and if there are any errors or warnings.")
     parser.add_argument("-i", "--input", type=str, required=True, help="Input file path")
-    parser.add_argument("--size", action='store_true', default=False, help="Check file sizes - remove lowest 1 percent")
+    parser.add_argument("--size", type=int, default=0, help="Check file sizes - remove lowest 1 percent")
 
     args = parser.parse_args()
     print(args.input)
 
     imgs = glob.glob(args.input)
-    if args.size:
+    if args.size > 0:
         file_sizes = []
         for img in imgs:
             file_sizes.append(os.path.getsize(img))
 
         file_sizes = numpy.array(file_sizes)
-        low_thres = numpy.percentile(file_sizes, [1])
+        low_thres = numpy.percentile(file_sizes, [args.size])
         print(low_thres)
 
-        print("Lowest 1 percent file size:")
+        print("Lowest {} percent file size:".format(args.size))
         imgs_ok = list()
         for img in imgs:
             if os.path.getsize(img) < low_thres:
@@ -120,6 +120,7 @@ if __name__ == "__main__":
 
     print("File Checks:")
     for img in imgs:
+        print(img)
         try:
             file_ok, err_str = check_gdal_image_file(img, check_bands=True)
             if not file_ok:
