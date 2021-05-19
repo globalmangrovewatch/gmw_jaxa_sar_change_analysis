@@ -2,7 +2,8 @@ import osgeo.gdal as gdal
 import os
 import argparse
 import glob
-import h5py
+
+import numpy
 
 class RSGISGDALErrorHandler(object):
     """
@@ -56,6 +57,7 @@ def check_gdal_image_file(gdal_img, check_bands=True):
         try:
             if os.path.splitext(gdal_img)[1] == '.kea':
                 print("HERE #2")
+                import h5py
                 fH5 = h5py.File(gdal_img, 'r')
                 print("HERE #3")
                 if fH5 is None:
@@ -108,6 +110,21 @@ if __name__ == "__main__":
     print(args.input)
 
     imgs = glob.glob(args.input)
+    file_sizes = []
+    for img in imgs:
+        file_sizes.append(os.path.getsize(img))
+
+    file_sizes = numpy.array(file_sizes)
+    low_thres = numpy.percentile(file_sizes, [5])
+    print(low_thres)
+
+    for img in imgs:
+        if os.path.getsize(img) < low_thres:
+            print("rm {}".format(img))
+
+
+
+    """
     for img in imgs:
         print(img)
         try:
@@ -116,4 +133,4 @@ if __name__ == "__main__":
                 print("rm {}".format(img))
         except:
             print("rm {}".format(img))
-
+    """
