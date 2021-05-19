@@ -2,6 +2,7 @@ from pbprocesstools.pbpt_q_process import PBPTGenQProcessToolCmds
 import logging
 import os
 import glob
+import rsgislib
 
 logger = logging.getLogger(__name__)
 
@@ -10,6 +11,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def gen_command_info(self, **kwargs):
         if not os.path.exists(kwargs['out_dir']):
             os.mkdir(kwargs['out_dir'])
+
+        rsgis_utils = rsgislib.RSGISPyUtils()
 
         img_tiles = glob.glob(kwargs['gmw_tiles'])
         for gmw_tile in img_tiles:
@@ -32,7 +35,9 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             if not os.path.exists(out_mng_chng_sum_img):
                 for img in mng_chng_imgs:
-                    print("rm {}".format(img))
+                    n_bands = rsgis_utils.getImageBandCount(img)
+                    if n_bands != 1:
+                        print("rm {}".format(img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['chng_imgs'] = mng_chng_imgs
@@ -41,7 +46,9 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             if not os.path.exists(out_nmng_chng_sum_img):
                 for img in mng_chng_imgs:
-                    print("rm {}".format(img))
+                    n_bands = rsgis_utils.getImageBandCount(img)
+                    if n_bands != 1:
+                        print("rm {}".format(img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['chng_imgs'] = nmng_chng_imgs
