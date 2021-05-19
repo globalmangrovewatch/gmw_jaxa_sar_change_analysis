@@ -93,29 +93,29 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser( description="A utility which can be used to check whether a GDAL "
                                                   "compatible file is valid and if there are any errors or warnings.")
     parser.add_argument("-i", "--input", type=str, required=True, help="Input file path")
-    parser.add_argument("--vec", action='store_true', default=False, help="Specifiy that the input file is a "
-                                                                          "vector layer (otherwise assumed "
-                                                                          "to be a raster).")
-    parser.add_argument("--noband", action='store_true', default=False, help="Specifiy that the indiviudal raster "
-                                                                             "bands should NOT be checked (Default "
-                                                                             "False; i.e., bands are checked).")
+    parser.add_argument("--size", action='store_true', default=False, help="Check file sizes - remove lowest 1 percent")
 
     args = parser.parse_args()
     print(args.input)
 
     imgs = glob.glob(args.input)
-    file_sizes = []
-    for img in imgs:
-        file_sizes.append(os.path.getsize(img))
+    if args.size:
+        file_sizes = []
+        for img in imgs:
+            file_sizes.append(os.path.getsize(img))
 
-    file_sizes = numpy.array(file_sizes)
-    low_thres = numpy.percentile(file_sizes, [1])
-    print(low_thres)
+        file_sizes = numpy.array(file_sizes)
+        low_thres = numpy.percentile(file_sizes, [1])
+        print(low_thres)
 
-    print("Lowest 1 percent file size:")
-    for img in imgs:
-        if os.path.getsize(img) < low_thres:
-            print("rm {}".format(img))
+        print("Lowest 1 percent file size:")
+        imgs_ok = list()
+        for img in imgs:
+            if os.path.getsize(img) < low_thres:
+                print("rm {}".format(img))
+            else:
+                imgs_ok.append(img)
+        imgs = imgs_ok
 
 
     print("File Checks:")
@@ -127,3 +127,4 @@ if __name__ == "__main__":
         except:
             print("rm {}".format(img))
 
+    print("Finish")
