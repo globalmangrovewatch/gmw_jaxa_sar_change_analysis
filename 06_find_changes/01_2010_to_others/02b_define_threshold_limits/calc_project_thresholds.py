@@ -101,14 +101,15 @@ class CalcProjectThreholds(PBPTQProcessTool):
 
         for thres_file in self.params['proj_thres_files']:
             c_thres_lut = rsgis_utils.readJSON2Dict(thres_file)
+            file_name = rsgis_utils.get_file_basename(thres_file)
             if (c_thres_lut['mng_hh'] > out_thres_lut['mng_hh_low']) and (c_thres_lut['mng_hh'] < out_thres_lut['mng_hh_up']):
-                print("{} in range for MNG HH".format(self.params['gmw_prj']))
+                print("{} in range for MNG HH".format(file_name))
             if (c_thres_lut['mng_hv'] > out_thres_lut['mng_hv_low']) and (c_thres_lut['mng_hv'] < out_thres_lut['mng_hv_up']):
-                print("{} in range for MNG HV".format(self.params['gmw_prj']))
+                print("{} in range for MNG HV".format(file_name))
             if (c_thres_lut['nmng_hh'] > out_thres_lut['nmng_hh_low']) and (c_thres_lut['nmng_hh'] < out_thres_lut['nmng_hh_up']):
-                print("{} in range for NOT-MNG HH".format(self.params['gmw_prj']))
+                print("{} in range for NOT-MNG HH".format(file_name))
             if (c_thres_lut['nmng_hv'] > out_thres_lut['nmng_hv_low']) and (c_thres_lut['nmng_hv'] < out_thres_lut['nmng_hv_up']):
-                print("{} in range for NOT-MNG HV".format(self.params['gmw_prj']))
+                print("{} in range for NOT-MNG HV".format(file_name))
 
         if os.path.exists(self.params['tmp_dir']):
             shutil.rmtree(self.params['tmp_dir'])
