@@ -17,28 +17,28 @@ class CreateImageTile(PBPTQProcessTool):
         if self.params['sar_img'] is not None:
             rsgis_utils = rsgislib.RSGISPyUtils()
             thres_lut = rsgis_utils.readJSON2Dict(self.params['gmw_proj_thres_file'])
-            thres_limits_lut = rsgis_utils.readJSON2Dict(self.params['gmw_proj_thres_lmit_file'])
             pprint.pprint(thres_lut)
+            if os.path.exists(self.params['gmw_proj_thres_lmit_file']):
+                thres_limits_lut = rsgis_utils.readJSON2Dict(self.params['gmw_proj_thres_lmit_file'])
+                if (thres_lut['mng_hh'] < 0.0) and (thres_lut['mng_hh'] < thres_limits_lut['mng_hh_low']):
+                    thres_lut['mng_hh'] = thres_limits_lut['mng_hh_low']
+                if (thres_lut['mng_hh'] < 0.0) and (thres_lut['mng_hh'] > thres_limits_lut['mng_hh_up']):
+                    thres_lut['mng_hh'] = thres_limits_lut['mng_hh_up']
 
-            if (thres_lut['mng_hh'] < 0.0) and (thres_lut['mng_hh'] < thres_limits_lut['mng_hh_low']):
-                thres_lut['mng_hh'] = thres_limits_lut['mng_hh_low']
-            if (thres_lut['mng_hh'] < 0.0) and (thres_lut['mng_hh'] > thres_limits_lut['mng_hh_up']):
-                thres_lut['mng_hh'] = thres_limits_lut['mng_hh_up']
+                if (thres_lut['mng_hv'] < 0.0) and (thres_lut['mng_hv'] < thres_limits_lut['mng_hv_low']):
+                    thres_lut['mng_hv'] = thres_limits_lut['mng_hv_low']
+                if (thres_lut['mng_hv'] < 0.0) and (thres_lut['mng_hv'] > thres_limits_lut['mng_hv_up']):
+                    thres_lut['mng_hv'] = thres_limits_lut['mng_hv_up']
 
-            if (thres_lut['mng_hv'] < 0.0) and (thres_lut['mng_hv'] < thres_limits_lut['mng_hv_low']):
-                thres_lut['mng_hv'] = thres_limits_lut['mng_hv_low']
-            if (thres_lut['mng_hv'] < 0.0) and (thres_lut['mng_hv'] > thres_limits_lut['mng_hv_up']):
-                thres_lut['mng_hv'] = thres_limits_lut['mng_hv_up']
+                if (thres_lut['nmng_hh'] < 0.0) and (thres_lut['nmng_hh'] < thres_limits_lut['nmng_hh_low']):
+                    thres_lut['nmng_hh'] = thres_limits_lut['nmng_hh_low']
+                if (thres_lut['nmng_hh'] < 0.0) and (thres_lut['nmng_hh'] > thres_limits_lut['nmng_hh_up']):
+                    thres_lut['nmng_hh'] = thres_limits_lut['nmng_hh_up']
 
-            if (thres_lut['nmng_hh'] < 0.0) and (thres_lut['nmng_hh'] < thres_limits_lut['nmng_hh_low']):
-                thres_lut['nmng_hh'] = thres_limits_lut['nmng_hh_low']
-            if (thres_lut['nmng_hh'] < 0.0) and (thres_lut['nmng_hh'] > thres_limits_lut['nmng_hh_up']):
-                thres_lut['nmng_hh'] = thres_limits_lut['nmng_hh_up']
-
-            if (thres_lut['nmng_hv'] < 0.0) and (thres_lut['nmng_hv'] < thres_limits_lut['nmng_hv_low']):
-                thres_lut['nmng_hv'] = thres_limits_lut['nmng_hv_low']
-            if (thres_lut['nmng_hv'] < 0.0) and (thres_lut['nmng_hv'] > thres_limits_lut['nmng_hv_up']):
-                thres_lut['nmng_hv'] = thres_limits_lut['nmng_hv_up']
+                if (thres_lut['nmng_hv'] < 0.0) and (thres_lut['nmng_hv'] < thres_limits_lut['nmng_hv_low']):
+                    thres_lut['nmng_hv'] = thres_limits_lut['nmng_hv_low']
+                if (thres_lut['nmng_hv'] < 0.0) and (thres_lut['nmng_hv'] > thres_limits_lut['nmng_hv_up']):
+                    thres_lut['nmng_hv'] = thres_limits_lut['nmng_hv_up']
 
             # Threshold the mangrove regions (Mangroves > Not Mangroves)
             if (thres_lut['mng_hh'] < 0.0) and (thres_lut['mng_hv'] < 0.0):
