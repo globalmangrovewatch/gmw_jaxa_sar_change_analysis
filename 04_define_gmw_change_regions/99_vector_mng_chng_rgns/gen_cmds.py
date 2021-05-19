@@ -33,6 +33,10 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
         self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_chng_from_2010_buf/*.kea',
                               tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_chng_from_2010_buf_vecs')
+
+        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_chng_from_2010/*.kea',
+                              tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_chng_from_2010_vecs')
+        
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_v2_chng_from_2010_buf_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
