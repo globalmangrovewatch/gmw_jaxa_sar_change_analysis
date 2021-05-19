@@ -16,6 +16,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
+            gmw_v2_core_img = os.path.join(kwargs['gmw_v2_core_tiles'], '{}_gmw_v2_core.kea'.format(tile_basename))
             gmw_v2_union_img = os.path.join(kwargs['gmw_v2_union_tiles'], '{}_gmw_v2_union.kea'.format(tile_basename))
 
             out_img = os.path.join(kwargs['out_dir'], '{}_v2_chng_from_2010.kea'.format(tile_basename))
@@ -25,6 +26,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
                 c_dict['gmw_v2_union_img'] = gmw_v2_union_img
+                c_dict['gmw_v2_core_img'] = gmw_v2_core_img
                 c_dict['out_img'] = out_img
                 self.params.append(c_dict)
 
@@ -33,6 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_2010_base/*.kea',
+                              gmw_v2_core_tiles='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_core',
                               gmw_v2_union_tiles='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_union',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_chng_from_2010')
         

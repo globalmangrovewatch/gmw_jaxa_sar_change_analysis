@@ -14,14 +14,14 @@ class CreateImageTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_img_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
-        band_defns = [rsgislib.imagecalc.BandDefn('gmw10', self.params['gmw_tile'], 1),
+        band_defns = [rsgislib.imagecalc.BandDefn('gmwCore', self.params['gmw_v2_core_img'], 1),
                       rsgislib.imagecalc.BandDefn('gmwUnion', self.params['gmw_v2_union_img'], 1)]
-        rsgislib.imagecalc.bandMath(self.params['out_img'], '(gmw10==0)&&(gmwUnion==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.imagecalc.bandMath(self.params['out_img'], '(gmwCore==0)&&(gmwUnion==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
         rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
 
     def required_fields(self, **kwargs):
-        return ["tile", "gmw_tile", "gmw_v2_union_img", "out_img"]
+        return ["tile", "gmw_tile", "gmw_v2_union_img", "gmw_v2_core_img" "out_img"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
