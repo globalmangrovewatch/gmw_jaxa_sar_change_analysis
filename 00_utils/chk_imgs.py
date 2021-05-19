@@ -123,7 +123,7 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--input", type=str, required=True, help="Input file path")
     parser.add_argument("--size", type=int, default=0, help="Check file sizes - remove lowest X percent")
     parser.add_argument("--rmerr", action='store_true', default=False, help="Delete error files from system.")
-    parser.add_argument("--printname", action='store_true', default=False, help="Print file names as checking")
+    parser.add_argument("--printnames", action='store_true', default=False, help="Print file names as checking")
 
     args = parser.parse_args()
     print(args.input)
