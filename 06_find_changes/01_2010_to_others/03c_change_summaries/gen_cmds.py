@@ -34,12 +34,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_nmng_chng_sum_img = os.path.join(kwargs['out_dir'], '{}_sum_not_mng_chng.kea'.format(tile_basename))
 
             if not os.path.exists(out_mng_chng_sum_img):
-                for img in mng_chng_imgs:
-                    if os.path.exists(img):
-                        print(img)
-                        n_bands = rsgis_utils.getImageBandCount(img)
-                        if n_bands != 1:
-                            print("rm {}".format(img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['chng_imgs'] = mng_chng_imgs
@@ -47,12 +41,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 self.params.append(c_dict)
 
             if not os.path.exists(out_nmng_chng_sum_img):
-                for img in nmng_chng_imgs:
-                    if os.path.exists(img):
-                        print(img)
-                        n_bands = rsgis_utils.getImageBandCount(img)
-                        if n_bands != 1:
-                            print("rm {}".format(img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['chng_imgs'] = nmng_chng_imgs
