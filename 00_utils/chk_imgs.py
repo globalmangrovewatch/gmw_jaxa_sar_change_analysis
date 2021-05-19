@@ -2,8 +2,39 @@ import osgeo.gdal as gdal
 import os
 import argparse
 import glob
-
 import numpy
+import h5py
+
+def check_h5_var(h5_obj):
+    OK = True
+    try:
+        if isinstance(h5_obj, h5py.Dataset):
+            OK = True
+        elif isinstance(h5_obj, h5py.Group):
+            for var in h5_obj.keys():
+                OK = check_h5_var(h5_obj[var])
+                if not OK:
+                    break
+    except RuntimeError:
+        OK = False
+    return OK
+
+
+def checkh5(input_file):
+    OK = True
+    if not os.path.exists(input_file):
+        OK = False
+    else:
+        fH5 = h5py.File(input_file, 'r')
+        if fH5 is None:
+            OK = False
+        else:
+            for var in fH5.keys():
+                OK = check_h5_var(fH5[var])
+                if not OK:
+                    break
+    return OK
+
 
 class RSGISGDALErrorHandler(object):
     """
@@ -55,25 +86,22 @@ def check_gdal_image_file(gdal_img, check_bands=True):
         gdal.UseExceptions()
         try:
             if os.path.splitext(gdal_img)[1] == '.kea':
-                import h5py
-                fH5 = h5py.File(gdal_img, 'r')
-                if fH5 is None:
+                file_ok = checkh5(gdal_img)
+                err_str = "Error with HDF5 file."
+            if file_ok:
+                raster_ds = gdal.Open(gdal_img, gdal.GA_ReadOnly)
+                if raster_ds is None:
                     file_ok = False
-                    err_str = 'h5py could not open the dataset as returned a Null dataset.'
-                    raise Exception(err_str)
-            raster_ds = gdal.Open(gdal_img, gdal.GA_ReadOnly)
-            if raster_ds is None:
-                file_ok = False
-                err_str = 'GDAL could not open the dataset, returned None.'
-            elif check_bands:
-                n_bands = raster_ds.RasterCount
-                for n in range(n_bands):
-                    band = n + 1
-                    img_band = raster_ds.GetRasterBand(band)
-                    if img_band is None:
-                        file_ok = False
-                        err_str = 'GDAL could not open band {} in the dataset, returned None.'.format(band)
-            raster_ds = None
+                    err_str = 'GDAL could not open the dataset, returned None.'
+                elif check_bands:
+                    n_bands = raster_ds.RasterCount
+                    for n in range(n_bands):
+                        band = n + 1
+                        img_band = raster_ds.GetRasterBand(band)
+                        if img_band is None:
+                            file_ok = False
+                            err_str = 'GDAL could not open band {} in the dataset, returned None.'.format(band)
+                raster_ds = None
         except Exception as e:
             file_ok = False
             err_str = str(e)
