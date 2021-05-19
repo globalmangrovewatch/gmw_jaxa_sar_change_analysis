@@ -182,7 +182,6 @@ if __name__ == "__main__":
     processes_pool = Pool(1)
     try:
         for img in imgs:
-            print(img)
             try:
                 params = [img, args.nbands, args.rmerr, args.printnames]
                 result = processes_pool.apply_async(_run_img_chk, args=[params])
