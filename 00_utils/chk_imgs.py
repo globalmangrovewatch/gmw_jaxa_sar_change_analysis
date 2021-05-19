@@ -121,7 +121,10 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser( description="A utility which can be used to check whether a GDAL "
                                                   "compatible file is valid and if there are any errors or warnings.")
     parser.add_argument("-i", "--input", type=str, required=True, help="Input file path")
-    parser.add_argument("--size", type=int, default=0, help="Check file sizes - remove lowest 1 percent")
+    parser.add_argument("--size", type=int, default=0, help="Check file sizes - remove lowest X percent")
+    parser.add_argument("--rmerr", action='store_true', default=False, help="Specifiy that the indiviudal raster "
+                                                                             "bands should NOT be checked (Default "
+                                                                             "False; i.e., bands are checked).")
 
     args = parser.parse_args()
     print(args.input)
@@ -140,7 +143,10 @@ if __name__ == "__main__":
         imgs_ok = list()
         for img in imgs:
             if os.path.getsize(img) < low_thres:
-                print("rm {}".format(img))
+                if args.rmerr:
+                    os.remove(img)
+                else:
+                    print("rm {}".format(img))
             else:
                 imgs_ok.append(img)
         imgs = imgs_ok
@@ -148,12 +154,17 @@ if __name__ == "__main__":
 
     print("File Checks:")
     for img in imgs:
-        print(img)
         try:
             file_ok, err_str = check_gdal_image_file(img, check_bands=True)
             if not file_ok:
-                print("rm {}".format(img))
+                if args.rmerr:
+                    os.remove(img)
+                else:
+                    print("rm {}".format(img))
         except:
-            print("rm {}".format(img))
+            if args.rmerr:
+                os.remove(img)
+            else:
+                print("rm {}".format(img))
 
     print("Finish")
