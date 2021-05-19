@@ -35,9 +35,11 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             if not os.path.exists(out_mng_chng_sum_img):
                 for img in mng_chng_imgs:
-                    n_bands = rsgis_utils.getImageBandCount(img)
-                    if n_bands != 1:
-                        print("rm {}".format(img))
+                    if os.path.exists(img):
+                        print(img)
+                        n_bands = rsgis_utils.getImageBandCount(img)
+                        if n_bands != 1:
+                            print("rm {}".format(img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['chng_imgs'] = mng_chng_imgs
@@ -45,10 +47,12 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 self.params.append(c_dict)
 
             if not os.path.exists(out_nmng_chng_sum_img):
-                for img in mng_chng_imgs:
-                    n_bands = rsgis_utils.getImageBandCount(img)
-                    if n_bands != 1:
-                        print("rm {}".format(img))
+                for img in nmng_chng_imgs:
+                    if os.path.exists(img):
+                        print(img)
+                        n_bands = rsgis_utils.getImageBandCount(img)
+                        if n_bands != 1:
+                            print("rm {}".format(img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['chng_imgs'] = nmng_chng_imgs
@@ -57,17 +61,17 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-
+        """
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
                               chng_img_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_rmsml',
                               years=['1996', '2007', '2008', '2009'],
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_pre_2010_chngs')
-
+        """ 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
                               chng_img_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_rmsml',
                               years=['2015', '2016', '2017', '2018', '2019', '2020'],
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_post_2010_chngs')
-
+        
 
         
         self.pop_params_db()

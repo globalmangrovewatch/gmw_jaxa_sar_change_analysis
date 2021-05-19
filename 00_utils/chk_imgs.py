@@ -2,6 +2,7 @@ import osgeo.gdal as gdal
 import os
 import argparse
 import glob
+import h5py
 
 class RSGISGDALErrorHandler(object):
     """
@@ -51,9 +52,15 @@ def check_gdal_image_file(gdal_img, check_bands=True):
         err_handler = err.handler
         gdal.PushErrorHandler(err_handler)
         gdal.UseExceptions()
-
+        print("HERE #1")
         try:
+            fH5 = h5py.File(h5_file, 'r')
+            if fH5 is None:
+                file_ok = False
+                err_str = 'h5py could not open the dataset as returned a Null dataset.'
+                raise Exception(err_str)
             raster_ds = gdal.Open(gdal_img, gdal.GA_ReadOnly)
+            print("HERE #2")
             if raster_ds is None:
                 file_ok = False
                 err_str = 'GDAL could not open the dataset, returned None.'
@@ -93,9 +100,11 @@ if __name__ == "__main__":
                                                                              "False; i.e., bands are checked).")
 
     args = parser.parse_args()
+    print(args.input)
 
     imgs = glob.glob(args.input)
     for img in imgs:
+        print(img)
         try:
             file_ok, err_str = check_gdal_image_file(img, check_bands=True)
             if not file_ok:
