@@ -2,11 +2,6 @@ import osgeo.gdal as gdal
 import os
 import argparse
 import glob
-import numpy
-import h5py
-
-
-
 
 def check_hdf5_file(input_file):
     """
