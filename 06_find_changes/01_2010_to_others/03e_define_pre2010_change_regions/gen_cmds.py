@@ -20,7 +20,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             mng_chng_img = os.path.join(kwargs['chng_img_dir'], '{}_{}_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
             nmng_chng_img = os.path.join(kwargs['chng_img_dir'], '{}_{}_not_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
 
-            v2_chng_rgn_img = os.path.join(kwargs['out_dir'], '{}_v2_chng_from_2010.kea'.format(tile_basename))
+            v2_chng_rgn_img = os.path.join(kwargs['v2_chng_rgns'], '{}_v2_chng_from_2010.kea'.format(tile_basename))
 
             out_mng_chng_fnl_img = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
             out_nmng_chng_fnl_img = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
