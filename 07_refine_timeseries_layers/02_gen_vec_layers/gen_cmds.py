@@ -29,7 +29,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+        for year in ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']:
             self.gen_command_info(img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_{}_v3_fnl/*.kea'.format(year),
                                   out_lyr_name='gmw_{}_v3'.format(year),
                                   out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_{}_v3_fnl_vecs'.format(year))
