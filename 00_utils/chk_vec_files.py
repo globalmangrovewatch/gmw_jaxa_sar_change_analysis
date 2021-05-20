@@ -138,7 +138,7 @@ if __name__ == "__main__":
 
     vec_files = glob.glob(args.input)
 
-    print("File Checks:")
+    print("File Checks ({} Files Found):".format(len(vec_files)))
 
     from multiprocessing import Pool
     processes_pool = Pool(1)

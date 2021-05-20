@@ -171,7 +171,7 @@ if __name__ == "__main__":
 
     imgs = glob.glob(args.input)
 
-    print("File Checks:")
+    print("File Checks ({} Files Found):".format(len(imgs)))
 
     from multiprocessing import Pool
     processes_pool = Pool(1)
