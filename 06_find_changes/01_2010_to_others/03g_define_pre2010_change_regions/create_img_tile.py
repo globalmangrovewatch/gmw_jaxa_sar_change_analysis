@@ -26,15 +26,16 @@ class CreateImageTile(PBPTQProcessTool):
 
         band_defns = [rsgislib.imagecalc.BandDefn('chgqa', chng_qa_img, 1),
                       rsgislib.imagecalc.BandDefn('chg', self.params['chng_img'], 1),
-                      rsgislib.imagecalc.BandDefn('v2chg', self.params['v2_chng_rgn_img'], 1)]
-        rsgislib.imagecalc.bandMath(self.params['out_img'], '(v2chg==1)||(chgqa==1)?chg:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+                      rsgislib.imagecalc.BandDefn('v2chg', self.params['v2_chng_rgn_img'], 1),
+                      rsgislib.imagecalc.BandDefn('errmsk', self.params['chng_err_msk_img'], 1)]
+        rsgislib.imagecalc.bandMath(self.params['out_img'], 'errmsk==1?0:(v2chg==1)||(chgqa==1)?chg:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
         rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
         if os.path.exists(self.params['tmp_dir']):
             shutil.rmtree(self.params['tmp_dir'])
 
     def required_fields(self, **kwargs):
-        return ["tile", "chng_img", "v2_chng_rgn_img", "qa_chng_rgns_file", "qa_chng_rgns_lyr", "out_img", "tmp_dir"]
+        return ["tile", "chng_img", "v2_chng_rgn_img", "chng_err_msk_img", "qa_chng_rgns_file", "qa_chng_rgns_lyr", "out_img", "tmp_dir"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()

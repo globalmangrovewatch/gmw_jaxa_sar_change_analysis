@@ -22,6 +22,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             v2_chng_rgn_img = os.path.join(kwargs['v2_chng_rgns'], '{}_v2_chng_from_2010.kea'.format(tile_basename))
 
+            chng_err_msk_img = os.path.join(kwargs['chng_err_msk'], '{}_invalid_change_msk.kea'.format(tile_basename))
+
             out_mng_chng_fnl_img = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
             out_nmng_chng_fnl_img = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
 
@@ -33,6 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['v2_chng_rgn_img'] = v2_chng_rgn_img
                 c_dict['qa_chng_rgns_file'] = kwargs['qa_chng_rgns_file']
                 c_dict['qa_chng_rgns_lyr'] = kwargs['qa_chng_rgns_lyr']
+                c_dict['chng_err_msk_img'] = chng_err_msk_img
                 c_dict['out_img'] = out_mng_chng_fnl_img
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_fnl_pre2010_mng_chng".format(tile_basename, kwargs['sar_year']))
                 if not os.path.exists(c_dict['tmp_dir']):
@@ -47,6 +50,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['v2_chng_rgn_img'] = v2_chng_rgn_img
                 c_dict['qa_chng_rgns_file'] = kwargs['qa_chng_rgns_file']
                 c_dict['qa_chng_rgns_lyr'] = kwargs['qa_chng_rgns_lyr']
+                c_dict['chng_err_msk_img'] = chng_err_msk_img
                 c_dict['out_img'] = out_nmng_chng_fnl_img
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_fnl_pre2010_not_mng_chng".format(tile_basename, kwargs['sar_year']))
                 if not os.path.exists(c_dict['tmp_dir']):
@@ -62,6 +66,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                   v2_chng_rgns='/scratch/a.pfb/gmw_v3_change/data/other_base_data/gmw_v2_chng_from_2010',
                                   qa_chng_rgns_file='/scratch/a.pfb/gmw_v3_change/scripts/06_find_changes/01_2010_to_others/03e_define_pre2010_change_regions/add_chng_rgns.gpkg',
                                   qa_chng_rgns_lyr='add_chng_rgns',
+                                  chng_err_msk='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_chngs_err_msk',
                                   out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_rmsml_fnl'.format(year),
                                   tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
