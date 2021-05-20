@@ -5,6 +5,7 @@ import shutil
 import rsgislib
 import rsgislib.rastergis
 import rsgislib.imagecalc
+import rsgislib.vectorutils
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,9 @@ class CreateImageTile(PBPTQProcessTool):
         rsgislib.imagecalc.bandMath(self.params['out_img'], '(prgpol==1)||(prlpog==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
         rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
+
 
     def required_fields(self, **kwargs):
         return ["tile", "pre_mng_chng_sum_img", "pre_nmng_chng_sum_img", "post_mng_chng_sum_img", "post_nmng_chng_sum_img", "v2_chng_rgn_img", "vld_chng_rgns_file", "vld_chng_rgns_lyr", "out_img", "tmp_dir"]
@@ -57,6 +61,9 @@ class CreateImageTile(PBPTQProcessTool):
         # Remove the output files.
         if os.path.exists(self.params['out_img']):
             os.remove(self.params['out_img'])
+
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
 
 if __name__ == "__main__":
     CreateImageTile().std_run()
