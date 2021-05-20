@@ -1,6 +1,7 @@
 from pbprocesstools.pbpt_q_process import PBPTQProcessTool
 import logging
 import os
+import shutil
 import rsgislib
 import rsgislib.rastergis
 import rsgislib.imagecalc
@@ -13,6 +14,8 @@ class CreateImageTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_img_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
+        if not os.path.exists(self.params['tmp_dir']):
+            os.mkdir(self.params['tmp_dir'])
 
         band_defns = [rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1),
                       rsgislib.imagecalc.BandDefn('mng_chg', self.params['mng_chng_img'], 1),
@@ -25,6 +28,9 @@ class CreateImageTile(PBPTQProcessTool):
                       rsgislib.imagecalc.BandDefn('n_mng_chg', self.params['nmng_chng_img'], 1)]
         rsgislib.imagecalc.bandMath(self.params['out_gmw_up_potent_chng_msk'], '(po_chng==0)&&(mng_chg==1)?1:(po_chng==1)&&(n_mng_chg==1)?0:po_chng', 'KEA', rsgislib.TYPE_8UINT, band_defns)
         rsgislib.rastergis.populateStats(self.params['out_gmw_up_potent_chng_msk'], addclrtab=True, calcpyramids=True, ignorezero=True)
+
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
 
     def required_fields(self, **kwargs):
         return ["tile", "gmw_tile", "potent_chng_msk_img", "mng_chng_img", "nmng_chng_img", "out_gmw_up_msk", "out_gmw_up_potent_chng_msk", "tmp_dir"]
