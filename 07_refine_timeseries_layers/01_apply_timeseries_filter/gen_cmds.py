@@ -65,63 +65,63 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2007_v3/*v3_init.kea',
                               year='2007',
                               pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_1996_v3',
-                              post_tile_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2008_v3',
+                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2008_v3',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2007_v3_fnl',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2008_v3/*v3_init.kea',
                               year='2008',
                               pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2007_v3',
-                              post_tile_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2009_v3',
+                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2009_v3',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2008_v3_fnl',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2009_v3/*v3_init.kea',
                               year='2009',
                               pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2008_v3',
-                              post_tile_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2010_v3',
+                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2010_v3',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2009_v3_fnl',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*v3.kea',
                               year='2010',
                               pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2009_v3',
-                              post_tile_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2015_v3',
+                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2015_v3',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_v3_fnl',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2015_v3/*v3_init.kea',
                               year='2015',
                               pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_v3',
-                              post_tile_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2016_v3',
+                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2016_v3',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2015_v3_fnl',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2016_v3/*v3_init.kea',
                               year='2016',
                               pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2015_v3',
-                              post_tile_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2017_v3',
+                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2017_v3',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2016_v3_fnl',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2017_v3/*v3_init.kea',
                               year='2017',
                               pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2016_v3',
-                              post_tile_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2018_v3',
+                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2018_v3',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2017_v3_fnl',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2018_v3/*v3_init.kea',
                               year='2018',
                               pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2017_v3',
-                              post_tile_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2019_v3',
+                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2019_v3',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2018_v3_fnl',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2019_v3/*v3_init.kea',
                               year='2019',
                               pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2018_v3',
-                              post_tile_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2020_v3',
+                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2020_v3',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2019_v3_fnl',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
