@@ -1,0 +1,10 @@
+sbatch sub_merge_1996.sbatch
+sbatch sub_merge_2007.sbatch
+sbatch sub_merge_2008.sbatch
+sbatch sub_merge_2009.sbatch
+sbatch sub_merge_2015.sbatch
+sbatch sub_merge_2016.sbatch
+sbatch sub_merge_2017.sbatch
+sbatch sub_merge_2018.sbatch
+sbatch sub_merge_2019.sbatch
+sbatch sub_merge_2020.sbatch
