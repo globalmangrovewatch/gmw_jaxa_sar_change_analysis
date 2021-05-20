@@ -5,7 +5,7 @@ import shutil
 import rsgislib
 import rsgislib.rastergis
 import rsgislib.imagecalc
-import rsgislib.segmentation
+import rsgislib.vectorutils
 
 logger = logging.getLogger(__name__)
 
