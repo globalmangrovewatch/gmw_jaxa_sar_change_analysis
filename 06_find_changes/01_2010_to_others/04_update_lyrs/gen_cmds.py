@@ -61,7 +61,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.create_slurm_sub_sh("gmw_init_XXXX_v3", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
-                                 job_time_limit='2-23:59',
+                                 n_xtr_cmds=20, job_time_limit='2-23:59',
                                  module_load='module load parallel singularity\n\nexport http_proxy="http://a.pfb:proxy101019@10.212.63.246:3128"\nexport https_proxy="http://a.pfb:proxy101019@10.212.63.246:3128"\n')
 
 if __name__ == "__main__":
