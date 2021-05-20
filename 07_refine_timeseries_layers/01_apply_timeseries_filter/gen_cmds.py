@@ -21,19 +21,29 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             if kwargs['year'] == '2015':
                 pre_gmw_img = self.find_file(kwargs['pre_tiles_dir'], "*v3.kea")
+                if pre_gmw_img is None:
+                    print(kwargs['pre_tiles_dir'])
+                    print("*v3.kea")
+                    raise Exception("Something has gone wrong - couldn't find the pre image")
             else:
                 pre_gmw_img = self.find_file(kwargs['pre_tiles_dir'], "*v3_init.kea")
-
-            if pre_gmw_img is None:
-                raise Exception("Something has gone wrong - couldn't find the pre image")
+                if pre_gmw_img is None:
+                    print(kwargs['pre_tiles_dir'])
+                    print("*v3_init.kea")
+                    raise Exception("Something has gone wrong - couldn't find the pre image")
 
             if kwargs['year'] == '2009':
-                post_gmw_img = self.find_file(kwargs['pre_tiles_dir'], "*v3.kea")
+                post_gmw_img = self.find_file(kwargs['post_tiles_dir'], "*v3.kea")
+                if post_gmw_img is None:
+                    print(kwargs['post_tiles_dir'])
+                    print("*v3.kea")
+                    raise Exception("Something has gone wrong - couldn't find the post image")
             else:
-                post_gmw_img = self.find_file(kwargs['pre_tiles_dir'], "*v3_init.kea")
-
-            if post_gmw_img is None:
-                raise Exception("Something has gone wrong - couldn't find the post image")
+                post_gmw_img = self.find_file(kwargs['post_tiles_dir'], "*v3_init.kea")
+                if post_gmw_img is None:
+                    print(kwargs['post_tiles_dir'])
+                    print("*v3_init.kea")
+                    raise Exception("Something has gone wrong - couldn't find the post image")
 
             out_img = os.path.join(kwargs['out_dir'], '{}_{}_v3.kea'.format(tile_basename, kwargs['year']))
 
