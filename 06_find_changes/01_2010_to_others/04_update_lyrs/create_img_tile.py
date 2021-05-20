@@ -14,24 +14,20 @@ class CreateImageTile(PBPTQProcessTool):
 
     def do_processing(self, **kwargs):
 
-        band_defns = []
-        band_defns.append(rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1))
-        band_defns.append(rsgislib.imagecalc.BandDefn('mng_loss', self.params['mng_chng_img'], 1))
-        band_defns.append(rsgislib.imagecalc.BandDefn('mng_gain', self.params['nmng_chng_img'], 1))
-        exp = '(mng_loss==1)?0:(mng_gain==1)?1:gmw'
-        rsgislib.imagecalc.bandMath(self.params['out_gmw_up_msk'], exp, 'KEA', rsgislib.TYPE_8UINT, band_defns)
-        rsgislib.rastergis.populateStats(self.params['out_gmw_up_msk'], True, True, True)
+        band_defns = [rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1),
+                      rsgislib.imagecalc.BandDefn('mng_chg', self.params['mng_chng_img'], 1),
+                      rsgislib.imagecalc.BandDefn('n_mng_chg', self.params['nmng_chng_img'], 1)]
+        rsgislib.imagecalc.bandMath(self.params['out_gmw_up_msk'], '(gmw==1)&&(mng_chg==1)?0:(gmw==0)&&(n_mng_chg==1)?1:gmw', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.rastergis.populateStats(self.params['out_gmw_up_msk'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
-        band_defns = []
-        band_defns.append(rsgislib.imagecalc.BandDefn('pchng', self.params['potent_chng_msk_img'], 1))
-        band_defns.append(rsgislib.imagecalc.BandDefn('mng_loss', self.params['mng_chng_img'], 1))
-        band_defns.append(rsgislib.imagecalc.BandDefn('mng_gain', self.params['nmng_chng_img'], 1))
-        exp = '(mng_loss==1)?1:(mng_gain==1)?0:pchng'
-        rsgislib.imagecalc.bandMath(self.params['out_gmw_up_potent_chng_msk'], exp, 'KEA', rsgislib.TYPE_8UINT, band_defns)
-        rsgislib.rastergis.populateStats(self.params['out_gmw_up_potent_chng_msk'], True, True, True)
+        band_defns = [rsgislib.imagecalc.BandDefn('po_chng', self.params['potent_chng_msk_img'], 1),
+                      rsgislib.imagecalc.BandDefn('mng_chg', self.params['mng_chng_img'], 1),
+                      rsgislib.imagecalc.BandDefn('n_mng_chg', self.params['nmng_chng_img'], 1)]
+        rsgislib.imagecalc.bandMath(self.params['out_gmw_up_potent_chng_msk'], '(po_chng==0)&&(mng_chg==1)?1:(po_chng==1)&&(n_mng_chg==1)?0:po_chng', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.rastergis.populateStats(self.params['out_gmw_up_potent_chng_msk'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
     def required_fields(self, **kwargs):
-        return ["tile", "gmw_tile", "potent_chng_msk_img", "mng_chng_img", "nmng_chng_img", "out_gmw_up_msk", "out_gmw_up_potent_chng_msk"]
+        return ["tile", "gmw_tile", "potent_chng_msk_img", "mng_chng_img", "nmng_chng_img", "out_gmw_up_msk", "out_gmw_up_potent_chng_msk", "tmp_dir"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
@@ -46,6 +42,9 @@ class CreateImageTile(PBPTQProcessTool):
 
         if os.path.exists(self.params['out_gmw_up_potent_chng_msk']):
             os.remove(self.params['out_gmw_up_potent_chng_msk'])
+
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
 
 if __name__ == "__main__":
     CreateImageTile().std_run()

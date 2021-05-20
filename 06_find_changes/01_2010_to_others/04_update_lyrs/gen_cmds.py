@@ -24,8 +24,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_gmw_up_potent_chng_msk = os.path.join(kwargs['out_dir'], '{}_{}_v3_chg_rgn.kea'.format(tile_basename, kwargs['sar_year']))
 
             if (not os.path.exists(out_gmw_up_msk)) or (not os.path.exists(out_gmw_up_potent_chng_msk)):
-                print("rm {}".format(mng_chng_img))
-                print("rm {}".format(nmng_chng_img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
@@ -34,6 +32,9 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['nmng_chng_img'] = nmng_chng_img
                 c_dict['out_gmw_up_msk'] = out_gmw_up_msk
                 c_dict['out_gmw_up_potent_chng_msk'] = out_gmw_up_potent_chng_msk
+                c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_up_fnl_year".format(tile_basename, kwargs['sar_year']))
+                if not os.path.exists(c_dict['tmp_dir']):
+                    os.mkdir(c_dict['tmp_dir'])
                 self.params.append(c_dict)
 
 
@@ -41,18 +42,21 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         for year in ['1996', '2007', '2008', '2009']:
             self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
-                                  chng_img_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_rmsml'.format(year),
+                                  chng_img_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_rmsml_fnl'.format(year),
                                   potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn',
                                   sar_year=year,
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_{}_v3'.format(year))
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_{}_v3'.format(year),
+                                  tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
-
+        """
         for year in ['2015', '2016', '2017', '2018', '2019', '2020']:
             self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
                                   chng_img_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_rmsml'.format(year),
                                   potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn',
                                   sar_year=year,
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_{}_v3'.format(year))
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_{}_v3'.format(year),
+                                  tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
+        """
         
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_init_XXXX_v3", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
