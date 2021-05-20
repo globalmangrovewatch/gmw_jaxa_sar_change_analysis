@@ -107,7 +107,7 @@ def _run_vecfile_chk(img_params):
                     deleteFilesWithBasename(vec_file)
                 else:
                     os.remove(vec_file)
-                print("Removed {}".format(vec_file))
+                    print("Removed {}".format(vec_file))
             else:
                 print("rm {}".format(vec_file))
     except:
@@ -116,7 +116,7 @@ def _run_vecfile_chk(img_params):
                 deleteFilesWithBasename(vec_file)
             else:
                 os.remove(vec_file)
-            print("Removed {}".format(vec_file))
+                print("Removed {}".format(vec_file))
         else:
             print("rm {}".format(vec_file))
 
@@ -154,7 +154,7 @@ if __name__ == "__main__":
                         deleteFilesWithBasename(vec_file)
                     else:
                         os.remove(vec_file)
-                    print("Removed {}".format(vec_file))
+                        print("Removed {}".format(vec_file))
                 else:
                     print("rm {}".format(vec_file))
                 continue
