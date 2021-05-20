@@ -29,14 +29,14 @@ class CreateImageTile(PBPTQProcessTool):
         band_defns = [rsgislib.imagecalc.BandDefn('pre_mng_chg', self.params['pre_mng_chng_sum_img'], 1),
                       rsgislib.imagecalc.BandDefn('post_mng_chg', self.params['post_mng_chng_sum_img'], 1),
                       rsgislib.imagecalc.BandDefn('v2chg', self.params['v2_chng_rgn_img'], 1),
-                      rsgislib.imagecalc.BandDefn('vld_chg', self.params['vld_chng_rgns_img'], 1)]
+                      rsgislib.imagecalc.BandDefn('vld_chg', vld_chng_rgns_img, 1)]
         rsgislib.imagecalc.bandMath(pre_gain_post_loss_img, '(v2chg==1)||(vld_chg==1)?0:((pre_mng_chg==1)&&(post_mng_chg==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
 
         pre_loss_post_gain_img = os.path.join(self.params['tmp_dir'], "{}_pre_loss_post_gain_msk.kea".format(self.params['tile']))
         band_defns = [rsgislib.imagecalc.BandDefn('pre_nmng_chg', self.params['pre_nmng_chng_sum_img'], 1),
                       rsgislib.imagecalc.BandDefn('post_nmng_chg', self.params['post_nmng_chng_sum_img'], 1),
                       rsgislib.imagecalc.BandDefn('v2chg', self.params['v2_chng_rgn_img'], 1),
-                      rsgislib.imagecalc.BandDefn('vld_chg', self.params['vld_chng_rgns_img'], 1)]
+                      rsgislib.imagecalc.BandDefn('vld_chg', vld_chng_rgns_img, 1)]
         rsgislib.imagecalc.bandMath(pre_loss_post_gain_img, '(v2chg==1)||(vld_chg==1)?0:((pre_nmng_chg==1)&&(post_nmng_chg==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
 
         band_defns = [rsgislib.imagecalc.BandDefn('prgpol', pre_gain_post_loss_img, 1),
