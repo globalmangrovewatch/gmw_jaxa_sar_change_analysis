@@ -34,16 +34,16 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                   out_lyr_name='gmw_init_{}_v3'.format(year),
                                   out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_{}_v3_vecs'.format(year))
 
-            self.gen_command_info(img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs/*{}_mng_chng.kea.format(year)',
+            self.gen_command_info(img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_rmsml_fnl/*{}_mng_chng.kea'.format(year, year),
                                   out_lyr_name='mng_loss',
                                   out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_{}_v3_vecs'.format(year))
 
-            self.gen_command_info(img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs/*{}_not_mng_chng.kea'.format(year),
+            self.gen_command_info(img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_rmsml_fnl/*{}_not_mng_chng.kea'.format(year, year),
                                   out_lyr_name='mng_gain',
                                   out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_{}_v3_vecs'.format(year))
 
         self.pop_params_db()
-        self.create_slurm_sub_sh("gmw_init_XXXX_v3_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
+        self.create_slurm_sub_sh("gmw_init_v3_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
