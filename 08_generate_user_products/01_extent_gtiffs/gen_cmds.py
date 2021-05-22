@@ -22,6 +22,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
                 c_dict = dict()
                 c_dict['tile'] = basename
+                c_dict['gmw_tile'] = gmw_tile
                 c_dict['out_img'] = out_img
                 self.params.append(c_dict)
 
