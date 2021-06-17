@@ -35,7 +35,7 @@ class RSGISGDALErrorHandler(object):
         self.err_msg = err_msg
 
 
-def check_gdal_vector_file(gdal_vec):
+def check_gdal_vector_file(gdal_vec, chkproj=True, epsg_prj=0):
     """
     A function which checks a GDAL compatible vector file and returns an error message if appropriate.
 
@@ -63,6 +63,33 @@ def check_gdal_vector_file(gdal_vec):
                         file_ok = False
                         err_str = 'GDAL could not open all the vector layers.'
                         break
+                if file_ok and chkproj:
+                    vec_lyr = vec_ds.GetLayer()
+                    if vec_lyr is None:
+                        raise Exception("Something has gone wrong checking projection - layer not present")
+                    vec_lyr_spt_ref = vec_lyr.GetSpatialRef()
+                    if vec_lyr_spt_ref is None:
+                        file_ok = False
+                        err_str = 'Vector projection is None.'
+                    if file_ok:
+                        spt_ref_wkt = vec_lyr_spt_ref.ExportToWkt()
+                        if spt_ref_wkt is None:
+                            file_ok = False
+                            err_str = 'Vector projection WKT is None.'
+                        elif spt_ref_wkt is '':
+                            file_ok = False
+                            err_str = 'Vector projection is empty.'
+
+                        if file_ok and (epsg_prj > 0):
+                            vec_lyr_spt_ref.AutoIdentifyEPSG()
+                            vec_epsg_code = vec_lyr_spt_ref.GetAuthorityCode(None)
+                            if vec_epsg_code is None:
+                                file_ok = False
+                                err_str = 'Vector projection returned a None EPSG code.'
+                            elif int(vec_epsg_code) != int(epsg_prj):
+                                file_ok = False
+                                err_str = 'Vector EPSG ({}) does not match that specified ({})'.format(vec_epsg_code, epsg_prj)
+
             vec_ds = None
         except Exception as e:
             file_ok = False
@@ -95,13 +122,18 @@ def _run_vecfile_chk(img_params):
     vec_file = img_params[0]
     rmerr = img_params[1]
     printnames = img_params[2]
-    multi_file = img_params[3]
+    printerrs = img_params[3]
+    multi_file = img_params[4]
+    chkproj = img_params[5]
+    epsg_prj = img_params[6]
 
     if printnames:
         print(vec_file)
     try:
-        file_ok, err_str = check_gdal_vector_file(vec_file)
+        file_ok, err_str = check_gdal_vector_file(vec_file, chkproj, epsg_prj)
         if not file_ok:
+            if printerrs:
+                print("Error: {}".format(err_str))
             if rmerr:
                 if multi_file:
                     deleteFilesWithBasename(vec_file)
@@ -110,7 +142,9 @@ def _run_vecfile_chk(img_params):
                     print("Removed {}".format(vec_file))
             else:
                 print("rm {}".format(vec_file))
-    except:
+    except Exception as e:
+        if printerrs:
+            print("Error: '{}'".format(e))
         if rmerr:
             if multi_file:
                 deleteFilesWithBasename(vec_file)
@@ -129,6 +163,9 @@ if __name__ == "__main__":
     parser.add_argument("-i", "--input", type=str, required=True, help="Input file path")
     parser.add_argument("--rmerr", action='store_true', default=False, help="Delete error files from system.")
     parser.add_argument("--printnames", action='store_true', default=False, help="Print file names as checking")
+    parser.add_argument("--printerrs", action='store_true', default=False, help="Print the error messages for the vectors")
+    parser.add_argument("--chkproj", action='store_true', default=False, help="Check that a projection is defined")
+    parser.add_argument("--epsg", type=int, default=0, help="The EPSG code for the projection of the images.")
     parser.add_argument("--multi", action='store_true', default=False, help="For formats which have multiple files "
                                                                             "where all files with the same basename"
                                                                             "will be deleted.")
@@ -145,7 +182,7 @@ if __name__ == "__main__":
     try:
         for vec_file in vec_files:
             try:
-                params = [vec_file, args.rmerr, args.printnames, args.multi]
+                params = [vec_file, args.rmerr, args.printnames, args.printerrs, args.multi, args.chkproj, args.epsg]
                 result = processes_pool.apply_async(_run_vecfile_chk, args=[params])
                 result.get(timeout=1)
             except Exception as e:
