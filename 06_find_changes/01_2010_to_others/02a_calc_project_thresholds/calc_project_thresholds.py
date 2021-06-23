@@ -146,10 +146,10 @@ class CalcProjectThreholds(PBPTQProcessTool):
         if os.path.exists(self.params['out_file']):
             os.remove(self.params['out_file'])
 
-            # Reset the tmp dir
-            if os.path.exists(self.params['tmp_dir']):
-                shutil.rmtree(self.params['tmp_dir'])
-            os.mkdir(self.params['tmp_dir'])
+        # Reset the tmp dir
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
+        os.mkdir(self.params['tmp_dir'])
 
 if __name__ == "__main__":
     CalcProjectThreholds().std_run()
