@@ -129,7 +129,7 @@ class CreateImageTilePlots(PBPTQProcessTool):
         if num_mng_vars != num_nmng_vars:
             raise Exception("Number of variables is not equal!")
 
-        if num_mng_vars == 1:
+        if num_mng_vars > 1:
             plot_histo(mng_data[..., 0], thres_vals['mng_hh'], '{} {} Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year']))
             plot_histo(mng_data[..., 1], thres_vals['mng_hv'], '{} {} Mangrove HV'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_mangrove_hv.png'.format(self.params['gmw_prj'], self.params['year']))
 
