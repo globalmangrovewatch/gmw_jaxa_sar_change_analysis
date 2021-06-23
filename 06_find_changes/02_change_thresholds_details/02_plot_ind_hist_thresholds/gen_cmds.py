@@ -60,7 +60,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 pxl_data_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_pxl_vals'.format(year),
                 sar_year=year,
                 prj_thres_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_prj_thres'.format(year),
-                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_prj_plots',
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_prj_plots'.format(year),
                 tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.pop_params_db()

@@ -8,6 +8,7 @@ import h5py
 import numpy
 import matplotlib.pyplot as plt
 from matplotlib import colors
+import pathlib
 
 logger = logging.getLogger(__name__)
 
@@ -144,6 +145,8 @@ class CreateImageTilePlots(PBPTQProcessTool):
             plot_histo(mng_data[..., 0], thres_vals['mng_hh'], '{} {} Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year']))
             plot_histo(nmng_data[..., 0], thres_vals['nmng_hh'], '{} {} Not Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_not_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year']))
             plot_pair_histo(mng_data[..., 0], nmng_data[..., 0], thres_vals['mng_hh'], thres_vals['nmng_hh'], '{} {} HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_hist_hh.png'.format(self.params['gmw_prj'], self.params['year']))
+
+        pathlib.Path(self.params['out_cmp_file']).touch()
 
     def required_fields(self, **kwargs):
         return ["gmw_prj", "year", "mng_data_files", "nmng_data_files", "thres_file", "out_dir", "out_cmp_file", "tmp_dir"]
