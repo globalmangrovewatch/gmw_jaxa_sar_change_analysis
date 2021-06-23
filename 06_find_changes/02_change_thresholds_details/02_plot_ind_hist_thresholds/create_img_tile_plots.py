@@ -130,21 +130,21 @@ class CreateImageTilePlots(PBPTQProcessTool):
             raise Exception("Number of variables is not equal!")
 
         if num_mng_vars > 1:
-            plot_histo(mng_data[..., 0], thres_vals['mng_hh'], '{} {} Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year']))
-            plot_histo(mng_data[..., 1], thres_vals['mng_hv'], '{} {} Mangrove HV'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_mangrove_hv.png'.format(self.params['gmw_prj'], self.params['year']))
+            plot_histo(mng_data[..., 0], thres_vals['mng_hh'], '{} {} Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year'])))
+            plot_histo(mng_data[..., 1], thres_vals['mng_hv'], '{} {} Mangrove HV'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_mangrove_hv.png'.format(self.params['gmw_prj'], self.params['year'])))
 
-            plot_histo(nmng_data[..., 0], thres_vals['nmng_hh'], '{} {} Not Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_not_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year']))
-            plot_histo(nmng_data[..., 1], thres_vals['nmng_hv'], '{} {} Not Mangrove HV'.format(self.params['gmw_prj'], self.params['year']),  '{}_{}_not_mangrove_hv.png'.format(self.params['gmw_prj'], self.params['year']))
+            plot_histo(nmng_data[..., 0], thres_vals['nmng_hh'], '{} {} Not Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_not_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year'])))
+            plot_histo(nmng_data[..., 1], thres_vals['nmng_hv'], '{} {} Not Mangrove HV'.format(self.params['gmw_prj'], self.params['year']),  os.path.join(self.params['out_dir'], '{}_{}_not_mangrove_hv.png'.format(self.params['gmw_prj'], self.params['year'])))
 
-            plot_pair_histo(mng_data[..., 0], nmng_data[..., 0], thres_vals['mng_hh'], thres_vals['nmng_hh'], '{} {} HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_hist_hh.png'.format(self.params['gmw_prj'], self.params['year']))
-            plot_pair_histo(mng_data[..., 1], nmng_data[..., 1], thres_vals['mng_hv'], thres_vals['nmng_hv'], '{} {} HV'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_hist_hv.png'.format(self.params['gmw_prj'], self.params['year']))
+            plot_pair_histo(mng_data[..., 0], nmng_data[..., 0], thres_vals['mng_hh'], thres_vals['nmng_hh'], '{} {} HH'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_hist_hh.png'.format(self.params['gmw_prj'], self.params['year'])))
+            plot_pair_histo(mng_data[..., 1], nmng_data[..., 1], thres_vals['mng_hv'], thres_vals['nmng_hv'], '{} {} HV'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_hist_hv.png'.format(self.params['gmw_prj'], self.params['year'])))
 
-            plot_2dhisto(mng_data, [thres_vals['mng_hh'], thres_vals['mng_hv']], '{} {} Mangroves'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_2dhist_mng.png'.format(self.params['gmw_prj'], self.params['year']))
-            plot_2dhisto(nmng_data, [thres_vals['nmng_hh'], thres_vals['nmng_hv']], '{} {} Not Mangroves'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_2dhist_not_mng.png'.format(self.params['gmw_prj'], self.params['year']))
+            plot_2dhisto(mng_data, [thres_vals['mng_hh'], thres_vals['mng_hv']], '{} {} Mangroves'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_2dhist_mng.png'.format(self.params['gmw_prj'], self.params['year'])))
+            plot_2dhisto(nmng_data, [thres_vals['nmng_hh'], thres_vals['nmng_hv']], '{} {} Not Mangroves'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_2dhist_not_mng.png'.format(self.params['gmw_prj'], self.params['year'])))
         elif num_mng_vars == 1: # JERS-1 only has HH
-            plot_histo(mng_data[..., 0], thres_vals['mng_hh'], '{} {} Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year']))
-            plot_histo(nmng_data[..., 0], thres_vals['nmng_hh'], '{} {} Not Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_not_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year']))
-            plot_pair_histo(mng_data[..., 0], nmng_data[..., 0], thres_vals['mng_hh'], thres_vals['nmng_hh'], '{} {} HH'.format(self.params['gmw_prj'], self.params['year']), '{}_{}_hist_hh.png'.format(self.params['gmw_prj'], self.params['year']))
+            plot_histo(mng_data[..., 0], thres_vals['mng_hh'], '{} {} Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year'])))
+            plot_histo(nmng_data[..., 0], thres_vals['nmng_hh'], '{} {} Not Mangrove HH'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_not_mangrove_hh.png'.format(self.params['gmw_prj'], self.params['year'])))
+            plot_pair_histo(mng_data[..., 0], nmng_data[..., 0], thres_vals['mng_hh'], thres_vals['nmng_hh'], '{} {} HH'.format(self.params['gmw_prj'], self.params['year']), os.path.join(self.params['out_dir'], '{}_{}_hist_hh.png'.format(self.params['gmw_prj'], self.params['year'])))
 
         pathlib.Path(self.params['out_cmp_file']).touch()
 
