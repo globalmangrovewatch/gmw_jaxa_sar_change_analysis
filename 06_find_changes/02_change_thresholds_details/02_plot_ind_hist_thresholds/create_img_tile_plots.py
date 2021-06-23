@@ -84,7 +84,7 @@ class CreateImageTilePlots(PBPTQProcessTool):
 
         rsgis_utils = rsgislib.RSGISPyUtils()
 
-        if os.path.exists():
+        if os.path.exists(self.params['thres_file']):
             thres_vals = rsgis_utils.readJSON2Dict(self.params['thres_file'])
         else:
             thres_vals = dict()
