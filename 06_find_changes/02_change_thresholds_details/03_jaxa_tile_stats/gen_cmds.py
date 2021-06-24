@@ -65,6 +65,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 out_stats_file = os.path.join(kwargs['out_dir'], '{}_{}_stats.json'.format(tile_basename, kwargs['sar_year']))
 
                 if not os.path.exists(out_stats_file):
+                    #print("rm {}".format(sar_tile_msk))
                     c_dict = dict()
                     c_dict['sar_tile'] = sar_tile
                     c_dict['sar_tile_msk'] = sar_tile_msk
