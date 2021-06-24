@@ -24,6 +24,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     out_mng_data = os.path.join(kwargs['out_dir'], '{}_{}_mng_dB.h5'.format(tile_basename, kwargs['sar_year']))
 
                     if not os.path.exists(out_mng_data):
+                        print("rm {}".format(gmw_tile))
                         c_dict = dict()
                         c_dict['tile'] = tile_basename
                         c_dict['gmw_tile'] = gmw_tile
