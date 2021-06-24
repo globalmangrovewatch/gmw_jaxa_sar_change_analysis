@@ -40,7 +40,7 @@ class CreateImageTile(PBPTQProcessTool):
             hh_vals = hh_vals[hh_vals < 2000]
             out_stats['hh_sum'] = int(numpy.sum(hh_vals))
             out_stats['hh_n'] = int(hh_vals.flatten().shape[0])
-            out_stats['hh_mean'] = int(umpy.mean(hh_vals))
+            out_stats['hh_mean'] = int(numpy.mean(hh_vals))
             out_stats['hh_stddev'] = int(numpy.std(hh_vals))
 
             hv_vals = rsgislib.imageutils.extractImgPxlValsInMsk(self.params['sar_tile'], [2], self.params['sar_tile_msk'], 1, no_data=None)
