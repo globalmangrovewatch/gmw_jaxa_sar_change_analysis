@@ -97,10 +97,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
     print(args.input)
 
-    chk_projection = args.chkproj
-    if (not args.chkproj) and (args.epsg > 0):
-        chk_projection = True
-
     h5_files = glob.glob(args.input)
 
     print("File Checks ({} Files Found):".format(len(h5_files)))
