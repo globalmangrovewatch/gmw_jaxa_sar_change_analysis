@@ -115,6 +115,21 @@ for year in col_names:
     df_nmng_hv_thres[year] = df_nmng_hv_thres[year] / 100.0
 
 
+gdf_tiles = geopandas.read_file('../../../03_prepare_datasets/09_create_project_tile_lut/gmw_degree_tiles_fnl.geojson')
+
+gdf_tiles_rslt = pandas.merge(gdf_tiles, df_mng_hh_thres, on="prj_name")
+gdf_tiles_rslt = pandas.merge(gdf_tiles_rslt, df_mng_hv_thres, on="prj_name")
+gdf_tiles_rslt = pandas.merge(gdf_tiles_rslt, df_nmng_hh_thres, on="prj_name")
+gdf_tiles_rslt = pandas.merge(gdf_tiles_rslt, df_nmng_hv_thres, on="prj_name")
+
+gdf_tiles_rslt.to_file('gmw_tiles_prj_thres.gpkg', layer='gmw_prjs_thresholds', driver='GPKG')
+
+
+df_mng_hh_thres = df_mng_hh_thres.drop(columns="prj_name")
+df_mng_hv_thres = df_mng_hv_thres.drop(columns="prj_name")
+df_nmng_hh_thres = df_nmng_hh_thres.drop(columns="prj_name")
+df_nmng_hv_thres = df_nmng_hv_thres.drop(columns="prj_name")
+
 # Create a Pandas Excel writer using XlsxWriter as the engine.
 xls_writer = pandas.ExcelWriter('gmw_chng_thresholds.xlsx', engine='xlsxwriter')
 
@@ -125,14 +140,3 @@ df_nmng_hv_thres.to_excel(xls_writer, sheet_name='nmng_hv')
 
 xls_writer.save()
 
-
-gdf_tiles = geopandas.read_file('../../../03_prepare_datasets/09_create_project_tile_lut/gmw_degree_tiles_fnl.geojson')
-
-gdf_tiles_rslt = pandas.merge(gdf_tiles, df_mng_hh_thres, on="prj_name")
-gdf_tiles_rslt = pandas.merge(gdf_tiles_rslt, df_mng_hv_thres, on="prj_name")
-gdf_tiles_rslt = pandas.merge(gdf_tiles_rslt, df_nmng_hh_thres, on="prj_name")
-gdf_tiles_rslt = pandas.merge(gdf_tiles_rslt, df_nmng_hv_thres, on="prj_name")
-
-#gdf_tiles.join(df_mng_hh_thres, on='prj_name', rsuffix='mnghh')
-
-gdf_tiles_rslt.to_file('gmw_tiles_prj_thres.gpkg', layer='gmw_prjs_thresholds', driver='GPKG')
