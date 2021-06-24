@@ -30,26 +30,26 @@ class CreateImageTile(PBPTQProcessTool):
             hh_vals = rsgislib.imageutils.extractImgPxlValsInMsk(self.params['sar_tile'], [1], self.params['sar_tile_msk'], 1, no_data=None)
             hh_vals = hh_vals[hh_vals > -5000]
             hh_vals = hh_vals[hh_vals < 2000]
-            out_stats['hh_sum'] = numpy.sum(hh_vals)
-            out_stats['hh_n'] = hh_vals.flatten().shape[0]
-            out_stats['hh_mean'] = numpy.mean(hh_vals)
-            out_stats['hh_stddev'] = numpy.std(hh_vals)
+            out_stats['hh_sum'] = int(numpy.sum(hh_vals))
+            out_stats['hh_n'] = int(hh_vals.flatten().shape[0])
+            out_stats['hh_mean'] = int(numpy.mean(hh_vals))
+            out_stats['hh_stddev'] = int(numpy.std(hh_vals))
         else:
             hh_vals = rsgislib.imageutils.extractImgPxlValsInMsk(self.params['sar_tile'], [1], self.params['sar_tile_msk'], 1, no_data=None)
             hh_vals = hh_vals[hh_vals > -5000]
             hh_vals = hh_vals[hh_vals < 2000]
-            out_stats['hh_sum'] = numpy.sum(hh_vals)
-            out_stats['hh_n'] = hh_vals.flatten().shape[0]
-            out_stats['hh_mean'] = numpy.mean(hh_vals)
-            out_stats['hh_stddev'] = numpy.std(hh_vals)
+            out_stats['hh_sum'] = int(numpy.sum(hh_vals))
+            out_stats['hh_n'] = int(hh_vals.flatten().shape[0])
+            out_stats['hh_mean'] = int(umpy.mean(hh_vals))
+            out_stats['hh_stddev'] = int(numpy.std(hh_vals))
 
             hv_vals = rsgislib.imageutils.extractImgPxlValsInMsk(self.params['sar_tile'], [2], self.params['sar_tile_msk'], 1, no_data=None)
             hv_vals = hv_vals[hv_vals > -5000]
             hv_vals = hv_vals[hv_vals < 2000]
-            out_stats['hv_sum'] = numpy.sum(hv_vals)
-            out_stats['hv_n'] = hv_vals.flatten().shape[0]
-            out_stats['hv_mean'] = numpy.mean(hv_vals)
-            out_stats['hv_stddev'] = numpy.std(hv_vals)
+            out_stats['hv_sum'] = int(numpy.sum(hv_vals))
+            out_stats['hv_n'] = int(hv_vals.flatten().shape[0])
+            out_stats['hv_mean'] = int(numpy.mean(hv_vals))
+            out_stats['hv_stddev'] = int(numpy.std(hv_vals))
 
         rsgis_utils.writeDict2JSON(out_stats, self.params['out_file'])
 
