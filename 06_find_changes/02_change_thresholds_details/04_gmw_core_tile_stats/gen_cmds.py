@@ -14,7 +14,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         img_tiles = glob.glob(kwargs['gmw_tiles'])
         for gmw_tile in img_tiles:
-            basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
             tile_name = tile_basename.split('_')[1]
 
@@ -22,19 +21,14 @@ class GenCmds(PBPTGenQProcessToolCmds):
             if os.path.exists(sar_scn_dir):
                 sar_img = os.path.join(sar_scn_dir, '{}_{}_db.kea'.format(tile_name, kwargs['sar_year']))
                 if os.path.exists(sar_img):
-                    potent_chng_msk_img = os.path.join(kwargs['potent_chng_msk_dir'], '{}_2010_v3_chg_rgn.kea'.format(tile_basename))
-
                     out_mng_data = os.path.join(kwargs['out_dir'], '{}_{}_mng_dB.h5'.format(tile_basename, kwargs['sar_year']))
-                    out_nmng_data = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_dB.h5'.format(tile_basename, kwargs['sar_year']))
 
-                    if (not os.path.exists(out_mng_data)) or (not os.path.exists(out_nmng_data)):
+                    if not os.path.exists(out_mng_data):
                         c_dict = dict()
                         c_dict['tile'] = tile_basename
                         c_dict['gmw_tile'] = gmw_tile
-                        c_dict['potent_chng_msk_img'] = potent_chng_msk_img
                         c_dict['sar_img'] = sar_img
                         c_dict['out_mng_data'] = out_mng_data
-                        c_dict['out_nmng_data'] = out_nmng_data
                         self.params.append(c_dict)
 
 
@@ -44,11 +38,10 @@ class GenCmds(PBPTGenQProcessToolCmds):
             if year == '1996':
                 sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg'
 
-            self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
-                                  potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_stats_rgn',
+            self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_v3_exts/gmw_core_v3_fnl_tif/*.tif',
                                   sar_tiles_dir=sar_tiles_dir,
                                   sar_year=year,
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_pxl_vals'.format(year))
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_core_{}_pxl_vals'.format(year))
 
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_2010_XXXX_pxl_vals", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
