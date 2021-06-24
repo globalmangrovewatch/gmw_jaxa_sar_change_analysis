@@ -27,7 +27,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 gmw_tiles = list()
                 for year in years:
                     gmw_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/gmw_v3_exts/gmw_{}_v3_fnl_tif'.format(year)
-                    gmw_tile_img = os.path.join(gmw_tiles_dir, '{}_{}_v3.tif'.format(basename, kwargs['sar_year']))
+                    gmw_tile_img = os.path.join(gmw_tiles_dir, '{}_{}_v3.tif'.format(basename, year))
                     if os.path.exists(gmw_tile_img):
                         gmw_tiles.append(gmw_tile_img)
 
@@ -41,7 +41,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
+        self.gen_command_info(img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
                               out_core_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_v3_exts/gmw_core_v3_fnl_tif',
                               out_union_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_v3_exts/gmw_union_v3_fnl_tif')
 
