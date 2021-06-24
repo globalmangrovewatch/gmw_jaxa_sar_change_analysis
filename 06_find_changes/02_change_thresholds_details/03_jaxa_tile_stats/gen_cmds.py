@@ -71,7 +71,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 self.params.append(c_dict)
 
     def run_gen_commands(self):
-        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+        for year in ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']:
             sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}'.format(year)
             if year == '1996':
                 sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg'
@@ -81,7 +81,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                   out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/sar_tile_{}_stats'.format(year))
 
         self.pop_params_db()
-        self.create_slurm_sub_sh("gmw_2010_XXXX_pxl_vals", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
+        self.create_slurm_sub_sh("jaxa_tile_stats", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
