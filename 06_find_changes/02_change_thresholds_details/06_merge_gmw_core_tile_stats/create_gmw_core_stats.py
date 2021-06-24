@@ -37,7 +37,7 @@ def calc_stats(h5_file, out_stats_file):
         num_mng_vars = data_shp[1]
         mng_data = numpy.array(fH5['DATA/DATA'])
         mng_data = mask_data_to_valid(mng_data, lower_limit=-5000, upper_limit=2000)
-        num_feats = data_shp[0]
+        num_feats = mng_data[..., 0].flatten().shape[0]
         if num_feats > 0:
             if num_mng_vars > 1:
                 out_stats['hh_sum'] = int(numpy.sum(mng_data[..., 0]))
