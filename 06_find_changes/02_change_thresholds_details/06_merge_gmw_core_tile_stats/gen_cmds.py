@@ -9,8 +9,10 @@ logger = logging.getLogger(__name__)
 class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
-        if not os.path.exists(kwargs['out_dir']):
-            os.mkdir(kwargs['out_dir'])
+        if not os.path.exists(kwargs['out_prj_dir']):
+            os.mkdir(kwargs['out_prj_dir'])
+        if not os.path.exists(kwargs['out_tile_dir']):
+            os.mkdir(kwargs['out_tile_dir'])
 
         rsgis_utils = rsgislib.RSGISPyUtils()
         prjs_lut = rsgis_utils.readJSON2Dict(kwargs['prjs_lut_file'])
