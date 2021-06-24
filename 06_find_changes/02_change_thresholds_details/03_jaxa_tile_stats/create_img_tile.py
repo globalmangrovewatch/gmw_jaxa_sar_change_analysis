@@ -28,6 +28,7 @@ class CreateImageTile(PBPTQProcessTool):
 
         if n_bands == 1:
             hh_vals = rsgislib.imageutils.extractImgPxlValsInMsk(self.params['sar_tile'], [1], self.params['sar_tile_msk'], 1, no_data=None)
+            hh_vals = hh_vals[numpy.isfinite(hh_vals)]
             hh_vals = hh_vals[hh_vals > -5000]
             hh_vals = hh_vals[hh_vals < 2000]
             out_stats['hh_sum'] = int(numpy.sum(hh_vals))
@@ -36,6 +37,7 @@ class CreateImageTile(PBPTQProcessTool):
             out_stats['hh_stddev'] = int(numpy.std(hh_vals))
         else:
             hh_vals = rsgislib.imageutils.extractImgPxlValsInMsk(self.params['sar_tile'], [1], self.params['sar_tile_msk'], 1, no_data=None)
+            hh_vals = hh_vals[numpy.isfinite(hh_vals)]
             hh_vals = hh_vals[hh_vals > -5000]
             hh_vals = hh_vals[hh_vals < 2000]
             out_stats['hh_sum'] = int(numpy.sum(hh_vals))
@@ -44,6 +46,7 @@ class CreateImageTile(PBPTQProcessTool):
             out_stats['hh_stddev'] = int(numpy.std(hh_vals))
 
             hv_vals = rsgislib.imageutils.extractImgPxlValsInMsk(self.params['sar_tile'], [2], self.params['sar_tile_msk'], 1, no_data=None)
+            hv_vals = hv_vals[numpy.isfinite(hv_vals)]
             hv_vals = hv_vals[hv_vals > -5000]
             hv_vals = hv_vals[hv_vals < 2000]
             out_stats['hv_sum'] = int(numpy.sum(hv_vals))
