@@ -57,18 +57,23 @@ class GenCmds(PBPTGenQProcessToolCmds):
         sar_tile_dirs = get_dir_list(kwargs['sar_tiles_dir'])
 
         for sar_dir in sar_tile_dirs:
-            sar_tile = self.find_file(sar_dir, '*_dB.kea')
+            sar_tile = self.find_file(sar_dir, '*_db.kea')
             sar_tile_msk = self.find_file(sar_dir, '*_bin_vmsk.kea')
-            tile_basename = self.get_file_basename(sar_tile)
+            if (sar_tile is not None) and (sar_tile_msk is not None): 
+                tile_basename = self.get_file_basename(sar_tile)
 
-            out_stats_file = os.path.join(kwargs['out_dir'], '{}_{}_stats.json'.format(tile_basename, kwargs['sar_year']))
+                out_stats_file = os.path.join(kwargs['out_dir'], '{}_{}_stats.json'.format(tile_basename, kwargs['sar_year']))
 
-            if not os.path.exists(out_stats_file):
-                c_dict = dict()
-                c_dict['sar_tile'] = sar_tile
-                c_dict['sar_tile_msk'] = sar_tile_msk
-                c_dict['out_file'] = out_stats_file
-                self.params.append(c_dict)
+                if not os.path.exists(out_stats_file):
+                    c_dict = dict()
+                    c_dict['sar_tile'] = sar_tile
+                    c_dict['sar_tile_msk'] = sar_tile_msk
+                    c_dict['out_file'] = out_stats_file
+                    self.params.append(c_dict)
+            else:
+                print("Could not find files in: '{}'".format(sar_dir))
+                print(sar_tile)
+                print(sar_tile_msk)
 
     def run_gen_commands(self):
         for year in ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']:
