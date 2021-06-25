@@ -144,7 +144,7 @@ df_hh_n = pandas.DataFrame.from_dict(tile_hh_n, orient='index', columns=col_name
 df_hh_n['tile_name'] = tiles_idx_lst
 for year in col_names:
     df_hh_n.loc[(df_hh_n[year] == 0), year] = None
-    df_hh_n[year] = df_hh_n[year] / 100.0
+    df_hh_n[year] = df_hh_n[year]
     
 col_names = get_year_named(years, 'hh_sum')
 df_hh_sum = pandas.DataFrame.from_dict(tile_hh_sum, orient='index', columns=col_names)
@@ -172,7 +172,7 @@ df_hv_n = pandas.DataFrame.from_dict(tile_hv_n, orient='index', columns=col_name
 df_hv_n['tile_name'] = tiles_idx_lst
 for year in col_names:
     df_hv_n.loc[(df_hv_n[year] == 0), year] = None
-    df_hv_n[year] = df_hv_n[year] / 100.0
+    df_hv_n[year] = df_hv_n[year]
 
 col_names = get_year_named(years, 'hv_sum')
 df_hv_sum = pandas.DataFrame.from_dict(tile_hv_sum, orient='index', columns=col_names)
