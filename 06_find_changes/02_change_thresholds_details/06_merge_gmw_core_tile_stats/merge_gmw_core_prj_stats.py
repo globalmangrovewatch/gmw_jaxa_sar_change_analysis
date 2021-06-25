@@ -50,7 +50,7 @@ for prj in prj_idx_lst:
     mean_hv_vals[prj] = list()
     stdev_hv_vals[prj] = list()
 
-years = ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']
+years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
 
 for prj in prj_idx_lst:
     print(prj)
