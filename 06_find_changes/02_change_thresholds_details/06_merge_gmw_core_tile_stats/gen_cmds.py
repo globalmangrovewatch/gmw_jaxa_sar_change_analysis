@@ -50,7 +50,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+        for year in ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']:
             self.gen_command_info(
                 prjs_lut_file='/scratch/a.pfb/gmw_v3_change/scripts/03_prepare_datasets/09_create_project_tile_lut/gmw_projects_luts.json',
                 pxl_data_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_core_{}_pxl_vals'.format(year),
