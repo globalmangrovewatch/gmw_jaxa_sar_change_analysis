@@ -60,6 +60,22 @@ def get_bin_centres(bin_edges, geometric=False):
         bin_centres = (bin_edges[1:] + bin_edges[:-1]) / 2
     return bin_centres
 
+def plot_histo(data, threshold, title_str, out_file=None):
+    import matplotlib.pyplot as plt
+
+    n_bins, bin_width = get_nbins_histogram(data)
+
+    data = data / 100
+    threshold = threshold / 100
+
+    plt.figure()
+    plt.hist(data, bins=n_bins)
+    plt.axvline(x=threshold, color='red')
+    plt.title(title_str)
+    if out_file is None:
+        plt.show()
+    else:
+        plt.savefig(out_file)
 
 def calc_kurt_skew_threshold(data, max_val, min_val, init_thres, low_thres=True, contamination=10.0, only_kurtosis=False):
     import scipy.optimize
