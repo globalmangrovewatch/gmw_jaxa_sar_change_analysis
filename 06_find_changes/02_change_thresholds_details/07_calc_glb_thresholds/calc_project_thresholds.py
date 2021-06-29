@@ -263,6 +263,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         print("HH Mangrove")
         data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=0)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+        print("n = {}".format(data.shape[0]))
         if data.shape[0] > 1000000:
             data = numpy.random.choice(data, 1000000)
         plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_hh_mng.png'.format(self.get_file_basename(self.params['out_file'])))
@@ -275,6 +276,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         print("HH Not Mangrove")
         data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=0)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+        print("n = {}".format(data.shape[0]))
         if data.shape[0] > 1000000:
             data = numpy.random.choice(data, 1000000)
         plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_hh_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
@@ -287,6 +289,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         print("HV Mangrove")
         data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=1)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+        print("n = {}".format(data.shape[0]))
         if data.shape[0] > 1000000:
             data = numpy.random.choice(data, 1000000)
         plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_hv_mng.png'.format(self.get_file_basename(self.params['out_file'])))
@@ -299,6 +302,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         print("HV Not Mangrove")
         data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=1)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+        print("n = {}".format(data.shape[0]))
         if data.shape[0] > 1000000:
             data = numpy.random.choice(data, 1000000)
         plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_hv_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
