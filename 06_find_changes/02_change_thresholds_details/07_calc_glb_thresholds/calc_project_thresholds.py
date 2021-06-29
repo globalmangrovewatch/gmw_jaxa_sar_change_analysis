@@ -7,6 +7,7 @@ import rsgislib
 import rsgislib.imageutils
 import h5py
 import numpy
+import numpy.random
 import scipy.optimize
 import scipy.stats
 
@@ -263,7 +264,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=0)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
         if data.shape[0] > 1000000:
-            data = numpy.choice(data, 1000000)
+            data = numpy.random.choice(data, 1000000)
         plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_hh_mng.png'.format(self.get_file_basename(self.params['out_file'])))
         plot_histo(data, -1400, 'Mangrove HH', out_file=plot_file)
         out_thres_lut['mng_hh_n'] = data.shape[0]
@@ -275,7 +276,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=0)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
         if data.shape[0] > 1000000:
-            data = numpy.choice(data, 1000000)
+            data = numpy.random.choice(data, 1000000)
         plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_hh_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
         plot_histo(data, -1400, 'Not Mangrove HH', out_file=plot_file)
         out_thres_lut['nmng_hh_n'] = data.shape[0]
@@ -287,7 +288,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=1)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
         if data.shape[0] > 1000000:
-            data = numpy.choice(data, 1000000)
+            data = numpy.random.choice(data, 1000000)
         plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_hv_mng.png'.format(self.get_file_basename(self.params['out_file'])))
         plot_histo(data, -1400, 'Mangrove HV', out_file=plot_file)
         out_thres_lut['mng_hv_n'] = data.shape[0]
@@ -299,7 +300,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
         data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=1)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
         if data.shape[0] > 1000000:
-            data = numpy.choice(data, 1000000)
+            data = numpy.random.choice(data, 1000000)
         plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_hv_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
         plot_histo(data, -1400, 'Not Mangrove HV', out_file=plot_file)
         out_thres_lut['nmng_hv_n'] = data.shape[0]
