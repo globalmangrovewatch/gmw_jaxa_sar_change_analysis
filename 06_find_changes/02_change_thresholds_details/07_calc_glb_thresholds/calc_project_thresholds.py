@@ -14,11 +14,11 @@ logger = logging.getLogger(__name__)
 
 
 def mask_data_to_valid(data, lower_limit=None, upper_limit=None):
-    data = data[numpy.isfinite(data).all(axis=1)]
+    data = data[numpy.isfinite(data)]
     if lower_limit is not None:
-        data = data[numpy.any(data > lower_limit, axis=1)]
+        data = data[data > lower_limit]
     if upper_limit is not None:
-        data = data[numpy.any(data < upper_limit, axis=1)]
+        data = data[data < upper_limit]
     return data
 
 
@@ -198,7 +198,7 @@ A function to get the data for a specific variable from a list of HDF files
         dataShp = fH5['DATA/DATA'].shape
         if variable < dataShp[1]:
             numRows = fH5['DATA/DATA'].shape[0]
-            data_arr[rowInit:(rowInit + numRows)] = fH5['DATA/DATA']
+            data_arr[rowInit:(rowInit + numRows)] = fH5['DATA/DATA'][...,variable]
             rowInit += numRows
         fH5.close()
 
@@ -236,28 +236,28 @@ class CalcProjectThreholds(PBPTQProcessTool):
         data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=0)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
         out_thres_lut['mng_hh_n'] = data.shape[0]
-        out_thres_lut['his_mng_hh'] = float(calc_kurt_skew_threshold(data, max_val=-800, min_val=-1800, init_thres=-1200, low_thres=True, contamination=10.0))
+        out_thres_lut['his_mng_hh'] = float(calc_kurt_skew_threshold(data, max_val=-1000, min_val=-2000, init_thres=-1400, low_thres=True, contamination=10.0))
         out_thres_lut['yen_mng_hh'] = float(calc_yen_threshold(data))
         data = None
 
         data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=0)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
         out_thres_lut['nmng_hh_n'] = data.shape[0]
-        out_thres_lut['his_nmng_hh'] = float(calc_kurt_skew_threshold(data, max_val=-800, min_val=-1800, init_thres=-1200, low_thres=False, contamination=10.0))
+        out_thres_lut['his_nmng_hh'] = float(calc_kurt_skew_threshold(data, max_val=-1000, min_val=-2000, init_thres=-1400, low_thres=False, contamination=10.0))
         out_thres_lut['yen_nmng_hh'] = float(calc_yen_threshold(data))
         data = None
 
         data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=1)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
         out_thres_lut['mng_hv_n'] = data.shape[0]
-        out_thres_lut['his_mng_hv'] = float(calc_kurt_skew_threshold(data, max_val=-800, min_val=-1800, init_thres=-1200, low_thres=True, contamination=10.0))
+        out_thres_lut['his_mng_hv'] = float(calc_kurt_skew_threshold(data, max_val=-1200, min_val=-2200, init_thres=-1600, low_thres=True, contamination=10.0))
         out_thres_lut['yen_mng_hv'] = float(calc_yen_threshold(data))
         data = None
 
         data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=1)
         data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
         out_thres_lut['nmng_hv_n'] = data.shape[0]
-        out_thres_lut['his_nmng_hv'] = float(calc_kurt_skew_threshold(data, max_val=-800, min_val=-1800, init_thres=-1200, low_thres=False, contamination=10.0))
+        out_thres_lut['his_nmng_hv'] = float(calc_kurt_skew_threshold(data, max_val=-1200, min_val=-2200, init_thres=-1600, low_thres=False, contamination=10.0))
         out_thres_lut['yen_nmng_hv'] = float(calc_yen_threshold(data))
         data = None
 
