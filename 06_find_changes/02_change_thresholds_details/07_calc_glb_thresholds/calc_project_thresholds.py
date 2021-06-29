@@ -91,10 +91,16 @@ def calc_kurt_skew_threshold(data, max_val, min_val, init_thres, low_thres=True,
         low_percent = numpy.percentile(data, contamination)
         if low_percent < max_val:
             max_val = low_percent
+
+        if min_val >= max_val:
+            min_val = numpy.min(data)
     else:
         up_percent = numpy.percentile(data, 100 - contamination)
         if up_percent > min_val:
             min_val = up_percent
+
+        if max_val <= min_val:
+            max_val = numpy.max(data)
 
     if min_val == max_val:
         print("Min: {}".format(min_val))
