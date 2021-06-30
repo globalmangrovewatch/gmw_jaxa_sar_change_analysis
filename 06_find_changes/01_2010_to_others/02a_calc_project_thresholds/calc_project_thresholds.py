@@ -12,19 +12,107 @@ import scipy.stats
 
 logger = logging.getLogger(__name__)
 
-
 def mask_data_to_valid(data, lower_limit=None, upper_limit=None):
-    data = data[numpy.isfinite(data).all(axis=1)]
+    data = data[numpy.isfinite(data)]
     if lower_limit is not None:
-        data = data[numpy.any(data > lower_limit, axis=1)]
+        data = data[data > lower_limit]
     if upper_limit is not None:
-        data = data[numpy.any(data < upper_limit, axis=1)]
+        data = data[data < upper_limit]
     return data
 
 
-def calc_chng_threshold(data, max_val, min_val, init_thres, low_thres=True):
+def get_nbins_histogram(data):
+    """
+    Calculating the number of bins and the width of those bins for a histogram.
+
+    :param data: 1-d numpy array.
+    :return: (n_bins, bin_width) n_bins: int for the number of bins. bin_width: float with the width of the bins.
+
+    """
+    import numpy
+    n = data.shape[0]
+    lq = numpy.percentile(data, 25)
+    uq = numpy.percentile(data, 75)
+    iqr = uq - lq
+    bin_width = 2 * iqr * n ** (-1 / 3)
+    n_bins = int((numpy.max(data) - numpy.min(data)) / bin_width) + 2
+    return n_bins, float(bin_width)
+
+
+def get_bin_centres(bin_edges, geometric=False):
+    """
+    A function to calculate the centre points of bins from the bin edges from a histogram
+    e.g., numpy.histogram. My default the arithmetic mean is provided (max+min)/2 but the
+    geometric mean can also be calculated sqrt(min*max), this is useful for logarithmically
+    spaced bins.
+
+    :param bin_edges: numpy array of the bin edges
+    :param geometric: boolean, if False (default) then the arithmetic mean return if True
+                      then the geometric mean is returned.
+    :returns: bin_centres - numpy array
+
+    """
+    import numpy
+    if geometric:
+        bin_centres = numpy.sqrt(bin_edges[1:] * bin_edges[:-1])
+    else:
+        bin_centres = (bin_edges[1:] + bin_edges[:-1]) / 2
+    return bin_centres
+
+def plot_histo(data, threshold, title_str, out_file=None):
+    import matplotlib.pyplot as plt
+
+    n_bins, bin_width = get_nbins_histogram(data)
+
+    data = data / 100
+    threshold = threshold / 100
+
+    plt.figure()
+    plt.hist(data, bins=n_bins)
+    plt.axvline(x=threshold, color='red')
+    plt.title(title_str)
+    if out_file is None:
+        plt.show()
+    else:
+        plt.savefig(out_file)
+
+def calc_kurt_skew_threshold(data, max_val, min_val, init_thres, low_thres=True, contamination=10.0, only_kurtosis=False):
+    import scipy.optimize
+    import scipy.stats
+    import numpy
     if len(data.shape) > 1:
         raise Exception("Expecting a single variable.")
+
+    if (contamination < 1) or (contamination > 100):
+        raise Exception("contamination parameter should have a value between 1 and 100.")
+
+    if low_thres:
+        low_percent = numpy.percentile(data, contamination)
+        if low_percent < max_val:
+            max_val = low_percent
+
+        if min_val >= max_val:
+            min_val = numpy.min(data)
+    else:
+        up_percent = numpy.percentile(data, 100 - contamination)
+        if up_percent > min_val:
+            min_val = up_percent
+
+        if max_val <= min_val:
+            max_val = numpy.max(data)
+
+    if min_val == max_val:
+        print("Min: {}".format(min_val))
+        print("Max: {}".format(max_val))
+        raise Exception("Min and Max values are the same.")
+    elif min_val > max_val:
+        print("Min: {}".format(min_val))
+        print("Max: {}".format(max_val))
+        raise Exception("Min value is greater than max - note this can happened if the "
+                        "contamination parameter caused threshold to be changed.")
+
+    if (init_thres < min_val) or (init_thres > max_val):
+        init_thres = min_val + ((max_val - min_val)/2)
 
     def _opt_fun(x, *args):
         data = args[0]
@@ -35,27 +123,104 @@ def calc_chng_threshold(data, max_val, min_val, init_thres, low_thres=True):
             # Subset by x threshold
             data_sub = data[data < x]
 
-        # calculate kurtosis and skewness
+        # Calculate kurtosis and skewness
         kurtosis = scipy.stats.kurtosis(data_sub)
-        skew = scipy.stats.skew(data_sub)
-        # Product of kurtosis and skewness
-        kur_skew = abs(kurtosis + skew)
+        if only_kurtosis:
+            kur_skew = kurtosis
+        else:
+            skew = scipy.stats.skew(data_sub)
+            # Product of kurtosis and skewness
+            kur_skew = abs(kurtosis) + abs(skew)
 
         return kur_skew
 
     opt_rslt = scipy.optimize.dual_annealing(_opt_fun, bounds=[(min_val, max_val)], args=[data], x0=[init_thres])
 
-    #print(opt_rslt)
-
     out_thres = None
     if opt_rslt.success:
         out_thres = opt_rslt.x[0]
-        print("Success in retrieving threshold... {}".format(out_thres))
     else:
-        print(opt_rslt)
+        raise Exception("Optimisation failed, no threshold found.")
 
     return out_thres
 
+
+def calc_yen_threshold(data):
+    """
+    A function to calculate yen threshold for a dataset. Input is expected
+    to be a 1d numpy array.
+
+    Yen J.C., Chang F.J., and Chang S. (1995) "A New Criterion
+    for Automatic Multilevel Thresholding" IEEE Trans. on Image
+    Processing, 4(3): 370-378. :DOI:`10.1109/83.366472`
+
+    :param data: 1d numeric numpy array
+    :returns: float (threshold)
+
+    """
+    import numpy
+    # Note, this is based on the implementation within scikit-image
+
+    # Calculate the histogram
+    n_bins, bin_width = get_nbins_histogram(data)
+    hist, bin_edges = numpy.histogram(data, bins=n_bins)
+    bin_centres = get_bin_centres(bin_edges)
+
+    # Normalization so we have probabilities-like values (sum=1)
+    hist = hist.astype(numpy.float32)
+    hist = 1.0 * hist / numpy.sum(hist)
+
+    # Calculate probability mass function
+    pmf = hist.astype(numpy.float32) / hist.sum()
+    p1 = numpy.cumsum(pmf)  # Cumulative normalized histogram
+    p1_sq = numpy.cumsum(pmf ** 2)
+    # Get cumsum calculated from end of squared array:
+    p2_sq = numpy.cumsum(pmf[::-1] ** 2)[::-1]
+    # P2_sq indexes is shifted +1. I assume, with P1[:-1] it's help avoid
+    # '-inf' in crit. ImageJ Yen implementation replaces those values by zero.
+    crit = numpy.log(((p1_sq[:-1] * p2_sq[1:]) ** -1) * (p1[:-1] * (1.0 - p1[:-1])) ** 2)
+    return bin_centres[crit.argmax()]
+
+def getMergeExtractedHDF5Data(h5Files, variable=0):
+    """
+A function to get the data for a specific variable from a list of HDF files
+ (e.g., from rsgislib.imageutils.extractZoneImageBandValues2HDF)
+
+:param h5Files: a list of input files.
+:param variable: the index for the variable of interest
+:return: numpy array with the data or None is there is no data to return.
+
+"""
+    import h5py
+    import numpy
+
+    if variable < 0:
+        raise Exception("The variable index must be greater than 0.")
+
+    numVals = 0
+    for h5File in h5Files:
+        fH5 = h5py.File(h5File, 'r')
+        dataShp = fH5['DATA/DATA'].shape
+        if variable < dataShp[1]:
+            numVals += dataShp[0]
+        fH5.close()
+
+    if numVals == 0:
+        return None
+
+    data_arr = numpy.zeros(numVals, dtype=float)
+
+    rowInit = 0
+    for h5File in h5Files:
+        fH5 = h5py.File(h5File, 'r')
+        dataShp = fH5['DATA/DATA'].shape
+        if variable < dataShp[1]:
+            numRows = fH5['DATA/DATA'].shape[0]
+            data_arr[rowInit:(rowInit + numRows)] = fH5['DATA/DATA'][...,variable]
+            rowInit += numRows
+        fH5.close()
+
+    return data_arr
 
 class CalcProjectThreholds(PBPTQProcessTool):
 
@@ -70,61 +235,97 @@ class CalcProjectThreholds(PBPTQProcessTool):
 
         # Create output data structure.
         out_thres_lut = dict()
-        out_thres_lut['mng_hh'] = 0.0
-        out_thres_lut['nmng_hh'] = 0.0
-        out_thres_lut['mng_hv'] = 0.0
-        out_thres_lut['nmng_hv'] = 0.0
+        out_thres_lut['mng_hh_n'] = 0
+        out_thres_lut['nmng_hh_n'] = 0
+        out_thres_lut['mng_hv_n'] = 0
+        out_thres_lut['nmng_hv_n'] = 0
 
-        # Merge mangrove data
-        if len(self.params['mng_data_files']) > 1:
-            merged_mng_data = os.path.join(self.params['tmp_dir'], "{}_merged_mng.h5".format(self.params['gmw_prj']))
-            rsgislib.imageutils.mergeExtractedHDF5Data(self.params['mng_data_files'], merged_mng_data)
-        elif len(self.params['mng_data_files']) == 1:
-            merged_mng_data = self.params['mng_data_files'][0]
-        else:
-            raise Exception("No mangrove data files!")
+        out_thres_lut['his_mng_hh'] = 0.0
+        out_thres_lut['his_nmng_hh'] = 0.0
+        out_thres_lut['his_mng_hv'] = 0.0
+        out_thres_lut['his_nmng_hv'] = 0.0
 
-        # merge non-mangrove data
-        if len(self.params['nmng_data_files']) > 1:
-            merged_nmng_data = os.path.join(self.params['tmp_dir'], "{}_merged_nmng.h5".format(self.params['gmw_prj']))
-            rsgislib.imageutils.mergeExtractedHDF5Data(self.params['nmng_data_files'], merged_nmng_data)
-        elif len(self.params['nmng_data_files']) == 1:
-            merged_nmng_data = self.params['nmng_data_files'][0]
-        else:
-            raise Exception("No non-mangrove data files!")
+        out_thres_lut['yen_mng_hh'] = 0.0
+        out_thres_lut['yen_nmng_hh'] = 0.0
+        out_thres_lut['yen_mng_hv'] = 0.0
+        out_thres_lut['yen_nmng_hv'] = 0.0
 
-        # Get threshold for Mangrove Data
-        fH5 = h5py.File(merged_mng_data, 'r')
-        data_shp = fH5['DATA/DATA'].shape
-        print(data_shp)
-        num_vars = data_shp[1]
-        mng_data = numpy.array(fH5['DATA/DATA'])
-        mng_data = mask_data_to_valid(mng_data, lower_limit=-5000, upper_limit=2000)
-        print(mng_data.shape)
-        if mng_data.shape[0] > 1000:
-            out_thres_lut['mng_hh'] = float(calc_chng_threshold(mng_data[..., 0], max_val=-800, min_val=-1800, init_thres=-1200, low_thres=False))
-            print("mng_hh: {}".format(out_thres_lut['mng_hh']))
-            if num_vars == 2:
-                out_thres_lut['mng_hv'] = float(calc_chng_threshold(mng_data[..., 1], max_val=-1200, min_val=-2400, init_thres=-1400, low_thres=False))
-                print("mng_hv: {}".format(out_thres_lut['mng_hv']))
-        mng_data = None
-        fH5.close()
+        print("HH Mangrove")
+        data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=0)
+        if data is not None:
+            data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+            print("n = {}".format(data.shape[0]))
+            if data.shape[0] > 1000000:
+                ana_data = numpy.random.choice(data, 1000000)
+            else:
+                ana_data = data
+            out_thres_lut['mng_hh_n'] = ana_data.shape[0]
+            out_thres_lut['his_mng_hh'] = float(calc_kurt_skew_threshold(ana_data, max_val=-1000, min_val=-2200, init_thres=-1400, low_thres=True, contamination=10.0))
+            out_thres_lut['yen_mng_hh'] = float(calc_yen_threshold(ana_data))
+            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hh_mng.png'.format(self.get_file_basename(self.params['out_file'])))
+            plot_histo(data, out_thres_lut['his_mng_hh'], 'Mangrove HH', out_file=plot_file)
+            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hh_mng.png'.format(self.get_file_basename(self.params['out_file'])))
+            plot_histo(data, out_thres_lut['yen_mng_hh'], 'Mangrove HH', out_file=plot_file)
+            data = None
+            ana_data = None
 
-        # Get threshold for Non-Mangrove Data
-        fH5 = h5py.File(merged_nmng_data, 'r')
-        data_shp = fH5['DATA/DATA'].shape
-        num_vars = data_shp[1]
-        nmng_data = numpy.array(fH5['DATA/DATA'])
-        nmng_data = mask_data_to_valid(nmng_data, lower_limit=-5000, upper_limit=2000)
-        if nmng_data.shape[0] > 1000:
-            out_thres_lut['nmng_hh'] = float(calc_chng_threshold(nmng_data[..., 0], max_val=-800, min_val=-2000, init_thres=-1200, low_thres=True))
-            print("nmng_hh: {}".format(out_thres_lut['nmng_hh']))
-            if num_vars == 2:
-                out_thres_lut['nmng_hv'] = float(calc_chng_threshold(nmng_data[..., 1], max_val=-1400, min_val=-3000, init_thres=-2000, low_thres=True))
-                print("nmng_hv: {}".format(out_thres_lut['nmng_hv']))
-        nmng_data = None
-        fH5.close()
-        
+        print("HH Not Mangrove")
+        data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=0)
+        if data is not None:
+            data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+            print("n = {}".format(data.shape[0]))
+            if data.shape[0] > 1000000:
+                ana_data = numpy.random.choice(data, 1000000)
+            else:
+                ana_data = data
+            out_thres_lut['nmng_hh_n'] = ana_data.shape[0]
+            out_thres_lut['his_nmng_hh'] = float(calc_kurt_skew_threshold(ana_data, max_val=-1000, min_val=-2200, init_thres=-1400, low_thres=False, contamination=10.0))
+            out_thres_lut['yen_nmng_hh'] = float(calc_yen_threshold(ana_data))
+            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hh_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
+            plot_histo(data, out_thres_lut['his_nmng_hh'], 'Not Mangrove HH', out_file=plot_file)
+            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hh_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
+            plot_histo(data, out_thres_lut['yen_nmng_hh'], 'Not Mangrove HH', out_file=plot_file)
+            data = None
+            ana_data = None
+
+        print("HV Mangrove")
+        data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=1)
+        if data is not None:
+            data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+            print("n = {}".format(data.shape[0]))
+            if data.shape[0] > 1000000:
+                ana_data = numpy.random.choice(data, 1000000)
+            else:
+                ana_data = data
+            out_thres_lut['mng_hv_n'] = ana_data.shape[0]
+            out_thres_lut['his_mng_hv'] = float(calc_kurt_skew_threshold(ana_data, max_val=-1200, min_val=-2400, init_thres=-1600, low_thres=True, contamination=10.0))
+            out_thres_lut['yen_mng_hv'] = float(calc_yen_threshold(ana_data))
+            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hv_mng.png'.format(self.get_file_basename(self.params['out_file'])))
+            plot_histo(data, out_thres_lut['his_mng_hv'], 'Mangrove HV', out_file=plot_file)
+            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hv_mng.png'.format(self.get_file_basename(self.params['out_file'])))
+            plot_histo(data, out_thres_lut['yen_mng_hv'], 'Mangrove HV', out_file=plot_file)
+            data = None
+            ana_data = None
+
+        print("HV Not Mangrove")
+        data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=1)
+        if data is not None:
+            data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+            print("n = {}".format(data.shape[0]))
+            if data.shape[0] > 1000000:
+                ana_data = numpy.random.choice(data, 1000000)
+            else:
+                ana_data = data
+            out_thres_lut['nmng_hv_n'] = ana_data.shape[0]
+            out_thres_lut['his_nmng_hv'] = float(calc_kurt_skew_threshold(ana_data, max_val=-1200, min_val=-2400, init_thres=-1600, low_thres=False, contamination=10.0))
+            out_thres_lut['yen_nmng_hv'] = float(calc_yen_threshold(ana_data))
+            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hv_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
+            plot_histo(data, out_thres_lut['his_nmng_hv'], 'Not Mangrove HV', out_file=plot_file)
+            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hv_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
+            plot_histo(data, out_thres_lut['yen_nmng_hv'], 'Not Mangrove HV', out_file=plot_file)
+            data = None
+            ana_data = None
+
         pprint.pprint(out_thres_lut)
 
         # Export output thresholds.
