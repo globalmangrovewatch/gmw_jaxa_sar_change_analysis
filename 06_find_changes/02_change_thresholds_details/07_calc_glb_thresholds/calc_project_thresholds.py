@@ -113,13 +113,6 @@ def calc_kurt_skew_threshold(data, max_val, min_val, init_thres, low_thres=True,
         raise Exception("Min value is greater than max - note this can happened if the "
                         "contamination parameter caused threshold to be changed.")
 
-    """
-    if (init_thres < min_val) or (init_thres > max_val):
-        #print("Min: {}".format(min_val))
-        #print("Max: {}".format(max_val))
-        #print("Initial: {}".format(init_thres))
-        #raise Exception("The initial thresholds should be between the min/max values.")
-    """
     if (init_thres < min_val) or (init_thres > max_val):
         init_thres = min_val + ((max_val - min_val)/2)
 
