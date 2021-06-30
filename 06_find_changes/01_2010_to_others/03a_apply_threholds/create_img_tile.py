@@ -1,6 +1,7 @@
 from pbprocesstools.pbpt_q_process import PBPTQProcessTool
 import logging
 import os
+import shutil
 import pprint
 import rsgislib
 import rsgislib.rastergis
@@ -206,6 +207,9 @@ class CreateImageTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_img_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
+        if not os.path.exists(self.params['tmp_dir']):
+            os.mkdir(self.params['tmp_dir'])
+        
         if self.params['sar_img'] is not None:
             rsgis_utils = rsgislib.RSGISPyUtils()
             thres_lut = rsgis_utils.readJSON2Dict(self.params['gmw_proj_thres_file'])
@@ -233,6 +237,9 @@ class CreateImageTile(PBPTQProcessTool):
                     nmng_hv_thres = thres_lut['his_nmng_hv']
                 create_alos_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], self.params['sar_vld_img'], nmng_hv_thres, self.params['out_nmng_chng'], self.params['out_nmng_chng_uncertain'], self.params['tmp_dir'])
 
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
+
 
     def required_fields(self, **kwargs):
         return ["tile", "gmw_tile", "sar_year", "potent_chng_msk_img", "sar_img", "sar_vld_img", "gmw_proj_thres_lmit_file", "gmw_proj_thres_file", "out_mng_chng", "out_nmng_chng", "out_mng_chng_uncertain", "out_nmng_chng_uncertain"]
@@ -258,6 +265,11 @@ class CreateImageTile(PBPTQProcessTool):
 
         if os.path.exists(self.params['out_nmng_chng_uncertain']):
             os.remove(self.params['out_nmng_chng_uncertain'])
+
+        # Reset the tmp dir
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
+        os.mkdir(self.params['tmp_dir'])
 
 if __name__ == "__main__":
     CreateImageTile().std_run()
