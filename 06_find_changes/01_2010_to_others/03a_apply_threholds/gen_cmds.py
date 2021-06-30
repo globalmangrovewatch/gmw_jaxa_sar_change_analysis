@@ -41,12 +41,16 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_mng_chng = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
             out_nmng_chng = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
 
-            if (not os.path.exists(out_mng_chng)) or (not os.path.exists(out_nmng_chng)):
-                if (sar_vld_img is not None) and os.path.exists(sar_vld_img):
-                    print("rm {}".format(sar_vld_img))
+            out_mng_chng_uncertain = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng_uncertain.kea'.format(tile_basename, kwargs['sar_year']))
+            out_nmng_chng_uncertain = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng_uncertain.kea'.format(tile_basename, kwargs['sar_year']))
+
+            if (not os.path.exists(out_mng_chng)) or (not os.path.exists(out_nmng_chng)) or (not os.path.exists(out_mng_chng_uncertain)) or (not os.path.exists(out_nmng_chng_uncertain)):
+                #if (sar_vld_img is not None) and os.path.exists(sar_vld_img):
+                #    print("rm {}".format(sar_vld_img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
+                c_dict['sar_year'] = kwargs['sar_year']
                 c_dict['potent_chng_msk_img'] = potent_chng_msk_img
                 c_dict['sar_img'] = sar_img
                 c_dict['sar_vld_img'] = sar_vld_img
@@ -54,6 +58,11 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['gmw_proj_thres_lmit_file'] = gmw_proj_thres_lmit_file
                 c_dict['out_mng_chng'] = out_mng_chng
                 c_dict['out_nmng_chng'] = out_nmng_chng
+                c_dict['out_mng_chng_uncertain'] = out_mng_chng_uncertain
+                c_dict['out_nmng_chng_uncertain'] = out_nmng_chng_uncertain
+                c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_apply_chng_thres".format(tile_basename, kwargs['sar_year']))
+                if not os.path.exists(c_dict['tmp_dir']):
+                    os.mkdir(c_dict['tmp_dir'])
                 self.params.append(c_dict)
 
 
@@ -70,7 +79,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                   sar_year=year,
                                   threshold_limits_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_prj_thres_limits',
                                   thres_files_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_prj_thres'.format(year),
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs'.format(year))
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs'.format(year),
+                                  tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_2010_XXXX_chngs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
