@@ -209,7 +209,7 @@ class CreateImageTile(PBPTQProcessTool):
     def do_processing(self, **kwargs):
         if not os.path.exists(self.params['tmp_dir']):
             os.mkdir(self.params['tmp_dir'])
-        
+
         if self.params['sar_img'] is not None:
             rsgis_utils = rsgislib.RSGISPyUtils()
             thres_lut = rsgis_utils.readJSON2Dict(self.params['gmw_proj_thres_file'])
@@ -236,6 +236,11 @@ class CreateImageTile(PBPTQProcessTool):
                 if thres_lut['his_nmng_hv'] < thres_lut['yen_nmng_hv']:
                     nmng_hv_thres = thres_lut['his_nmng_hv']
                 create_alos_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], self.params['sar_vld_img'], nmng_hv_thres, self.params['out_nmng_chng'], self.params['out_nmng_chng_uncertain'], self.params['tmp_dir'])
+        else:
+            rsgislib.imagecalc.imageMath(self.params['gmw_tile'], self.params['out_mng_chng'], '0', 'KEA', rsgislib.TYPE_8UINT)
+            rsgislib.imagecalc.imageMath(self.params['gmw_tile'], self.params['out_mng_chng_uncertain'], '0', 'KEA', rsgislib.TYPE_8UINT)
+            rsgislib.imagecalc.imageMath(self.params['gmw_tile'], self.params['out_nmng_chng'], '0', 'KEA', rsgislib.TYPE_8UINT)
+            rsgislib.imagecalc.imageMath(self.params['gmw_tile'], self.params['out_nmng_chng_uncertain'], '0', 'KEA', rsgislib.TYPE_8UINT)
 
         if os.path.exists(self.params['tmp_dir']):
             shutil.rmtree(self.params['tmp_dir'])
