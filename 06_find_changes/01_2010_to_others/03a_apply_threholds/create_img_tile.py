@@ -12,7 +12,7 @@ import numpy
 def create_1996_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=2, n_steps=10):
 
     step_intvl = thres_var / int(n_steps/2)
-    threshold_steps = numpy.arange(1, int(n_steps/2)) * step_intvl
+    threshold_steps = numpy.arange(1, int(n_steps/2)+1) * step_intvl
     rsgis_utils = rsgislib.RSGISPyUtils()
     basename = rsgis_utils.get_file_basename(out_img)
 
@@ -58,7 +58,7 @@ def create_1996_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_
 
 def create_1996_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=2, n_steps=10):
     step_intvl = thres_var / int(n_steps / 2)
-    threshold_steps = numpy.arange(1, int(n_steps / 2)) * step_intvl
+    threshold_steps = numpy.arange(1, int(n_steps / 2)+1) * step_intvl
     rsgis_utils = rsgislib.RSGISPyUtils()
     basename = rsgis_utils.get_file_basename(out_img)
 
@@ -107,7 +107,7 @@ def create_1996_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, out_img
 
 def create_alos_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=2, n_steps=10):
     step_intvl = thres_var / int(n_steps / 2)
-    threshold_steps = numpy.arange(1, int(n_steps / 2)) * step_intvl
+    threshold_steps = numpy.arange(1, int(n_steps / 2)+1) * step_intvl
     rsgis_utils = rsgislib.RSGISPyUtils()
     basename = rsgis_utils.get_file_basename(out_img)
 
@@ -155,7 +155,7 @@ def create_alos_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_
 
 def create_alos_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=2, n_steps=10):
     step_intvl = thres_var / int(n_steps / 2)
-    threshold_steps = numpy.arange(1, int(n_steps / 2)) * step_intvl
+    threshold_steps = numpy.arange(1, int(n_steps / 2)+1) * step_intvl
     rsgis_utils = rsgislib.RSGISPyUtils()
     basename = rsgis_utils.get_file_basename(out_img)
 
