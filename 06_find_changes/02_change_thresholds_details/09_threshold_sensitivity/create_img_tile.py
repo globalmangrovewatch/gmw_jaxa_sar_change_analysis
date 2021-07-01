@@ -20,17 +20,17 @@ class CreateImageTile(PBPTQProcessTool):
         out_stats['nmng_chng_uncertain'] = []
 
         if os.path.exists(self.params['mng_chng_img']):
-            out_stats['mng_chng'] = rsgislib.imagecalc.countPxlsOfVal(self.params['mng_chng_img'], vals=[1])[0]
+            out_stats['mng_chng'] = int(rsgislib.imagecalc.countPxlsOfVal(self.params['mng_chng_img'], vals=[1])[0])
 
         if os.path.exists(self.params['nmng_chng_img']):
-            out_stats['nmng_chng'] = rsgislib.imagecalc.countPxlsOfVal(self.params['nmng_chng_img'], vals=[1])[0]
+            out_stats['nmng_chng'] = int(rsgislib.imagecalc.countPxlsOfVal(self.params['nmng_chng_img'], vals=[1])[0])
 
         if os.path.exists(self.params['mng_chng_uncertain_img']):
             pxl_counts = rsgislib.imagecalc.countPxlsOfVal(self.params['mng_chng_uncertain_img'], vals=[1,2,3,4,5,6,7,8,9,10,11,12])
             culm_pxl_count = []
             culm_sum = 0
             for pxl_count in pxl_counts:
-                culm_sum = culm_sum + pxl_count
+                culm_sum = int(culm_sum + pxl_count)
                 culm_pxl_count.append(culm_sum)
             out_stats['mng_chng_uncertain'] = culm_pxl_count
 
@@ -39,7 +39,7 @@ class CreateImageTile(PBPTQProcessTool):
             culm_pxl_count = []
             culm_sum = 0
             for pxl_count in pxl_counts:
-                culm_sum = culm_sum + pxl_count
+                culm_sum = int(culm_sum + pxl_count)
                 culm_pxl_count.append(culm_sum)
             out_stats['nmng_chng_uncertain'] = culm_pxl_count
 
