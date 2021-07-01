@@ -3,6 +3,7 @@ import logging
 import os
 import rsgislib
 import rsgislib.imagecalc
+import pprint
 
 logger = logging.getLogger(__name__)
 
@@ -33,14 +34,16 @@ class CreateImageTile(PBPTQProcessTool):
                 culm_pxl_count.append(culm_sum)
             out_stats['mng_chng_uncertain'] = culm_pxl_count
 
-        if os.path.exists(self.params['nmng_chng_uncertain']):
-            pxl_counts = rsgislib.imagecalc.countPxlsOfVal(self.params['nmng_chng_uncertain'], vals=[1,2,3,4,5,6,7,8,9,10,11,12])
+        if os.path.exists(self.params['nmng_chng_uncertain_img']):
+            pxl_counts = rsgislib.imagecalc.countPxlsOfVal(self.params['nmng_chng_uncertain_img'], vals=[1,2,3,4,5,6,7,8,9,10,11,12])
             culm_pxl_count = []
             culm_sum = 0
             for pxl_count in pxl_counts:
                 culm_sum = culm_sum + pxl_count
                 culm_pxl_count.append(culm_sum)
             out_stats['nmng_chng_uncertain'] = culm_pxl_count
+
+        pprint.pprint(out_stats)
 
         rsgis_utils = rsgislib.RSGISPyUtils()
         rsgis_utils.writeDict2JSON(out_stats, self.params['out_stats_file'])
