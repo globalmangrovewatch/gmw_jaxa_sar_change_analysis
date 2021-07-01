@@ -9,7 +9,7 @@ import rsgislib.imagecalc
 import rsgislib.imageutils
 import numpy
 
-def create_1996_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=2, n_steps=10):
+def create_1996_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=200, n_steps=10):
 
     step_intvl = thres_var / int(n_steps/2)
     threshold_steps = numpy.arange(1, int(n_steps/2)+1) * step_intvl
@@ -56,7 +56,7 @@ def create_1996_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_
     rsgislib.imagecalc.calcMultiImgBandStats(imgs, out_uncertain_img, rsgislib.SUMTYPE_SUM, 'KEA', rsgislib.TYPE_8UINT, 0, False)
     rsgislib.imageutils.popImageStats(out_uncertain_img, usenodataval=True, nodataval=0, calcpyramids=True)
 
-def create_1996_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=2, n_steps=10):
+def create_1996_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=200, n_steps=10):
     step_intvl = thres_var / int(n_steps / 2)
     threshold_steps = numpy.arange(1, int(n_steps / 2)+1) * step_intvl
     rsgis_utils = rsgislib.RSGISPyUtils()
@@ -105,7 +105,7 @@ def create_1996_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, out_img
 
 
 
-def create_alos_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=2, n_steps=10):
+def create_alos_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=200, n_steps=10):
     step_intvl = thres_var / int(n_steps / 2)
     threshold_steps = numpy.arange(1, int(n_steps / 2)+1) * step_intvl
     rsgis_utils = rsgislib.RSGISPyUtils()
@@ -153,7 +153,7 @@ def create_alos_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, out_img, out_
 
 
 
-def create_alos_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=2, n_steps=10):
+def create_alos_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, out_img, out_uncertain_img, tmp_dir, thres_var=200, n_steps=10):
     step_intvl = thres_var / int(n_steps / 2)
     threshold_steps = numpy.arange(1, int(n_steps / 2)+1) * step_intvl
     rsgis_utils = rsgislib.RSGISPyUtils()
