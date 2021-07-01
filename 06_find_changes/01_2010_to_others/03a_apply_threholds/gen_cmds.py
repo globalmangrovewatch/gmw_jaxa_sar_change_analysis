@@ -67,7 +67,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+        for year in ['2020']:#['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
             sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}'.format(year)
             if year == '1996':
                 sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg'
