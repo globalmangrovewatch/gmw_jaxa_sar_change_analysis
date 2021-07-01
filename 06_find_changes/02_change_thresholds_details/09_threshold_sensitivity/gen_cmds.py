@@ -22,7 +22,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             mng_chng_uncertain_img = os.path.join(kwargs['chng_imgs_dir'], '{}_{}_mng_chng_uncertain.kea'.format(tile_basename, kwargs['sar_year']))
             nmng_chng_uncertain_img = os.path.join(kwargs['chng_imgs_dir'], '{}_{}_not_mng_chng_uncertain.kea'.format(tile_basename, kwargs['sar_year']))
 
-            out_stats_file = os.path.join(kwargs['chng_imgs_dir'], '{}_{}_chng_stats.kea'.format(tile_basename, kwargs['sar_year']))
+            out_stats_file = os.path.join(kwargs['chng_imgs_dir'], '{}_{}_chng_stats.json'.format(tile_basename, kwargs['sar_year']))
 
             if not os.path.exists(out_stats_file):
                 #print("rm {}".format(gmw_tile))
