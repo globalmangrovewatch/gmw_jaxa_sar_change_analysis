@@ -1,6 +1,4 @@
 import matplotlib.pyplot as plt
-from matplotlib import colors
-import pprint
 import numpy
 
 def readJSON2Dict(input_file):
@@ -15,11 +13,22 @@ def readJSON2Dict(input_file):
         data = json.load(f)
     return data
 
+def writeDict2JSON(data_dict, out_file):
+    """
+    Write some data to a JSON file. The data would commonly be structured as a dict but could also be a list.
 
-def create_plot(gt_thresholds, pxls_gt, thresholds_lt, pxls_lt, title_str, op_threshold=None, out_file=None):
+    :param data_dict: The dict (or list) to be written to the output JSON file.
+    :param out_file: The file path to the output file.
+
+    """
+    import json
+    with open(out_file, 'w') as fp:
+        json.dump(data_dict, fp, sort_keys=True, indent=4, separators=(',', ': '), ensure_ascii=False)
+
+
+def create_sngl_plot(thresholds, pxls_counts, title_str, data_lbl, op_threshold=None, out_file=None):
     plt.figure()
-    plt.plot(gt_thresholds, pxls_gt, label='GMW')
-    plt.plot(thresholds_lt, pxls_lt, label='PoChng')
+    plt.plot(thresholds, pxls_counts, label=data_lbl)
     plt.legend()
     if op_threshold is not None:
         plt.axvline(x=op_threshold, color='red')
@@ -29,11 +38,50 @@ def create_plot(gt_thresholds, pxls_gt, thresholds_lt, pxls_lt, title_str, op_th
     else:
         plt.show()
 
+def create_dual_plot(gmw_thresholds, gmw_pxls_counts, pochng_thresholds, prochng_pxls_counts, title_str, op_gmw_threshold=None, op_pochng_threshold=None, out_file=None):
+    plt.figure()
+    plt.plot(gmw_thresholds, gmw_pxls_counts, label='Mangrove', color='green')
+    plt.plot(pochng_thresholds, prochng_pxls_counts, label='Po-Chng', color='blue')
+    plt.legend()
+    if op_gmw_threshold is not None:
+        plt.axvline(x=op_gmw_threshold, color='green')
+    if op_pochng_threshold is not None:
+        plt.axvline(x=op_pochng_threshold, color='blue')
+    plt.title(title_str)
+    if out_file is not None:
+        plt.savefig(out_file)
+    else:
+        plt.show()
 
-def find_optimal_thresholds(input_file):
-    print(input_file)
+
+def find_signal_optimal_threshold(n_pxls, thresholds, thres_pxl_counts, data_lbl, prop_thres=0.95, reverse=False):
+
+    if reverse:
+        prop_thres = 1 - prop_thres
+
+    bin_pxl_counts = numpy.concatenate(([thres_pxl_counts[0]], thres_pxl_counts[1:] - thres_pxl_counts[:-1]))
+
+    thres_pxl_prop = bin_pxl_counts / n_pxls
+
+    n_steps = len(thresholds)
+    cu_sum = 0.0
+    op_threshold = 0.0
+    for i in range(n_steps):
+        #print("{}: {}".format(thresholds[i], thres_pxl_prop[i]))
+        cu_sum += thres_pxl_prop[i]
+        #print("\t{}".format(cu_sum))
+        if cu_sum > prop_thres:
+            op_threshold = thresholds[i]
+            break
+
+    #create_sngl_plot(thresholds, thres_pxl_prop, "Test", data_lbl, op_threshold, out_file=None)
+
+    return op_threshold
+
+
+
+def run_find_optimal_thresholds(input_file, output_file=None, output_plot_file=None):
     data_dict = readJSON2Dict(input_file)
-    pprint.pprint(data_dict)
     n_gmw_pxls = float(data_dict['gmw_pxls'])
     n_pochng_pxls = float(data_dict['pochng_pxls'])
 
@@ -41,78 +89,61 @@ def find_optimal_thresholds(input_file):
     thresholds_lt = numpy.array(data_dict['thresholds_lt'])/100.0
 
     gmw_pxls_gt = numpy.array(data_dict['gmw_pxls_gt'])
-
-    #gmw_pxls_gt = numpy.concatenate((gmw_pxls_gt[0], gmw_pxls_gt[1:]-gmw_pxls_gt[:-1]))
-
-
     pochng_pxls_gt = numpy.array(data_dict['pochng_pxls_gt'])
 
     gmw_pxls_lt = numpy.array(data_dict['gmw_pxls_lt'])
     pochng_pxls_lt = numpy.array(data_dict['pochng_pxls_lt'])
+    if n_gmw_pxls > 0:
+        op_gmw_threshold = find_signal_optimal_threshold(n_gmw_pxls, thresholds_lt, gmw_pxls_lt, 'GMW', reverse=True)
+        print("Mangrove Threshold: {}".format(op_gmw_threshold))
+    else:
+        op_gmw_threshold = 0
+
+    if n_pochng_pxls > 0:
+        op_pochng_threshold = find_signal_optimal_threshold(n_pochng_pxls, thresholds_lt, pochng_pxls_lt, 'Po-Change', reverse=False)
+        print("Potential Change Threshold: {}".format(op_pochng_threshold))
+    else:
+        op_pochng_threshold = 0
+
+    if (n_gmw_pxls > 0) and (n_pochng_pxls > 0):
+        create_dual_plot(thresholds_lt, gmw_pxls_lt/n_gmw_pxls, thresholds_lt, pochng_pxls_gt/n_pochng_pxls, "Compare GMW and Potential Change Values",
+                     op_gmw_threshold=op_gmw_threshold, op_pochng_threshold=op_pochng_threshold, out_file=output_plot_file)
+    elif n_gmw_pxls > 0:
+        create_sngl_plot(thresholds_lt, gmw_pxls_lt/n_gmw_pxls, "Mangrove Threshold", 'Mangrove', op_gmw_threshold, out_file=output_plot_file)
+    elif n_pochng_pxls > 0:
+        create_sngl_plot(thresholds_lt, pochng_pxls_lt/n_pochng_pxls, "Potential Change Threshold", 'Potential Change', op_pochng_threshold, out_file=output_plot_file)
+
+    if output_file is not None:
+        out_thresholds = dict()
+        out_thresholds['mangrove'] = op_gmw_threshold
+        out_thresholds['not-mangrove'] = op_pochng_threshold
+
+        writeDict2JSON(out_thresholds, output_file)
 
 
+import glob
+import os
+"""
+out_dir = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_tile_thresholds'
+tile_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/*.json')
+for tile_file in tile_files:
+    tile_name = os.path.splitext(os.path.basename(tile_file))[0].split('_')[1]
+    #print("{}:\n\t{}".format(tile_file, tile_name))
+    out_file = os.path.join(out_dir, "{}_thresholds.json".format(tile_name))
+    out_plot_file = os.path.join(out_dir, "{}_thresholds.png".format(tile_name))
+    run_find_optimal_thresholds(tile_file, out_file, out_plot_file)
+"""
 
-    gmw_pxls_gt_norm = gmw_pxls_gt / n_gmw_pxls
-    pochng_pxls_gt_norm = pochng_pxls_gt / n_pochng_pxls
+# Global Stats
+run_find_optimal_thresholds('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_stats.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_thresholds.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_thresholds_plots.png')
 
-    gmw_pxls_lt_norm = gmw_pxls_lt / n_gmw_pxls
-    pochng_pxls_lt_norm = pochng_pxls_lt / n_pochng_pxls
-
-    #create_plot(thresholds_gt, gmw_pxls_gt_norm, thresholds_lt, pochng_pxls_lt_norm, "GMW than threshold", op_threshold=-23, out_file='gmw_chng_plot.png')
-
-    #create_plot(thresholds_gt, pochng_pxls_gt_norm, thresholds_lt, gmw_pxls_lt_norm, "Potent Change than threshold", op_threshold=-23, out_file='pochng_plot.png')
-
-    pochng_pxls_lt = numpy.concatenate(([pochng_pxls_lt[0]], pochng_pxls_lt[1:] - pochng_pxls_lt[:-1]))
-
-    pochng_pxls_lt = pochng_pxls_lt / n_pochng_pxls
-
-    n_steps = len(thresholds_gt)
-    cu_sum = 0.0
-    pochng_threshold = 0.0
-    for i in range(n_steps):
-        print("{}: {}".format(thresholds_lt[i], pochng_pxls_lt[i]))
-        cu_sum += pochng_pxls_lt[i]
-        print(cu_sum)
-        if cu_sum > 0.99:
-            pochng_threshold = thresholds_lt[i]
-            break
-
-    print("Potential Change threshold: {}".format(pochng_threshold))
-
-    create_plot(thresholds_gt, pochng_pxls_gt_norm, thresholds_lt, gmw_pxls_lt_norm, "Potent Change than threshold", op_threshold=pochng_threshold, out_file='pochng_plot.png')
-
-
-
-
-
-
-
-    gmw_pxls_lt = numpy.concatenate(([gmw_pxls_lt[0]], gmw_pxls_lt[1:] - gmw_pxls_lt[:-1]))
-
-    gmw_pxls_lt = gmw_pxls_lt / n_gmw_pxls
-    gmw_pxls_lt = numpy.flip(gmw_pxls_lt)
-    thresholds_lt = numpy.flip(thresholds_lt)
-
-    n_steps = len(thresholds_gt)
-    cu_sum = 0.0
-    gmw_threshold = 0.0
-    for i in range(n_steps):
-        print("{}: {}".format(thresholds_lt[i], gmw_pxls_lt[i]))
-        cu_sum += gmw_pxls_lt[i]
-        print(cu_sum)
-        if cu_sum > 0.99:
-            gmw_threshold = thresholds_lt[i]
-            break
-
-    print("GMW Change threshold: {}".format(gmw_threshold))
-
-    create_plot(thresholds_gt, gmw_pxls_gt_norm, thresholds_lt, pochng_pxls_lt_norm, "GMW than threshold", op_threshold=gmw_threshold, out_file='gmw_chng_plot.png')
-
-
-
-
+"""
 test_file = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_N14E122_2010_threshold_tests.json'
-#test_file = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_S36E174_2010_threshold_tests.json'
-#test_file = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_S14E141_2010_threshold_tests.json'
-#test_file = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_S36E149_2010_threshold_tests.json'
-find_optimal_thresholds(test_file)
+run_find_optimal_thresholds(test_file)
+test_file = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_S36E174_2010_threshold_tests.json'
+run_find_optimal_thresholds(test_file)
+test_file = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_S14E141_2010_threshold_tests.json'
+run_find_optimal_thresholds(test_file)
+test_file = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_S36E149_2010_threshold_tests.json'
+run_find_optimal_thresholds(test_file)
+"""
