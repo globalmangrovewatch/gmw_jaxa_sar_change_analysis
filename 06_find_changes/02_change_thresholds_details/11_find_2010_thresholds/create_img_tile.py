@@ -240,10 +240,10 @@ class CreateImageTile(PBPTQProcessTool):
             out_stats['pochng_pxls'] = int(rsgislib.imagecalc.countPxlsOfVal(out_tmp_pochng_img, vals=[1])[0])
 
             if (out_stats['gmw_pxls'] > 0) or (out_stats['pochng_pxls'] > 0):
-                thresholds = numpy.arange(-3000, -500, 50)
+                thresholds = numpy.arange(-3500, -450, 50)
                 for threshold in thresholds:
                     # Greater than threshold
-                    out_stats['thresholds_gt'].append(threshold)
+                    out_stats['thresholds_gt'].append(int(threshold))
                     out_tmp_img = os.path.join(self.params['tmp_dir'], "{}_gt_thres_{}.kea".format(basename, abs(threshold)))
                     band_defns = []
                     band_defns.append(rsgislib.imagecalc.BandDefn('hv', self.params['sar_img'], 2))
@@ -266,7 +266,7 @@ class CreateImageTile(PBPTQProcessTool):
                     out_stats['pochng_pxls_gt'].append(int(rsgislib.imagecalc.countPxlsOfVal(out_tmp_pochng_img, vals=[1])[0]))
 
                     # Less than threshold
-                    out_stats['thresholds_lt'].append(threshold)
+                    out_stats['thresholds_lt'].append(int(threshold))
                     out_tmp_img = os.path.join(self.params['tmp_dir'], "{}_lt_thres_{}.kea".format(basename, abs(threshold)))
                     band_defns = []
                     band_defns.append(rsgislib.imagecalc.BandDefn('hv', self.params['sar_img'], 2))
