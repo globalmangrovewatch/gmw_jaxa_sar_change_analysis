@@ -1,4 +1,5 @@
 import tqdm
+import os
 
 def readJSON2Dict(input_file):
     """
@@ -107,7 +108,42 @@ def merge_tile_stats(input_files, output_file):
     writeDict2JSON(out_stats, output_file)
 
 
+def findFileNone(dirPath, fileSearch):
+    """
+    Search for a single file with a path using glob. Therefore, the file
+    path returned is a true path. Within the fileSearch provide the file
+    name with '*' as wildcard(s). Returns None is not found.
+
+    :return: string
+
+    """
+    import glob
+    import os.path
+    files = glob.glob(os.path.join(dirPath, fileSearch))
+    if len(files) != 1:
+        return None
+    return files[0]
+
+"""
 # Merge Global Stats
 import glob
 input_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_*.json')
 merge_tile_stats(input_files, '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_stats.json')
+"""
+
+prj_lut_file = '../../../03_prepare_datasets/09_create_project_tile_lut/gmw_projects_luts.json'
+prj_lut = readJSON2Dict(prj_lut_file)
+
+for prj in prj_lut:
+    print(prj_lut[prj])
+    data_files = list()
+    for tile in prj_lut[prj]:
+        tmp_file = findFileNone('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/', '*{}*.json'.format(tile))
+        if tmp_file is not None:
+            data_files.append(tmp_file)
+
+    if len(data_files) > 0:
+        out_file = os.path.join('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info', '{}_stats.json'.format(prj))
+        merge_tile_stats(data_files, out_file)
+
+
