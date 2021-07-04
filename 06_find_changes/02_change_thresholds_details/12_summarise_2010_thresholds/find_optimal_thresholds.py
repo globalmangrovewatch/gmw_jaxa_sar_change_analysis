@@ -117,6 +117,8 @@ def run_find_optimal_thresholds(input_file, output_file=None, output_plot_file=N
         out_thresholds = dict()
         out_thresholds['mangrove'] = op_gmw_threshold
         out_thresholds['not-mangrove'] = op_pochng_threshold
+        out_thresholds['n_mangrove_pxls'] = n_gmw_pxls
+        out_thresholds['n_not-mangrove_pxls'] = n_pochng_pxls
 
         writeDict2JSON(out_thresholds, output_file)
 
@@ -138,7 +140,6 @@ for tile_file in tile_files:
 # Global Stats
 run_find_optimal_thresholds('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_stats.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_thresholds.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_thresholds_plots.png')
 """
-
 
 out_dir = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_thresholds'
 tile_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info/*.json')

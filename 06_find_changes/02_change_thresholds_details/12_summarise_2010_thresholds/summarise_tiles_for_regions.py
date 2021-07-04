@@ -124,12 +124,12 @@ def findFileNone(dirPath, fileSearch):
         return None
     return files[0]
 
-"""
+
 # Merge Global Stats
 import glob
 input_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_*.json')
 merge_tile_stats(input_files, '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_stats.json')
-"""
+
 
 prj_lut_file = '../../../03_prepare_datasets/09_create_project_tile_lut/gmw_projects_luts.json'
 prj_lut = readJSON2Dict(prj_lut_file)
