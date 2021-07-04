@@ -222,6 +222,14 @@ class CreateImageTile(PBPTQProcessTool):
         out_stats['pochng_pxls_lt'] = list()
         out_stats['thresholds_lt'] = list()
 
+
+        if self.params['band'] == 'HH':
+            sar_band = 1
+        elif self.params['band'] == 'HV':
+            sar_band = 2
+        else:
+            raise Exception("Did not recognise the bands: {}".format(self.params['band']))
+
         if self.params['sar_img'] is not None:
             basename = rsgis_utils.get_file_basename(self.params['sar_img'])
 
@@ -246,9 +254,9 @@ class CreateImageTile(PBPTQProcessTool):
                     out_stats['thresholds_gt'].append(int(threshold))
                     out_tmp_img = os.path.join(self.params['tmp_dir'], "{}_gt_thres_{}.kea".format(basename, abs(threshold)))
                     band_defns = []
-                    band_defns.append(rsgislib.imagecalc.BandDefn('hv', self.params['sar_img'], 2))
+                    band_defns.append(rsgislib.imagecalc.BandDefn('sar', self.params['sar_img'], sar_band))
                     band_defns.append(rsgislib.imagecalc.BandDefn('vld', self.params['sar_vld_img'], 1))
-                    exp = '(vld==1)&&(hv>{})?1:0'.format(threshold)
+                    exp = '(vld==1)&&(sar>{})?1:0'.format(threshold)
                     rsgislib.imagecalc.bandMath(out_tmp_img, exp, 'KEA', rsgislib.TYPE_8UINT, band_defns)
 
                     out_tmp_gmw_img = os.path.join(self.params['tmp_dir'], "{}_gt_thres_{}_GMW.kea".format(basename, abs(threshold)))
@@ -269,9 +277,9 @@ class CreateImageTile(PBPTQProcessTool):
                     out_stats['thresholds_lt'].append(int(threshold))
                     out_tmp_img = os.path.join(self.params['tmp_dir'], "{}_lt_thres_{}.kea".format(basename, abs(threshold)))
                     band_defns = []
-                    band_defns.append(rsgislib.imagecalc.BandDefn('hv', self.params['sar_img'], 2))
+                    band_defns.append(rsgislib.imagecalc.BandDefn('sar', self.params['sar_img'], sar_band))
                     band_defns.append(rsgislib.imagecalc.BandDefn('vld', self.params['sar_vld_img'], 1))
-                    exp = '(vld==1)&&(hv<{})?1:0'.format(threshold)
+                    exp = '(vld==1)&&(sar<{})?1:0'.format(threshold)
                     rsgislib.imagecalc.bandMath(out_tmp_img, exp, 'KEA', rsgislib.TYPE_8UINT, band_defns)
 
                     out_tmp_gmw_img = os.path.join(self.params['tmp_dir'], "{}_lt_thres_{}_GMW.kea".format(basename, abs(threshold)))
@@ -296,7 +304,7 @@ class CreateImageTile(PBPTQProcessTool):
 
 
     def required_fields(self, **kwargs):
-        return ["tile", "gmw_tile", "potent_chng_msk_img", "sar_img", "sar_vld_img", "out_file", "tmp_dir"]
+        return ["tile", "gmw_tile", "potent_chng_msk_img", "band", "sar_img", "sar_vld_img", "out_file", "tmp_dir"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
