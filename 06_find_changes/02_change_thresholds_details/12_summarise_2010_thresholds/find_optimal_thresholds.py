@@ -125,27 +125,57 @@ def run_find_optimal_thresholds(input_file, output_file=None, output_plot_file=N
 
 import glob
 import os
-"""
-out_dir = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_tile_thresholds'
-tile_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/*.json')
+
+out_dir = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hv_tile_thresholds'
+tile_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hv_test_thresholds/*.json')
 for tile_file in tile_files:
     tile_name = os.path.splitext(os.path.basename(tile_file))[0].split('_')[1]
     #print("{}:\n\t{}".format(tile_file, tile_name))
     out_file = os.path.join(out_dir, "{}_thresholds.json".format(tile_name))
     out_plot_file = os.path.join(out_dir, "{}_thresholds.png".format(tile_name))
     run_find_optimal_thresholds(tile_file, out_file, out_plot_file)
-"""
 
-"""
+
+
 # Global Stats
-run_find_optimal_thresholds('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_stats.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_thresholds.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_thresholds_plots.png')
-"""
+run_find_optimal_thresholds('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_hv_stats.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_hv_thresholds.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_hv_thresholds_plots.png')
 
-out_dir = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_thresholds'
-tile_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info/*.json')
+
+out_dir = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_hv_thresholds'
+tile_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_hv/*.json')
 for tile_file in tile_files:
     tile_name = os.path.splitext(os.path.basename(tile_file))[0].split('_')[0]
     #print("{}:\n\t{}".format(tile_file, tile_name))
     out_file = os.path.join(out_dir, "{}_thresholds.json".format(tile_name))
     out_plot_file = os.path.join(out_dir, "{}_thresholds.png".format(tile_name))
     run_find_optimal_thresholds(tile_file, out_file, out_plot_file)
+
+
+
+
+
+
+out_dir = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hh_tile_thresholds'
+tile_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hh_test_thresholds/*.json')
+for tile_file in tile_files:
+    tile_name = os.path.splitext(os.path.basename(tile_file))[0].split('_')[1]
+    #print("{}:\n\t{}".format(tile_file, tile_name))
+    out_file = os.path.join(out_dir, "{}_thresholds.json".format(tile_name))
+    out_plot_file = os.path.join(out_dir, "{}_thresholds.png".format(tile_name))
+    run_find_optimal_thresholds(tile_file, out_file, out_plot_file)
+
+
+
+# Global Stats
+run_find_optimal_thresholds('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_hh_stats.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_hh_thresholds.json', '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_hh_thresholds_plots.png')
+
+
+out_dir = '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_hh_thresholds'
+tile_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_hh/*.json')
+for tile_file in tile_files:
+    tile_name = os.path.splitext(os.path.basename(tile_file))[0].split('_')[0]
+    #print("{}:\n\t{}".format(tile_file, tile_name))
+    out_file = os.path.join(out_dir, "{}_thresholds.json".format(tile_name))
+    out_plot_file = os.path.join(out_dir, "{}_thresholds.png".format(tile_name))
+    run_find_optimal_thresholds(tile_file, out_file, out_plot_file)
+

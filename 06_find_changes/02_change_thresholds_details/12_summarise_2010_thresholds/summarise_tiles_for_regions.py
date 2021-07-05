@@ -127,8 +127,12 @@ def findFileNone(dirPath, fileSearch):
 
 # Merge Global Stats
 import glob
-input_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/GMW_*.json')
-merge_tile_stats(input_files, '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_stats.json')
+input_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hv_test_thresholds/GMW_*.json')
+merge_tile_stats(input_files, '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_hv_stats.json')
+
+import glob
+input_files = glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hh_test_thresholds/GMW_*.json')
+merge_tile_stats(input_files, '/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/global_hh_stats.json')
 
 
 prj_lut_file = '../../../03_prepare_datasets/09_create_project_tile_lut/gmw_projects_luts.json'
@@ -138,12 +142,25 @@ for prj in prj_lut:
     print(prj_lut[prj])
     data_files = list()
     for tile in prj_lut[prj]:
-        tmp_file = findFileNone('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_test_thresholds/', '*{}*.json'.format(tile))
+        tmp_file = findFileNone('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hv_test_thresholds/', '*{}*.json'.format(tile))
         if tmp_file is not None:
             data_files.append(tmp_file)
 
     if len(data_files) > 0:
-        out_file = os.path.join('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info', '{}_stats.json'.format(prj))
+        out_file = os.path.join('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_hv', '{}_stats.json'.format(prj))
+        merge_tile_stats(data_files, out_file)
+
+
+for prj in prj_lut:
+    print(prj_lut[prj])
+    data_files = list()
+    for tile in prj_lut[prj]:
+        tmp_file = findFileNone('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hh_test_thresholds/', '*{}*.json'.format(tile))
+        if tmp_file is not None:
+            data_files.append(tmp_file)
+
+    if len(data_files) > 0:
+        out_file = os.path.join('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_hh', '{}_stats.json'.format(prj))
         merge_tile_stats(data_files, out_file)
 
 

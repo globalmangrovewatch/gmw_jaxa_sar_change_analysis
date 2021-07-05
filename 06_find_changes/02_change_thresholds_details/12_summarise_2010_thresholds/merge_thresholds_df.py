@@ -52,7 +52,11 @@ def summarise_thresholds(input_files, rgn_name, output_file):
 
 import glob
 
-summarise_thresholds(glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_tile_thresholds/*.json'), 'tiles', 'gmw_2010_ref_tile_thresholds.xlsx')
-summarise_thresholds(glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_thresholds/*.json'), 'projects', 'gmw_2010_ref_projects_thresholds.xlsx')
+summarise_thresholds(glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hv_tile_thresholds/*.json'), 'tiles', 'gmw_2010_hv_ref_tile_thresholds.xlsx')
+summarise_thresholds(glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_hv_thresholds/*.json'), 'projects', 'gmw_2010_hv_ref_projects_thresholds.xlsx')
+
+
+summarise_thresholds(glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_2010_hh_tile_thresholds/*.json'), 'tiles', 'gmw_2010_hh_ref_tile_thresholds.xlsx')
+summarise_thresholds(glob.glob('/Users/pete/Temp/gmw_v3_analysis/threshold_test_2010/outputs/gmw_prj_info_hh_thresholds/*.json'), 'projects', 'gmw_2010_hh_ref_projects_thresholds.xlsx')
 
 
