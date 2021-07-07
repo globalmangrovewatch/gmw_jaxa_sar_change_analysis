@@ -238,16 +238,28 @@ def calc_mean_se_thresholds(data, max_val=-1000, min_val=-2200, init_thres=-1400
         thres_yen_vals = list()
         for i in tqdm.tqdm(range(n_iters)):
             ana_data = numpy.random.choice(data, smpl_size)
-            thres_hist_vals.append(float(calc_kurt_skew_threshold(ana_data, max_val, min_val, init_thres, low_thres, contamination)))
-            thres_yen_vals.append(float(calc_yen_threshold(ana_data)))
+            try:
+                thres_hist_vals.append(float(calc_kurt_skew_threshold(ana_data, max_val, min_val, init_thres, low_thres, contamination)))
+            except:
+                print("Error - could not calculate thresholds. calc_kurt_skew_threshold")
+            try:
+                thres_yen_vals.append(float(calc_yen_threshold(ana_data)))
+            except:
+                print("Error - could not calculate thresholds. calc_yen_threshold")
 
         thres_hist = float(numpy.mean(thres_hist_vals))
         thres_yen = float(numpy.mean(thres_yen_vals))
         thres_hist_se = float(scipy.stats.sem(thres_hist_vals))
         thres_yen_se = float(scipy.stats.sem(thres_yen_vals))
     else:
-        thres_hist = float(calc_kurt_skew_threshold(data, max_val, min_val, init_thres, low_thres, contamination))
-        thres_yen = float(calc_yen_threshold(data))
+        try:
+            thres_hist = float(calc_kurt_skew_threshold(data, max_val, min_val, init_thres, low_thres, contamination))
+        except:
+            thres_hist = 0.0
+        try:
+            thres_yen = float(calc_yen_threshold(data))
+        except:
+            thres_yen = 0.0
         thres_hist_se = 0.0
         thres_yen_se = 0.0
         smpl_size = n_data
