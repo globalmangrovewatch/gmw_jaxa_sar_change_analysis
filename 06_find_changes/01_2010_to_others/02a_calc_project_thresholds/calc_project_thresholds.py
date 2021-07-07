@@ -223,7 +223,7 @@ A function to get the data for a specific variable from a list of HDF files
 
     return data_arr
 
-def calc_mean_se_thresholds(data, max_val=-1000, min_val=-2200, init_thres=-1400, low_thres=True, contamination=10.0, n_iters=100, prop_samples=0.5, min_smpl_size=1000, max_smpl_size=500000):
+def calc_mean_se_thresholds(data, max_val=-1000, min_val=-2200, init_thres=-1400, low_thres=True, contamination=10.0, n_iters=20, prop_samples=0.5, min_smpl_size=1000, max_smpl_size=500000):
     n_data = data.shape[0]
     if n_data > min_smpl_size:
         smpl_size = int(n_data * prop_samples)
@@ -296,7 +296,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
                                                                                                     init_thres=-1400,
                                                                                                     low_thres=True,
                                                                                                     contamination=10.0,
-                                                                                                    n_iters=100,
+                                                                                                    n_iters=20,
                                                                                                     prop_samples=0.5,
                                                                                                     min_smpl_size=1000,
                                                                                                     max_smpl_size=500000)
@@ -322,7 +322,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
                                                                                                     init_thres=-1400,
                                                                                                     low_thres=False,
                                                                                                     contamination=10.0,
-                                                                                                    n_iters=100,
+                                                                                                    n_iters=20,
                                                                                                     prop_samples=0.5,
                                                                                                     min_smpl_size=1000,
                                                                                                     max_smpl_size=500000)
@@ -349,7 +349,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
                                                                                                     init_thres=-1600,
                                                                                                     low_thres=True,
                                                                                                     contamination=10.0,
-                                                                                                    n_iters=100,
+                                                                                                    n_iters=20,
                                                                                                     prop_samples=0.5,
                                                                                                     min_smpl_size=1000,
                                                                                                     max_smpl_size=500000)
@@ -376,7 +376,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
                                                                                                     init_thres=-1600,
                                                                                                     low_thres=False,
                                                                                                     contamination=10.0,
-                                                                                                    n_iters=100,
+                                                                                                    n_iters=20,
                                                                                                     prop_samples=0.5,
                                                                                                     min_smpl_size=1000,
                                                                                                     max_smpl_size=500000)
