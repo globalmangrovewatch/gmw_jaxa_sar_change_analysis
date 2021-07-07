@@ -125,13 +125,16 @@ def calc_kurt_skew_threshold(data, max_val, min_val, init_thres, low_thres=True,
             data_sub = data[data < x]
 
         # Calculate kurtosis and skewness
-        kurtosis = scipy.stats.kurtosis(data_sub)
-        if only_kurtosis:
-            kur_skew = kurtosis
+        if data_sub.shape[0] > 10:
+            kurtosis = scipy.stats.kurtosis(data_sub)
+            if only_kurtosis:
+                kur_skew = kurtosis
+            else:
+                skew = scipy.stats.skew(data_sub)
+                # Product of kurtosis and skewness
+                kur_skew = abs(kurtosis) + abs(skew)
         else:
-            skew = scipy.stats.skew(data_sub)
-            # Product of kurtosis and skewness
-            kur_skew = abs(kurtosis) + abs(skew)
+            kur_skew = 999
 
         return kur_skew
 
