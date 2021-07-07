@@ -308,106 +308,108 @@ class CalcProjectThreholds(PBPTQProcessTool):
         data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=0)
         if data is not None:
             data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
-            thres_hist, thres_hist_se, thres_yen, thres_yen_se, smpl_size = calc_mean_se_thresholds(data, max_val=-1000,
-                                                                                                    min_val=-2200,
-                                                                                                    init_thres=-1400,
-                                                                                                    low_thres=True,
-                                                                                                    contamination=10.0,
-                                                                                                    n_iters=20,
-                                                                                                    prop_samples=0.5,
-                                                                                                    min_smpl_size=1000,
-                                                                                                    max_smpl_size=500000)
+            if data.shape[0] > 100:
+                thres_hist, thres_hist_se, thres_yen, thres_yen_se, smpl_size = calc_mean_se_thresholds(data, max_val=-1000,
+                                                                                                        min_val=-2200,
+                                                                                                        init_thres=-1400,
+                                                                                                        low_thres=True,
+                                                                                                        contamination=10.0,
+                                                                                                        n_iters=20,
+                                                                                                        prop_samples=0.5,
+                                                                                                        min_smpl_size=1000,
+                                                                                                        max_smpl_size=500000)
 
-            out_thres_lut['mng_hh_n'] = smpl_size
-            out_thres_lut['his_mng_hh'] = thres_hist
-            out_thres_lut['his_mng_hh_se'] = thres_hist_se
-            out_thres_lut['yen_mng_hh'] = thres_yen
-            out_thres_lut['yen_mng_hh_se'] = thres_yen_se
+                out_thres_lut['mng_hh_n'] = smpl_size
+                out_thres_lut['his_mng_hh'] = thres_hist
+                out_thres_lut['his_mng_hh_se'] = thres_hist_se
+                out_thres_lut['yen_mng_hh'] = thres_yen
+                out_thres_lut['yen_mng_hh_se'] = thres_yen_se
 
-            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hh_mng.png'.format(self.get_file_basename(self.params['out_file'])))
-            plot_histo(data, out_thres_lut['his_mng_hh'], 'Mangrove HH', out_file=plot_file)
-            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hh_mng.png'.format(self.get_file_basename(self.params['out_file'])))
-            plot_histo(data, out_thres_lut['yen_mng_hh'], 'Mangrove HH', out_file=plot_file)
+                plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hh_mng.png'.format(self.get_file_basename(self.params['out_file'])))
+                plot_histo(data, out_thres_lut['his_mng_hh'], 'Mangrove HH', out_file=plot_file)
+                plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hh_mng.png'.format(self.get_file_basename(self.params['out_file'])))
+                plot_histo(data, out_thres_lut['yen_mng_hh'], 'Mangrove HH', out_file=plot_file)
             data = None
 
         print("HH Not Mangrove")
         data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=0)
         if data is not None:
             data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
-            thres_hist, thres_hist_se, thres_yen, thres_yen_se, smpl_size = calc_mean_se_thresholds(data, max_val=-1000,
-                                                                                                    min_val=-2200,
-                                                                                                    init_thres=-1400,
-                                                                                                    low_thres=False,
-                                                                                                    contamination=10.0,
-                                                                                                    n_iters=20,
-                                                                                                    prop_samples=0.5,
-                                                                                                    min_smpl_size=1000,
-                                                                                                    max_smpl_size=500000)
+            if data.shape[0] > 100:
+                thres_hist, thres_hist_se, thres_yen, thres_yen_se, smpl_size = calc_mean_se_thresholds(data, max_val=-1000,
+                                                                                                        min_val=-2200,
+                                                                                                        init_thres=-1400,
+                                                                                                        low_thres=False,
+                                                                                                        contamination=10.0,
+                                                                                                        n_iters=20,
+                                                                                                        prop_samples=0.5,
+                                                                                                        min_smpl_size=1000,
+                                                                                                        max_smpl_size=500000)
 
-            out_thres_lut['nmng_hh_n'] = smpl_size
-            out_thres_lut['his_nmng_hh'] = thres_hist
-            out_thres_lut['his_nmng_hh_se'] = thres_hist_se
-            out_thres_lut['yen_nmng_hh'] = thres_yen
-            out_thres_lut['yen_nmng_hh_se'] = thres_yen_se
+                out_thres_lut['nmng_hh_n'] = smpl_size
+                out_thres_lut['his_nmng_hh'] = thres_hist
+                out_thres_lut['his_nmng_hh_se'] = thres_hist_se
+                out_thres_lut['yen_nmng_hh'] = thres_yen
+                out_thres_lut['yen_nmng_hh_se'] = thres_yen_se
 
-            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hh_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
-            plot_histo(data, out_thres_lut['his_nmng_hh'], 'Not Mangrove HH', out_file=plot_file)
-            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hh_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
-            plot_histo(data, out_thres_lut['yen_nmng_hh'], 'Not Mangrove HH', out_file=plot_file)
+                plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hh_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
+                plot_histo(data, out_thres_lut['his_nmng_hh'], 'Not Mangrove HH', out_file=plot_file)
+                plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hh_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
+                plot_histo(data, out_thres_lut['yen_nmng_hh'], 'Not Mangrove HH', out_file=plot_file)
             data = None
 
         print("HV Mangrove")
         data = getMergeExtractedHDF5Data(self.params['mng_data_files'], variable=1)
         if data is not None:
             data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+            if data.shape[0] > 100:
+                thres_hist, thres_hist_se, thres_yen, thres_yen_se, smpl_size = calc_mean_se_thresholds(data, max_val=-1200,
+                                                                                                        min_val=-2400,
+                                                                                                        init_thres=-1600,
+                                                                                                        low_thres=True,
+                                                                                                        contamination=10.0,
+                                                                                                        n_iters=20,
+                                                                                                        prop_samples=0.5,
+                                                                                                        min_smpl_size=1000,
+                                                                                                        max_smpl_size=500000)
 
-            thres_hist, thres_hist_se, thres_yen, thres_yen_se, smpl_size = calc_mean_se_thresholds(data, max_val=-1200,
-                                                                                                    min_val=-2400,
-                                                                                                    init_thres=-1600,
-                                                                                                    low_thres=True,
-                                                                                                    contamination=10.0,
-                                                                                                    n_iters=20,
-                                                                                                    prop_samples=0.5,
-                                                                                                    min_smpl_size=1000,
-                                                                                                    max_smpl_size=500000)
+                out_thres_lut['mng_hv_n'] = smpl_size
+                out_thres_lut['his_mng_hv'] = thres_hist
+                out_thres_lut['his_mng_hv_se'] = thres_hist_se
+                out_thres_lut['yen_mng_hv'] = thres_yen
+                out_thres_lut['yen_mng_hv_se'] = thres_yen_se
 
-            out_thres_lut['mng_hv_n'] = smpl_size
-            out_thres_lut['his_mng_hv'] = thres_hist
-            out_thres_lut['his_mng_hv_se'] = thres_hist_se
-            out_thres_lut['yen_mng_hv'] = thres_yen
-            out_thres_lut['yen_mng_hv_se'] = thres_yen_se
-
-            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hv_mng.png'.format(self.get_file_basename(self.params['out_file'])))
-            plot_histo(data, out_thres_lut['his_mng_hv'], 'Mangrove HV', out_file=plot_file)
-            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hv_mng.png'.format(self.get_file_basename(self.params['out_file'])))
-            plot_histo(data, out_thres_lut['yen_mng_hv'], 'Mangrove HV', out_file=plot_file)
+                plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hv_mng.png'.format(self.get_file_basename(self.params['out_file'])))
+                plot_histo(data, out_thres_lut['his_mng_hv'], 'Mangrove HV', out_file=plot_file)
+                plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hv_mng.png'.format(self.get_file_basename(self.params['out_file'])))
+                plot_histo(data, out_thres_lut['yen_mng_hv'], 'Mangrove HV', out_file=plot_file)
             data = None
 
         print("HV Not Mangrove")
         data = getMergeExtractedHDF5Data(self.params['nmng_data_files'], variable=1)
         if data is not None:
             data = mask_data_to_valid(data, lower_limit=-5000, upper_limit=1000)
+            if data.shape[0] > 100:
+                thres_hist, thres_hist_se, thres_yen, thres_yen_se, smpl_size = calc_mean_se_thresholds(data, max_val=-1200,
+                                                                                                        min_val=-2400,
+                                                                                                        init_thres=-1600,
+                                                                                                        low_thres=False,
+                                                                                                        contamination=10.0,
+                                                                                                        n_iters=20,
+                                                                                                        prop_samples=0.5,
+                                                                                                        min_smpl_size=1000,
+                                                                                                        max_smpl_size=500000)
 
-            thres_hist, thres_hist_se, thres_yen, thres_yen_se, smpl_size = calc_mean_se_thresholds(data, max_val=-1200,
-                                                                                                    min_val=-2400,
-                                                                                                    init_thres=-1600,
-                                                                                                    low_thres=False,
-                                                                                                    contamination=10.0,
-                                                                                                    n_iters=20,
-                                                                                                    prop_samples=0.5,
-                                                                                                    min_smpl_size=1000,
-                                                                                                    max_smpl_size=500000)
+                out_thres_lut['nmng_hv_n'] = smpl_size
+                out_thres_lut['his_nmng_hv'] = thres_hist
+                out_thres_lut['his_nmng_hv_se'] = thres_hist_se
+                out_thres_lut['yen_nmng_hv'] = thres_yen
+                out_thres_lut['yen_nmng_hv_se'] = thres_yen_se
 
-            out_thres_lut['nmng_hv_n'] = smpl_size
-            out_thres_lut['his_nmng_hv'] = thres_hist
-            out_thres_lut['his_nmng_hv_se'] = thres_hist_se
-            out_thres_lut['yen_nmng_hv'] = thres_yen
-            out_thres_lut['yen_nmng_hv_se'] = thres_yen_se
-
-            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hv_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
-            plot_histo(data, out_thres_lut['his_nmng_hv'], 'Not Mangrove HV', out_file=plot_file)
-            plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hv_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
-            plot_histo(data, out_thres_lut['yen_nmng_hv'], 'Not Mangrove HV', out_file=plot_file)
+                plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_histthres_hv_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
+                plot_histo(data, out_thres_lut['his_nmng_hv'], 'Not Mangrove HV', out_file=plot_file)
+                plot_file = os.path.join(os.path.dirname(self.params['out_file']), '{}_yenthres_hv_nmng.png'.format(self.get_file_basename(self.params['out_file'])))
+                plot_histo(data, out_thres_lut['yen_nmng_hv'], 'Not Mangrove HV', out_file=plot_file)
             data = None
 
         pprint.pprint(out_thres_lut)
