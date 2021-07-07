@@ -84,6 +84,8 @@ def calc_kurt_skew_threshold(data, max_val, min_val, init_thres, low_thres=True,
     if len(data.shape) > 1:
         raise Exception("Expecting a single variable.")
     print("Data Shape: {}".format(data.shape))
+    if data.shape[0] < 100:
+        raise Exception("Not enough data to calculate thresholds.")
     if (contamination < 1) or (contamination > 100):
         raise Exception("contamination parameter should have a value between 1 and 100.")
 
