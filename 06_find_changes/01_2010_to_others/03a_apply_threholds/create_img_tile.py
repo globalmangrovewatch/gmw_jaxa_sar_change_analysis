@@ -2,12 +2,12 @@ from pbprocesstools.pbpt_q_process import PBPTQProcessTool
 import logging
 import os
 import shutil
+import math
 import pprint
 import rsgislib
 import rsgislib.rastergis
 import rsgislib.imagecalc
 import rsgislib.imageutils
-import numpy
 
 def create_1996_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, threshold_se, out_img, out_lower_img, out_upper_img):
     # 95th intervals
@@ -162,19 +162,27 @@ class CreateImageTile(PBPTQProcessTool):
             if self.params['sar_year'] == '1996':
                 mng_hh_thres = thres_lut[self.params['sar_year']]['mng_hh']
                 mng_hh_thres_se = thres_lut[self.params['sar_year']]['mng_hh_se']
+                if math.isnan(mng_hh_thres_se):
+                    mng_hh_thres_se = 0.0
                 create_1996_mng_msk(self.params['gmw_tile'], self.params['sar_img'], self.params['sar_vld_img'], mng_hh_thres, mng_hh_thres_se, self.params['out_mng_chng'], self.params['out_mng_chng_lower'], self.params['out_mng_chng_upper'])
 
                 nmng_hh_thres = thres_lut[self.params['sar_year']]['nmng_hh']
                 nmng_hh_thres_se = thres_lut[self.params['sar_year']]['nmng_hh_se']
+                if math.isnan(nmng_hh_thres_se):
+                    nmng_hh_thres_se = 0.0
                 create_1996_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], self.params['sar_vld_img'], nmng_hh_thres, nmng_hh_thres_se, self.params['out_nmng_chng'], self.params['out_nmng_chng_lower'], self.params['out_nmng_chng_upper'])
 
             else:
                 mng_hv_thres = thres_lut[self.params['sar_year']]['mng_hv']
                 mng_hv_thres_se = thres_lut[self.params['sar_year']]['mng_hv_se']
+                if math.isnan(mng_hv_thres_se):
+                    mng_hv_thres_se = 0.0
                 create_alos_mng_msk(self.params['gmw_tile'], self.params['sar_img'], self.params['sar_vld_img'], mng_hv_thres, mng_hv_thres_se, self.params['out_mng_chng'], self.params['out_mng_chng_lower'], self.params['out_mng_chng_upper'])
 
                 nmng_hv_thres = thres_lut[self.params['sar_year']]['nmng_hv']
                 nmng_hv_thres_se = thres_lut[self.params['sar_year']]['nmng_hv_se']
+                if math.isnan(nmng_hv_thres_se):
+                    nmng_hv_thres_se = 0.0
                 create_alos_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], self.params['sar_vld_img'], nmng_hv_thres, nmng_hv_thres_se, self.params['out_nmng_chng'], self.params['out_nmng_chng_lower'], self.params['out_nmng_chng_upper'])
         else:
             rsgislib.imagecalc.imageMath(self.params['gmw_tile'], self.params['out_mng_chng'], '0', 'KEA', rsgislib.TYPE_8UINT)
