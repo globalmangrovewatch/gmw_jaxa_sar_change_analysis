@@ -22,8 +22,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_name = tile_basename.split('_')[1]
 
             gmw_prj = tile_prj_lut[tile_name]
-            gmw_proj_thres_file = os.path.join(kwargs['thres_files_dir'], '{}_{}_chng_thres.json'.format(gmw_prj, kwargs['sar_year']))
-            gmw_proj_thres_lmit_file = os.path.join(kwargs['threshold_limits_dir'], '{}_thres_limits.json'.format(gmw_prj))
+            gmw_proj_thres_file = os.path.join(kwargs['thres_files_dir'], "{}_fnl_thresholds.json".format(gmw_prj))
 
             sar_scn_dir = os.path.join(kwargs['sar_tiles_dir'], tile_name)
             if os.path.exists(sar_scn_dir):
@@ -41,10 +40,15 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_mng_chng = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
             out_nmng_chng = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
 
-            out_mng_chng_uncertain = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng_uncertain.kea'.format(tile_basename, kwargs['sar_year']))
-            out_nmng_chng_uncertain = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng_uncertain.kea'.format(tile_basename, kwargs['sar_year']))
+            out_mng_chng_upper = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng_upper.kea'.format(tile_basename, kwargs['sar_year']))
+            out_nmng_chng_upper = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng_upper.kea'.format(tile_basename, kwargs['sar_year']))
 
-            if (not os.path.exists(out_mng_chng)) or (not os.path.exists(out_nmng_chng)) or (not os.path.exists(out_mng_chng_uncertain)) or (not os.path.exists(out_nmng_chng_uncertain)):
+            out_mng_chng_lower = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng_lower.kea'.format(tile_basename, kwargs['sar_year']))
+            out_nmng_chng_lower = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng_lower.kea'.format(tile_basename, kwargs['sar_year']))
+
+            if (not os.path.exists(out_mng_chng)) or (not os.path.exists(out_nmng_chng)) or (
+            not os.path.exists(out_mng_chng_upper)) or (not os.path.exists(out_nmng_chng_upper)) or (
+            not os.path.exists(out_mng_chng_lower)) or (not os.path.exists(out_nmng_chng_lower)):
                 #if (sar_vld_img is not None) and os.path.exists(sar_vld_img):
                 #    print("rm {}".format(sar_vld_img))
                 c_dict = dict()
@@ -55,11 +59,12 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['sar_img'] = sar_img
                 c_dict['sar_vld_img'] = sar_vld_img
                 c_dict['gmw_proj_thres_file'] = gmw_proj_thres_file
-                c_dict['gmw_proj_thres_lmit_file'] = gmw_proj_thres_lmit_file
                 c_dict['out_mng_chng'] = out_mng_chng
                 c_dict['out_nmng_chng'] = out_nmng_chng
-                c_dict['out_mng_chng_uncertain'] = out_mng_chng_uncertain
-                c_dict['out_nmng_chng_uncertain'] = out_nmng_chng_uncertain
+                c_dict['out_mng_chng_upper'] = out_mng_chng_upper
+                c_dict['out_nmng_chng_upper'] = out_nmng_chng_upper
+                c_dict['out_mng_chng_lower'] = out_mng_chng_lower
+                c_dict['out_nmng_chng_lower'] = out_nmng_chng_lower
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_apply_chng_thres".format(tile_basename, kwargs['sar_year']))
                 if not os.path.exists(c_dict['tmp_dir']):
                     os.mkdir(c_dict['tmp_dir'])
@@ -67,7 +72,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        for year in ['2020']:#['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
             sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}'.format(year)
             if year == '1996':
                 sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg'
@@ -77,8 +82,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                   potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn',
                                   sar_tiles_dir=sar_tiles_dir,
                                   sar_year=year,
-                                  threshold_limits_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_prj_thres_limits',
-                                  thres_files_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_prj_thres'.format(year),
+                                  thres_files_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/fnl_prj_thresholds',
                                   out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs'.format(year),
                                   tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
