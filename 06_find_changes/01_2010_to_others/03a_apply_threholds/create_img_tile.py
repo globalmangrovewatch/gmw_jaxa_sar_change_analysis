@@ -169,12 +169,12 @@ class CreateImageTile(PBPTQProcessTool):
                 create_1996_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], self.params['sar_vld_img'], nmng_hh_thres, nmng_hh_thres_se, self.params['out_nmng_chng'], self.params['out_nmng_chng_lower'], self.params['out_nmng_chng_upper'])
 
             else:
-                mng_hv_thres = thres_lut['mng_hv']
-                mng_hv_thres_se = thres_lut['mng_hv_se']
+                mng_hv_thres = thres_lut[self.params['sar_year']]['mng_hv']
+                mng_hv_thres_se = thres_lut[self.params['sar_year']]['mng_hv_se']
                 create_alos_mng_msk(self.params['gmw_tile'], self.params['sar_img'], self.params['sar_vld_img'], mng_hv_thres, mng_hv_thres_se, self.params['out_mng_chng'], self.params['out_mng_chng_lower'], self.params['out_mng_chng_upper'])
 
-                nmng_hv_thres = thres_lut['nmng_hv']
-                nmng_hv_thres_se = thres_lut['nmng_hv_se']
+                nmng_hv_thres = thres_lut[self.params['sar_year']]['nmng_hv']
+                nmng_hv_thres_se = thres_lut[self.params['sar_year']]['nmng_hv_se']
                 create_alos_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], self.params['sar_vld_img'], nmng_hv_thres, nmng_hv_thres_se, self.params['out_nmng_chng'], self.params['out_nmng_chng_lower'], self.params['out_nmng_chng_upper'])
         else:
             rsgislib.imagecalc.imageMath(self.params['gmw_tile'], self.params['out_mng_chng'], '0', 'KEA', rsgislib.TYPE_8UINT)
