@@ -190,8 +190,8 @@ class CreateImageTile(PBPTQProcessTool):
 
     def required_fields(self, **kwargs):
         return ["tile", "gmw_tile", "sar_year", "potent_chng_msk_img", "sar_img", "sar_vld_img",
-                "gmw_proj_thres_lmit_file", "gmw_proj_thres_file", "out_mng_chng", "out_nmng_chng",
-                "out_mng_chng_upper", "out_nmng_chng_upper", "out_mng_chng_lower", "out_nmng_chng_lower"]
+                "gmw_proj_thres_file", "out_mng_chng", "out_nmng_chng", "out_mng_chng_upper",
+                "out_nmng_chng_upper", "out_mng_chng_lower", "out_nmng_chng_lower"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
