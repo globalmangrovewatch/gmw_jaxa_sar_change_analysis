@@ -12,7 +12,7 @@ import rsgislib.imageutils
 def create_1996_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, threshold_se, out_img, out_lower_img, out_upper_img):
     # 95th intervals
     threshold_upper = threshold + (threshold_se * 1.96)
-    threshold_lower = threshold + (threshold_se * 1.96)
+    threshold_lower = threshold - (threshold_se * 1.96)
 
     # Using threshold
     band_defns = []
@@ -45,7 +45,7 @@ def create_1996_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, threshold_se,
 def create_1996_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, threshold_se, out_img, out_lower_img, out_upper_img):
     # 95th intervals
     threshold_upper = threshold + (threshold_se * 1.96)
-    threshold_lower = threshold + (threshold_se * 1.96)
+    threshold_lower = threshold - (threshold_se * 1.96)
 
     # Using threshold
     band_defns = []
@@ -80,7 +80,7 @@ def create_1996_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, thresho
 def create_alos_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, threshold_se, out_img, out_lower_img, out_upper_img):
     # 95th intervals
     threshold_upper = threshold + (threshold_se * 1.96)
-    threshold_lower = threshold + (threshold_se * 1.96)
+    threshold_lower = threshold - (threshold_se * 1.96)
 
     # Using threshold
     band_defns = []
@@ -114,7 +114,7 @@ def create_alos_mng_msk(gmw_tile, sar_img, sar_vld_img, threshold, threshold_se,
 def create_alos_nmng_msk(chng_rgn_tile, sar_img, sar_vld_img, threshold, threshold_se, out_img, out_lower_img, out_upper_img):
     # 95th intervals
     threshold_upper = threshold + (threshold_se * 1.96)
-    threshold_lower = threshold + (threshold_se * 1.96)
+    threshold_lower = threshold - (threshold_se * 1.96)
 
     # Using threshold
     band_defns = []
