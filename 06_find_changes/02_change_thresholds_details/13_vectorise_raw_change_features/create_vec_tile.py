@@ -102,11 +102,11 @@ class CreateVectorTile(PBPTQProcessTool):
         print("N Pixels: ", pxl_count[0])
 
         if pxl_count[0] > 0:
-            rsgislib.vectorutils.polygoniseRaster2VecLyr(self.params['out_vec'], self.params['out_lyr_name'], 'GPKG',
-                                                         self.params['img_tile'], img_band=1,
-                                                         mask_img=self.params['img_tile'],
-                                                         mask_band=1, replace_file=True, replace_lyr=True,
-                                                         pxl_val_fieldname='PXLVAL', use_8_conn=True)
+            polygoniseRaster2VecLyr(self.params['out_vec'], self.params['out_lyr_name'], 'GPKG',
+                                    self.params['img_tile'], img_band=1,
+                                    mask_img=self.params['img_tile'],
+                                    mask_band=1, replace_file=True, replace_lyr=True,
+                                    pxl_val_fieldname='PXLVAL', use_8_conn=True)
 
         pathlib.Path(self.params['out_cmp_file']).touch()
 
