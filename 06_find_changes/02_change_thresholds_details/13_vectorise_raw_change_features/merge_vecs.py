@@ -74,6 +74,7 @@ input_vecs = glob.glob("/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010
 rsgislib.vectorutils.mergeVectors2GPKG(input_vecs, out_file, "2010_nmng_2020_mng", True)
 
 
+print("Starting Upper Merge")
 
 out_file = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_raw_chngs_upper_feats_vecs.gpkg"
 
@@ -149,6 +150,7 @@ rsgislib.vectorutils.mergeVectors2GPKG(input_vecs, out_file, "2010_nmng_2020_mng
 
 
 
+print("Starting Lower Merge")
 
 out_file = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_raw_chngs_lower_feats_vecs.gpkg"
 
