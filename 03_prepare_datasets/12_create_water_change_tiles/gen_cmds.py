@@ -35,7 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.gen_command_info(lut_file='/scratch/a.pfb/gmw_v3_change/data/other_base_data/global_water_change_lut.gpkg',
                               lut_lyr='water_change',
                               gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_qa/*.kea',
-                              out_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/other_base_data/water_change_download_gmw_tiles',
+                              out_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/other_base_data/water_change_gmw_tiles',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.pop_params_db()
         self.create_slurm_sub_sh("water_change_gmw_tiles", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
