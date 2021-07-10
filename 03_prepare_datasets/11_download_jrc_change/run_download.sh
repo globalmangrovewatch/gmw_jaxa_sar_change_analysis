@@ -1,0 +1,1 @@
+singularity exec --bind /scratch/a.pfb:/scratch/a.pfb --bind /home/a.pfb:/home/a.pfb /scratch/a.pfb/sw_imgs/au-eoed-dev.sif python  downloadWaterData_PythonV3.py /scratch/a.pfb/gmw_v3_change/data/other_base_data/water_change_download change
