@@ -29,13 +29,13 @@ class CreateTileStats(PBPTQProcessTool):
         pxl_count_chng_up_nmng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_nmng_chng_upper_tile'], vals=[1])
 
         stats_dict = dict()
-        stats_dict['2010'] = pxl_count_mng_2010
-        stats_dict['chng_mng'] = pxl_count_chng_mng
-        stats_dict['chng_nmng'] = pxl_count_chng_nmng
-        stats_dict['chng_low_mng'] = pxl_count_chng_low_mng
-        stats_dict['chng_low_nmng'] = pxl_count_chng_low_nmng
-        stats_dict['chng_up_mng'] = pxl_count_chng_up_mng
-        stats_dict['chng_up_nmng'] = pxl_count_chng_up_nmng
+        stats_dict['2010'] = int(pxl_count_mng_2010[0])
+        stats_dict['chng_mng'] = int(pxl_count_chng_mng[0])
+        stats_dict['chng_nmng'] = int(pxl_count_chng_nmng[0])
+        stats_dict['chng_low_mng'] = int(pxl_count_chng_low_mng[0])
+        stats_dict['chng_low_nmng'] = int(pxl_count_chng_low_nmng[0])
+        stats_dict['chng_up_mng'] = int(pxl_count_chng_up_mng[0])
+        stats_dict['chng_up_nmng'] = int(pxl_count_chng_up_nmng[0])
 
         rsgis_utils.writeDict2JSON(stats_dict, self.params['out_file'])
 
