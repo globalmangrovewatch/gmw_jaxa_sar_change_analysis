@@ -6,3 +6,6 @@ singularity exec --bind /scratch/a.pfb:/scratch/a.pfb --bind /home/a.pfb:/home/a
 
 singularity exec --bind /scratch/a.pfb:/scratch/a.pfb --bind /home/a.pfb:/home/a.pfb /scratch/a.pfb/sw_imgs/au-eoed-dev.sif rsgisbuildimglut.py -i "/scratch/a.pfb/gmw_v3_change/data/other_base_data/water_occurance/*.tif" \
 -o /scratch/a.pfb/gmw_v3_change/data/other_base_data/global_water_occurance_lut.gpkg --veclyr water_occurance --vecformat GPKG
+
+singularity exec --bind /scratch/a.pfb:/scratch/a.pfb --bind /home/a.pfb:/home/a.pfb /scratch/a.pfb/sw_imgs/au-eoed-dev.sif rsgisbuildimglut.py -i "/scratch/a.pfb/gmw_v3_change/data/other_base_data/water_change_download/*.tif" \
+-o /scratch/a.pfb/gmw_v3_change/data/other_base_data/global_water_change_lut.gpkg --veclyr water_change --vecformat GPKG
