@@ -32,7 +32,9 @@ tile_lut_dict.pop("N13E045")
 tile_idx_lst = tile_lut_dict.keys()
 
 
-in_data_dir = "/Users/pete/Temp/gmw_v3_analysis/v3_raw_chng_feats/out_stats"
+#in_data_dir = "/Users/pete/Temp/gmw_v3_analysis/v3_raw_chng_feats/out_stats"
+
+in_data_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data"
 
 base_dir = os.path.join(in_data_dir, "gmw_2010_2020_chngs_stats")
 mng_ext_2010 = get_data(tile_idx_lst, base_dir, '2010')
@@ -139,7 +141,7 @@ df_nmng_upper_after_data = pandas.DataFrame(out_nmng_upper_after_data, index=til
 
 
 # Create a Pandas Excel writer using XlsxWriter as the engine.
-xls_writer = pandas.ExcelWriter('gmw_tile_raw_chng_feat_stats.xlsx', engine='xlsxwriter')
+xls_writer = pandas.ExcelWriter('gmw_tile_raw_chng_feat_stats_updated.xlsx', engine='xlsxwriter')
 
 df_mng_before_data.to_excel(xls_writer, sheet_name='before_2010_mng_to_nmng')
 df_nmng_before_data.to_excel(xls_writer, sheet_name='before_2010_nmng_to_mng')
