@@ -56,6 +56,7 @@ for year in before_years:
     base_dir = os.path.join(in_data_dir, "gmw_2010_{}_chngs_stats".format(year))
     out_nmng_before_data[year] = get_data(tile_idx_lst, base_dir, 'chng_nmng')
 
+"""
 out_mng_lower_before_data = dict()
 out_mng_lower_before_data["2010 Extent"] = mng_ext_2010
 for year in before_years:
@@ -79,16 +80,17 @@ out_nmng_upper_before_data["2010 Extent"] = mng_ext_2010
 for year in before_years:
     base_dir = os.path.join(in_data_dir, "gmw_2010_{}_chngs_stats".format(year))
     out_nmng_upper_before_data[year] = get_data(tile_idx_lst, base_dir, 'chng_up_nmng')
+"""
 
 df_mng_before_data = pandas.DataFrame(out_mng_before_data, index=tile_idx_lst)
 df_nmng_before_data = pandas.DataFrame(out_nmng_before_data, index=tile_idx_lst)
-
+"""
 df_mng_lower_before_data = pandas.DataFrame(out_mng_lower_before_data, index=tile_idx_lst)
 df_nmng_lower_before_data = pandas.DataFrame(out_nmng_lower_before_data, index=tile_idx_lst)
 
 df_mng_upper_before_data = pandas.DataFrame(out_mng_upper_before_data, index=tile_idx_lst)
 df_nmng_upper_before_data = pandas.DataFrame(out_nmng_upper_before_data, index=tile_idx_lst)
-
+"""
 
 
 
@@ -103,7 +105,7 @@ out_nmng_after_data["2010 Extent"] = mng_ext_2010
 for year in after_years:
     base_dir = os.path.join(in_data_dir, "gmw_2010_{}_chngs_stats".format(year))
     out_nmng_after_data[year] = get_data(tile_idx_lst, base_dir, 'chng_nmng')
-
+"""
 out_mng_lower_after_data = dict()
 out_mng_lower_after_data["2010 Extent"] = mng_ext_2010
 for year in after_years:
@@ -127,16 +129,18 @@ out_nmng_upper_after_data["2010 Extent"] = mng_ext_2010
 for year in after_years:
     base_dir = os.path.join(in_data_dir, "gmw_2010_{}_chngs_stats".format(year))
     out_nmng_upper_after_data[year] = get_data(tile_idx_lst, base_dir, 'chng_up_nmng')
+"""
 
 df_mng_after_data = pandas.DataFrame(out_mng_after_data, index=tile_idx_lst)
 df_nmng_after_data = pandas.DataFrame(out_nmng_after_data, index=tile_idx_lst)
 
+"""
 df_mng_lower_after_data = pandas.DataFrame(out_mng_lower_after_data, index=tile_idx_lst)
 df_nmng_lower_after_data = pandas.DataFrame(out_nmng_lower_after_data, index=tile_idx_lst)
 
 df_mng_upper_after_data = pandas.DataFrame(out_mng_upper_after_data, index=tile_idx_lst)
 df_nmng_upper_after_data = pandas.DataFrame(out_nmng_upper_after_data, index=tile_idx_lst)
-
+"""
 
 
 
@@ -148,7 +152,7 @@ df_nmng_before_data.to_excel(xls_writer, sheet_name='before_2010_nmng_to_mng')
 
 df_mng_after_data.to_excel(xls_writer, sheet_name='after_2010_mng_to_nmng')
 df_nmng_after_data.to_excel(xls_writer, sheet_name='after_2010_nmng_to_mng')
-
+"""
 df_mng_lower_before_data.to_excel(xls_writer, sheet_name='before_low_2010_mng_to_nmng')
 df_nmng_lower_before_data.to_excel(xls_writer, sheet_name='before_low_2010_nmng_to_mng')
 
@@ -160,5 +164,5 @@ df_nmng_upper_before_data.to_excel(xls_writer, sheet_name='before_up_2010_nmng_t
 
 df_mng_upper_after_data.to_excel(xls_writer, sheet_name='after_up_2010_mng_to_nmng')
 df_nmng_upper_after_data.to_excel(xls_writer, sheet_name='after_up_2010_nmng_to_mng')
-
+"""
 xls_writer.save()
