@@ -46,9 +46,16 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_mng_chng_lower = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng_lower.kea'.format(tile_basename, kwargs['sar_year']))
             out_nmng_chng_lower = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng_lower.kea'.format(tile_basename, kwargs['sar_year']))
 
-            if (not os.path.exists(out_mng_chng)) or (not os.path.exists(out_nmng_chng)) or (
-            not os.path.exists(out_mng_chng_upper)) or (not os.path.exists(out_nmng_chng_upper)) or (
-            not os.path.exists(out_mng_chng_lower)) or (not os.path.exists(out_nmng_chng_lower)):
+            calc_intervals = False
+
+            out_files_present = True
+            if (not os.path.exists(out_mng_chng)) or (not os.path.exists(out_nmng_chng)):
+                out_files_present = False
+            elif calc_intervals:
+                if (os.path.exists(out_mng_chng_upper)) or (not os.path.exists(out_nmng_chng_upper)) or (not os.path.exists(out_mng_chng_lower)) or (not os.path.exists(out_nmng_chng_lower)):
+                    out_files_present = False
+
+            if  not out_files_present:
                 #if (sar_vld_img is not None) and os.path.exists(sar_vld_img):
                 #    print("rm {}".format(sar_vld_img))
                 c_dict = dict()
@@ -65,6 +72,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['out_nmng_chng_upper'] = out_nmng_chng_upper
                 c_dict['out_mng_chng_lower'] = out_mng_chng_lower
                 c_dict['out_nmng_chng_lower'] = out_nmng_chng_lower
+                self.params['calc_intervals'] = calc_intervals
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_apply_chng_thres".format(tile_basename, kwargs['sar_year']))
                 if not os.path.exists(c_dict['tmp_dir']):
                     os.mkdir(c_dict['tmp_dir'])
