@@ -72,7 +72,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['out_nmng_chng_upper'] = out_nmng_chng_upper
                 c_dict['out_mng_chng_lower'] = out_mng_chng_lower
                 c_dict['out_nmng_chng_lower'] = out_nmng_chng_lower
-                self.params['calc_intervals'] = calc_intervals
+                c_dict['calc_intervals'] = calc_intervals
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_apply_chng_thres".format(tile_basename, kwargs['sar_year']))
                 if not os.path.exists(c_dict['tmp_dir']):
                     os.mkdir(c_dict['tmp_dir'])
