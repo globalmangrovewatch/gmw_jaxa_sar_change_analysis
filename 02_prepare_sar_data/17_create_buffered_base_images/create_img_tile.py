@@ -22,6 +22,7 @@ class CreateImageTile(PBPTQProcessTool):
 
         for img in imgs:
             print(img)
+            print("\t{}".format(rsgislib.imageutils.getImageRes(img)))
 
         if len(imgs) > 0:
             rsgislib.imageutils.includeImagesIndImgIntersect(self.params['out_img'], imgs)
