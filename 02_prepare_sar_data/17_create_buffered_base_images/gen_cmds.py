@@ -25,6 +25,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 if os.path.exists(sar_img):
                     sar_imgs.append(sar_img)
 
+            print("Creating: {}".format( kwargs['sar_tiles_lut_file']))
             rsgislib.imageutils.imagelut.createImgExtentLUT(sar_imgs, kwargs['sar_tiles_lut_file'], kwargs['sar_tiles_lut_lyr'], 'GPKG')
 
 
@@ -115,7 +116,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 if __name__ == "__main__":
     py_script = os.path.abspath("create_img_tile.py")
-    script_cmd = "singularity exec --bind /scratch/a.pfb:/scratch/a.pfb --bind /home/a.pfb:/home/a.pfb /scratch/a.pfb/sw_imgs/au-eoed-dev.sif python {}".format(py_script)
+    script_cmd = "singularity exec --bind /scratch/a.pfb:/scratch/a.pfb --bind /home/a.pfb:/home/a.pfb /scratch/a.pfb/sw_imgs/au-eoed-beta-dev.sif python {}".format(py_script)
 
     process_tools_mod = 'create_img_tile'
     process_tools_cls = 'CreateImageTile'
