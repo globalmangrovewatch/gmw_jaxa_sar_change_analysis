@@ -20,8 +20,12 @@ class CreateImageTile(PBPTQProcessTool):
         scn_bbox = rsgislib.imageutils.getImageBBOX(self.params['out_img'])
         imgs = rsgislib.imageutils.imagelut.query_img_lut(scn_bbox, self.params['sar_tiles_lut_file'], self.params['sar_tiles_lut_lyr'])
 
-        rsgislib.imageutils.includeImagesIndImgIntersect(self.params['out_img'], imgs)
-        rsgislib.imageutils.popImageStats(input_img=self.params['out_img'], use_no_data=True, no_data_val=32767, calc_pyramids=True)
+        for img in imgs:
+            print(img)
+
+        if len(imgs) > 0:
+            rsgislib.imageutils.includeImagesIndImgIntersect(self.params['out_img'], imgs)
+            rsgislib.imageutils.popImageStats(input_img=self.params['out_img'], use_no_data=True, no_data_val=32767, calc_pyramids=True)
 
     def required_fields(self, **kwargs):
         return ["tile", "sar_tiles_lut_file", "sar_tiles_lut_lyr", "sar_img", "out_img"]
