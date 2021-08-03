@@ -20,6 +20,9 @@ class CreateImageTile(PBPTQProcessTool):
         scn_bbox = rsgislib.imageutils.getImageBBOX(self.params['out_img'])
         imgs = rsgislib.imageutils.imagelut.query_img_lut(scn_bbox, self.params['sar_tiles_lut_file'], self.params['sar_tiles_lut_lyr'])
 
+        print(self.params['out_img'])
+        print("\t{}\n".format(rsgislib.imageutils.getImageRes(self.params['out_img'])))
+
         for img in imgs:
             print(img)
             print("\t{}".format(rsgislib.imageutils.getImageRes(img)))
