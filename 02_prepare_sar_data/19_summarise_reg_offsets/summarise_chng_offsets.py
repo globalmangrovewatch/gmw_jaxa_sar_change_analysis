@@ -11,21 +11,27 @@ for gmw_tile in gmw_img_tiles:
 
 years = [2007, 2008, 2009, 2015, 2016, 2017, 2018, 2019, 2020]
 
-tile_reg_offs = dict()
+tile_reg_x_offs = dict()
+tile_reg_y_offs = dict()
 for gmw_tile in gmw_tiles:
     for year in years:
         sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}'.format(year)
         tile_dir = os.path.join(sar_tiles_dir, gmw_tile)
         if os.path.exists(tile_dir):
-            if gmw_tile not in tile_reg_offs:
-                tile_reg_offs[gmw_tile] = dict()
+            if gmw_tile not in tile_reg_x_offs:
+                tile_reg_x_offs[gmw_tile] = dict()
                 for year in years:
-                    tile_reg_offs[gmw_tile]['{}_x_off'.format(year)] = 0.0
-                    tile_reg_offs[gmw_tile]['{}_y_off'.format(year)] = 0.0
+                    tile_reg_x_offs[gmw_tile]['{}_x_off'.format(year)] = 0.0
+            if gmw_tile not in tile_reg_y_offs:
+                tile_reg_y_offs[gmw_tile] = dict()
+                for year in years:
+                    tile_reg_y_offs[gmw_tile]['{}_y_off'.format(year)] = 0.0
 
 
 
-df_offs_data = pandas.DataFrame(tile_reg_offs)
+df_x_offs_data = pandas.DataFrame(tile_reg_x_offs)
+df_y_offs_data = pandas.DataFrame(tile_reg_y_offs)
 xls_writer = pandas.ExcelWriter('gmw_reg_offs.xlsx', engine='xlsxwriter')
-df_offs_data.to_excel(xls_writer, sheet_name='gmw_reg_offs')
+df_x_offs_data.to_excel(xls_writer, sheet_name='x_offsets')
+df_y_offs_data.to_excel(xls_writer, sheet_name='y_offsets')
 xls_writer.save()
