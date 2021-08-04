@@ -35,6 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     c_dict['out_flt_buf_img'] = out_off_img
                     c_dict['out_rsmpld_img'] = out_rsmp_img
                     c_dict['out_off_json'] = out_off_json
+                    c_dict['tmpdir'] = os.path.join(kwargs['tmpdir'], "{}_{}_reg_scn".format(tile_name, kwargs['sar_year']))
                     self.params.append(c_dict)
 
 
@@ -43,47 +44,56 @@ class GenCmds(PBPTGenQProcessToolCmds):
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2007',
-            sar_year='2007')
+            sar_year='2007',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2008',
-            sar_year='2008')
+            sar_year='2008',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2009',
-            sar_year='2009')
+            sar_year='2009',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2015',
-            sar_year='2015')
+            sar_year='2015',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2016',
-            sar_year='2016')
+            sar_year='2016',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2017',
-            sar_year='2017')
+            sar_year='2017',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2018',
-            sar_year='2018')
+            sar_year='2018',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2019',
-            sar_year='2019')
+            sar_year='2019',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2020',
-            sar_year='2020')
+            sar_year='2020',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_sar_reg_imgs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',

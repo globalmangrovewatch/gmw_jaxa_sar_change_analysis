@@ -3,12 +3,56 @@ import logging
 import os
 import shutil
 import rsgislib
+import rsgislib.tools.filetools
 import rsgislib.tools.utils
 import rsgislib.imageutils
 import rsgislib.imageregistration
-
+import rsgislib.imagecalc
 
 logger = logging.getLogger(__name__)
+
+
+def msk_imgs(in_ref_img, in_flt_img, tmp_dir):
+    ref_img_base = rsgislib.tools.filetools.get_file_basename(in_ref_img)
+    flt_img_base = rsgislib.tools.filetools.get_file_basename(in_flt_img)
+
+    out_ref_img = os.path.join(tmp_dir, "{}_mskd.tif".format(ref_img_base))
+    out_flt_img = os.path.join(tmp_dir, "{}_mskd.tif".format(flt_img_base))
+
+    ref_msk_img = os.path.join(tmp_dir, "{}_msk.tif".format(ref_img_base))
+    flt_msk_img = os.path.join(tmp_dir, "{}_msk.tif".format(flt_img_base))
+
+    ref_msk_dist_img = os.path.join(tmp_dir, "{}_msk_dist.tif".format(ref_img_base))
+    flt_msk_dist_img = os.path.join(tmp_dir, "{}_msk_dist.tif".format(flt_img_base))
+
+    ref_msk_buf_img = os.path.join(tmp_dir, "{}_msk_buf.tif".format(ref_img_base))
+    flt_msk_buf_img = os.path.join(tmp_dir, "{}_msk_buf.tif".format(flt_img_base))
+
+    msk_img = os.path.join(tmp_dir, "{}_{}_msk.tif".format(ref_img_base, flt_img_base))
+
+    rsgislib.imagecalc.imageBandMath(in_ref_img, ref_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'GTIFF', rsgislib.TYPE_8UINT)
+    rsgislib.imagecalc.imageBandMath(in_flt_img, flt_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'GTIFF', rsgislib.TYPE_8UINT)
+
+    rsgislib.imagecalc.calcDist2ImgVals(ref_msk_img, ref_msk_dist_img, 1, 1, 'GTIFF', 100, 32767, False)
+    rsgislib.imagecalc.calcDist2ImgVals(flt_msk_img, flt_msk_dist_img, 1, 1, 'GTIFF', 100, 32767, False)
+
+    rsgislib.imagecalc.imageBandMath(ref_msk_dist_img, ref_msk_buf_img, 'b1<50?1:0', 'GTIFF', rsgislib.TYPE_8UINT)
+    rsgislib.imagecalc.imageBandMath(flt_msk_dist_img, flt_msk_buf_img, 'b1<50?1:0', 'GTIFF', rsgislib.TYPE_8UINT)
+
+    band_defs = []
+    band_defs.append(rsgislib.imagecalc.BandDefn('ref', ref_msk_buf_img, 1))
+    band_defs.append(rsgislib.imagecalc.BandDefn('flt', flt_msk_buf_img, 1))
+    rsgislib.imagecalc.bandMath(msk_img, '(ref==1)||(flt==1)?1:0', 'GTIFF', rsgislib.TYPE_8UINT, band_defs)
+
+    rsgislib.imageutils.includeImagesIndImgIntersect(flt_msk_buf_img, [msk_img])
+
+    rsgislib.imageutils.maskImage(in_ref_img, msk_img, out_ref_img, 'GTIFF', rsgislib.TYPE_16INT, 32767, 0)
+    rsgislib.imageutils.maskImage(in_flt_img, flt_msk_buf_img, out_flt_img, 'GTIFF', rsgislib.TYPE_16INT, 32767, 0)
+
+    rsgislib.imageutils.popImageStats(out_ref_img, True, 32767, True)
+    rsgislib.imageutils.popImageStats(out_flt_img, True, 32767, True)
+
+    return out_ref_img, out_flt_img
 
 
 class CreateImageTile(PBPTQProcessTool):
@@ -17,7 +61,12 @@ class CreateImageTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_img_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
-        offsets = rsgislib.imageregistration.findImageOffset(self.params['sar_ref_img'], self.params['sar_flt_buf_img'], [1, 2, 3], [1, 2, 3], rsgislib.imageregistration.METRIC_CORELATION, 3, 3, 10)
+        if not os.path.exists(self.params['tmpdir']):
+            os.mkdir(self.params['tmpdir'])
+
+        in_ref_img_mskd, in_flt_img_mskd = msk_imgs(self.params['sar_ref_img'], self.params['sar_flt_buf_img'], self.params['tmpdir'])
+
+        offsets = rsgislib.imageregistration.findImageOffset(in_ref_img_mskd, in_flt_img_mskd, [2], [2], rsgislib.imageregistration.METRIC_CORELATION, 5, 5, 10)
 
         img_res_x, img_res_y = rsgislib.imageutils.getImageRes(self.params['sar_flt_buf_img'], abs_vals=True)
 
@@ -37,9 +86,12 @@ class CreateImageTile(PBPTQProcessTool):
         out_offs['y_spl_off'] = float(sp_off_y)
         rsgislib.tools.utils.writeDict2JSON(out_offs, self.params['out_off_json'])
 
+        if os.path.exists(self.params['tmpdir']):
+            shutil.rmtree(self.params['tmpdir'])
+
 
     def required_fields(self, **kwargs):
-        return ["tile", "sar_ref_img", "sar_flt_buf_img", "out_flt_buf_img", "out_rsmpld_img", "out_off_json"]
+        return ["tile", "sar_ref_img", "sar_flt_buf_img", "out_flt_buf_img", "out_rsmpld_img", "out_off_json", "tmpdir"]
 
 
     def outputs_present(self, **kwargs):
@@ -59,6 +111,10 @@ class CreateImageTile(PBPTQProcessTool):
 
         if os.path.exists(self.params['out_off_json']):
             os.remove(self.params['out_off_json'])
+
+        if os.path.exists(self.params['tmpdir']):
+            shutil.rmtree(self.params['tmpdir'])
+            os.mkdir(self.params['tmpdir'])
 
 if __name__ == "__main__":
     CreateImageTile().std_run()
