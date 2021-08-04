@@ -16,38 +16,38 @@ def msk_imgs(in_ref_img, in_flt_img, tmp_dir):
     ref_img_base = rsgislib.tools.filetools.get_file_basename(in_ref_img)
     flt_img_base = rsgislib.tools.filetools.get_file_basename(in_flt_img)
 
-    out_ref_img = os.path.join(tmp_dir, "{}_mskd.tif".format(ref_img_base))
-    out_flt_img = os.path.join(tmp_dir, "{}_mskd.tif".format(flt_img_base))
+    out_ref_img = os.path.join(tmp_dir, "{}_mskd.kea".format(ref_img_base))
+    out_flt_img = os.path.join(tmp_dir, "{}_mskd.kea".format(flt_img_base))
 
-    ref_msk_img = os.path.join(tmp_dir, "{}_msk.tif".format(ref_img_base))
-    flt_msk_img = os.path.join(tmp_dir, "{}_msk.tif".format(flt_img_base))
+    ref_msk_img = os.path.join(tmp_dir, "{}_msk.kea".format(ref_img_base))
+    flt_msk_img = os.path.join(tmp_dir, "{}_msk.kea".format(flt_img_base))
 
-    ref_msk_dist_img = os.path.join(tmp_dir, "{}_msk_dist.tif".format(ref_img_base))
-    flt_msk_dist_img = os.path.join(tmp_dir, "{}_msk_dist.tif".format(flt_img_base))
+    ref_msk_dist_img = os.path.join(tmp_dir, "{}_msk_dist.kea".format(ref_img_base))
+    flt_msk_dist_img = os.path.join(tmp_dir, "{}_msk_dist.kea".format(flt_img_base))
 
-    ref_msk_buf_img = os.path.join(tmp_dir, "{}_msk_buf.tif".format(ref_img_base))
-    flt_msk_buf_img = os.path.join(tmp_dir, "{}_msk_buf.tif".format(flt_img_base))
+    ref_msk_buf_img = os.path.join(tmp_dir, "{}_msk_buf.kea".format(ref_img_base))
+    flt_msk_buf_img = os.path.join(tmp_dir, "{}_msk_buf.kea".format(flt_img_base))
 
-    msk_img = os.path.join(tmp_dir, "{}_{}_msk.tif".format(ref_img_base, flt_img_base))
+    msk_img = os.path.join(tmp_dir, "{}_{}_msk.kea".format(ref_img_base, flt_img_base))
 
-    rsgislib.imagecalc.imageBandMath(in_ref_img, ref_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'GTIFF', rsgislib.TYPE_8UINT)
-    rsgislib.imagecalc.imageBandMath(in_flt_img, flt_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'GTIFF', rsgislib.TYPE_8UINT)
+    rsgislib.imagecalc.imageBandMath(in_ref_img, ref_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
+    rsgislib.imagecalc.imageBandMath(in_flt_img, flt_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
 
-    rsgislib.imagecalc.calcDist2ImgVals(ref_msk_img, ref_msk_dist_img, 1, 1, 'GTIFF', 100, 32767, False)
-    rsgislib.imagecalc.calcDist2ImgVals(flt_msk_img, flt_msk_dist_img, 1, 1, 'GTIFF', 100, 32767, False)
+    rsgislib.imagecalc.calcDist2ImgVals(ref_msk_img, ref_msk_dist_img, 1, 1, 'KEA', 100, 32767, False)
+    rsgislib.imagecalc.calcDist2ImgVals(flt_msk_img, flt_msk_dist_img, 1, 1, 'KEA', 100, 32767, False)
 
-    rsgislib.imagecalc.imageBandMath(ref_msk_dist_img, ref_msk_buf_img, 'b1<50?1:0', 'GTIFF', rsgislib.TYPE_8UINT)
-    rsgislib.imagecalc.imageBandMath(flt_msk_dist_img, flt_msk_buf_img, 'b1<50?1:0', 'GTIFF', rsgislib.TYPE_8UINT)
+    rsgislib.imagecalc.imageBandMath(ref_msk_dist_img, ref_msk_buf_img, 'b1<50?1:0', 'KEA', rsgislib.TYPE_8UINT)
+    rsgislib.imagecalc.imageBandMath(flt_msk_dist_img, flt_msk_buf_img, 'b1<50?1:0', 'KEA', rsgislib.TYPE_8UINT)
 
     band_defs = []
     band_defs.append(rsgislib.imagecalc.BandDefn('ref', ref_msk_buf_img, 1))
     band_defs.append(rsgislib.imagecalc.BandDefn('flt', flt_msk_buf_img, 1))
-    rsgislib.imagecalc.bandMath(msk_img, '(ref==1)||(flt==1)?1:0', 'GTIFF', rsgislib.TYPE_8UINT, band_defs)
+    rsgislib.imagecalc.bandMath(msk_img, '(ref==1)||(flt==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defs)
 
     rsgislib.imageutils.includeImagesIndImgIntersect(flt_msk_buf_img, [msk_img])
 
-    rsgislib.imageutils.maskImage(in_ref_img, msk_img, out_ref_img, 'GTIFF', rsgislib.TYPE_16INT, 32767, 0)
-    rsgislib.imageutils.maskImage(in_flt_img, flt_msk_buf_img, out_flt_img, 'GTIFF', rsgislib.TYPE_16INT, 32767, 0)
+    rsgislib.imageutils.maskImage(in_ref_img, msk_img, out_ref_img, 'KEA', rsgislib.TYPE_16INT, 32767, 0)
+    rsgislib.imageutils.maskImage(in_flt_img, flt_msk_buf_img, out_flt_img, 'KEA', rsgislib.TYPE_16INT, 32767, 0)
 
     rsgislib.imageutils.popImageStats(out_ref_img, True, 32767, True)
     rsgislib.imageutils.popImageStats(out_flt_img, True, 32767, True)
