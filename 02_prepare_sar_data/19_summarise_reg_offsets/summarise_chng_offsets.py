@@ -2,6 +2,7 @@ import pandas
 import os
 import glob
 import rsgislib.tools.filetools
+import rsgislib.tools.utils
 
 gmw_img_tiles = glob.glob('/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea')
 gmw_tiles = list()
@@ -20,13 +21,18 @@ for gmw_tile in gmw_tiles:
         if os.path.exists(tile_dir):
             if gmw_tile not in tile_reg_x_offs:
                 tile_reg_x_offs[gmw_tile] = dict()
-                for year in years:
-                    tile_reg_x_offs[gmw_tile]['{}_x_off'.format(year)] = 0.0
+                for tmp_year in years:
+                    tile_reg_x_offs[gmw_tile]['{}_x_off'.format(tmp_year)] = None
             if gmw_tile not in tile_reg_y_offs:
                 tile_reg_y_offs[gmw_tile] = dict()
-                for year in years:
-                    tile_reg_y_offs[gmw_tile]['{}_y_off'.format(year)] = 0.0
+                for tmp_year in years:
+                    tile_reg_y_offs[gmw_tile]['{}_y_off'.format(tmp_year)] = None
 
+            offs_info_file = os.path.join(tile_dir, '{}_{}_2010_offsets.json'.format(gmw_tile, year))
+            if os.path.exists(offs_info_file):
+                offs_info = rsgislib.tools.utils.readJSON2Dict(offs_info_file)
+                tile_reg_x_offs[gmw_tile]['{}_x_off'.format(year)] = offs_info['x_pxl_off']
+                tile_reg_y_offs[gmw_tile]['{}_y_off'.format(year)] = offs_info['y_pxl_off']
 
 
 df_x_offs_data = pandas.DataFrame(tile_reg_x_offs)
