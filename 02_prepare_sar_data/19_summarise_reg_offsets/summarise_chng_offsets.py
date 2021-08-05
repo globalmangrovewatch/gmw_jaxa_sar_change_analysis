@@ -10,6 +10,8 @@ for gmw_tile in gmw_img_tiles:
     basename = rsgislib.tools.filetools.get_file_basename(gmw_tile, n_comps=2)
     gmw_tiles.append(basename.split('_')[1])
 
+gmw_tiles.sort()
+
 years = [2007, 2008, 2009, 2015, 2016, 2017, 2018, 2019, 2020]
 
 tile_reg_x_offs = dict()
@@ -35,8 +37,8 @@ for gmw_tile in gmw_tiles:
                 tile_reg_y_offs[gmw_tile]['{}_y_off'.format(year)] = offs_info['y_pxl_off']
 
 
-df_x_offs_data = pandas.DataFrame(tile_reg_x_offs)
-df_y_offs_data = pandas.DataFrame(tile_reg_y_offs)
+df_x_offs_data = pandas.DataFrame(tile_reg_x_offs).transpose()
+df_y_offs_data = pandas.DataFrame(tile_reg_y_offs).transpose()
 xls_writer = pandas.ExcelWriter('gmw_reg_offs.xlsx', engine='xlsxwriter')
 df_x_offs_data.to_excel(xls_writer, sheet_name='x_offsets')
 df_y_offs_data.to_excel(xls_writer, sheet_name='y_offsets')
