@@ -33,24 +33,40 @@ def msk_imgs(in_ref_img, in_flt_img, tmp_dir):
     rsgislib.imagecalc.imageBandMath(in_ref_img, ref_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
     rsgislib.imagecalc.imageBandMath(in_flt_img, flt_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
 
-    rsgislib.imagecalc.calcDist2ImgVals(ref_msk_img, ref_msk_dist_img, 1, 1, 'KEA', 100, 32767, False)
-    rsgislib.imagecalc.calcDist2ImgVals(flt_msk_img, flt_msk_dist_img, 1, 1, 'KEA', 100, 32767, False)
+    n_ref_pxls = rsgislib.imagecalc.countPxlsOfVal(ref_msk_img, [0,1])
+    n_flt_pxls = rsgislib.imagecalc.countPxlsOfVal(flt_msk_img, [0,1])
 
-    rsgislib.imagecalc.imageBandMath(ref_msk_dist_img, ref_msk_buf_img, 'b1<50?1:0', 'KEA', rsgislib.TYPE_8UINT)
-    rsgislib.imagecalc.imageBandMath(flt_msk_dist_img, flt_msk_buf_img, 'b1<50?1:0', 'KEA', rsgislib.TYPE_8UINT)
+    tot_ref_pxls = n_ref_pxls[0] + n_ref_pxls[1]
+    tot_flt_pxls = n_flt_pxls[0] + n_flt_pxls[1]
 
-    band_defs = []
-    band_defs.append(rsgislib.imagecalc.BandDefn('ref', ref_msk_buf_img, 1))
-    band_defs.append(rsgislib.imagecalc.BandDefn('flt', flt_msk_buf_img, 1))
-    rsgislib.imagecalc.bandMath(msk_img, '(ref==1)||(flt==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defs)
+    prop_ref_pxls = n_ref_pxls[1] / tot_ref_pxls
+    prop_flt_pxls = n_flt_pxls[1] / tot_flt_pxls
 
-    rsgislib.imageutils.includeImagesIndImgIntersect(flt_msk_buf_img, [msk_img])
+    print("prop_ref_pxls: {}".format(prop_ref_pxls))
+    print("prop_flt_pxls: {}".format(prop_flt_pxls))
 
-    rsgislib.imageutils.maskImage(in_ref_img, msk_img, out_ref_img, 'KEA', rsgislib.TYPE_16INT, 32767, 0)
-    rsgislib.imageutils.maskImage(in_flt_img, flt_msk_buf_img, out_flt_img, 'KEA', rsgislib.TYPE_16INT, 32767, 0)
+    if (prop_ref_pxls > 0.0001) and (prop_flt_pxls > 0.0001):
+        rsgislib.imagecalc.calcDist2ImgVals(ref_msk_img, ref_msk_dist_img, 1, 1, 'KEA', 100, 32767, False)
+        rsgislib.imagecalc.calcDist2ImgVals(flt_msk_img, flt_msk_dist_img, 1, 1, 'KEA', 100, 32767, False)
 
-    rsgislib.imageutils.popImageStats(out_ref_img, True, 32767, True)
-    rsgislib.imageutils.popImageStats(out_flt_img, True, 32767, True)
+        rsgislib.imagecalc.imageBandMath(ref_msk_dist_img, ref_msk_buf_img, 'b1<50?1:0', 'KEA', rsgislib.TYPE_8UINT)
+        rsgislib.imagecalc.imageBandMath(flt_msk_dist_img, flt_msk_buf_img, 'b1<50?1:0', 'KEA', rsgislib.TYPE_8UINT)
+
+        band_defs = []
+        band_defs.append(rsgislib.imagecalc.BandDefn('ref', ref_msk_buf_img, 1))
+        band_defs.append(rsgislib.imagecalc.BandDefn('flt', flt_msk_buf_img, 1))
+        rsgislib.imagecalc.bandMath(msk_img, '(ref==1)||(flt==1)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defs)
+
+        rsgislib.imageutils.includeImagesIndImgIntersect(flt_msk_buf_img, [msk_img])
+
+        rsgislib.imageutils.maskImage(in_ref_img, msk_img, out_ref_img, 'KEA', rsgislib.TYPE_16INT, 32767, 0)
+        rsgislib.imageutils.maskImage(in_flt_img, flt_msk_buf_img, out_flt_img, 'KEA', rsgislib.TYPE_16INT, 32767, 0)
+
+        rsgislib.imageutils.popImageStats(out_ref_img, True, 32767, True)
+        rsgislib.imageutils.popImageStats(out_flt_img, True, 32767, True)
+    else:
+        out_ref_img = None
+        out_flt_img = None
 
     return out_ref_img, out_flt_img
 
@@ -66,17 +82,22 @@ class CreateImageTile(PBPTQProcessTool):
 
         in_ref_img_mskd, in_flt_img_mskd = msk_imgs(self.params['sar_ref_img'], self.params['sar_flt_buf_img'], self.params['tmpdir'])
 
-        offsets = rsgislib.imageregistration.findImageOffset(in_ref_img_mskd, in_flt_img_mskd, [2], [2], rsgislib.imageregistration.METRIC_CORELATION, 5, 5, 10)
+        if (in_ref_img_mskd is not None) and (in_flt_img_mskd is not None):
+            offsets = rsgislib.imageregistration.findImageOffset(in_ref_img_mskd, in_flt_img_mskd, [2], [2], rsgislib.imageregistration.METRIC_CORELATION, 5, 5, 10)
 
-        img_res_x, img_res_y = rsgislib.imageutils.getImageRes(self.params['sar_flt_buf_img'], abs_vals=True)
+            img_res_x, img_res_y = rsgislib.imageutils.getImageRes(self.params['sar_flt_buf_img'], abs_vals=True)
 
-        sp_off_x = offsets[0] * img_res_x
-        sp_off_y = offsets[1] * img_res_y
+            sp_off_x = offsets[0] * img_res_x
+            sp_off_y = offsets[1] * img_res_y
 
-        rsgislib.imageregistration.applyOffset2Image(self.params['sar_flt_buf_img'], self.params['out_flt_buf_img'], 'KEA', rsgislib.TYPE_16INT, sp_off_x, sp_off_y)
+            rsgislib.imageregistration.applyOffset2Image(self.params['sar_flt_buf_img'], self.params['out_flt_buf_img'], 'KEA', rsgislib.TYPE_16INT, sp_off_x, sp_off_y)
 
-        rsgislib.imageutils.resampleImage2Match(self.params['sar_ref_img'], self.params['out_flt_buf_img'], self.params['out_rsmpld_img'], 'KEA', 'cubic', rsgislib.TYPE_16INT, 32767)
-        rsgislib.imageutils.popImageStats(self.params['out_rsmpld_img'], True, 32767, True)
+            rsgislib.imageutils.resampleImage2Match(self.params['sar_ref_img'], self.params['out_flt_buf_img'], self.params['out_rsmpld_img'], 'KEA', 'cubic', rsgislib.TYPE_16INT, 32767)
+            rsgislib.imageutils.popImageStats(self.params['out_rsmpld_img'], True, 32767, True)
+        else:
+            offsets = [0, 0]
+            sp_off_x = 0.0
+            sp_off_y = 0.0
 
         out_offs = dict()
         out_offs['tile'] = self.params['tile']
