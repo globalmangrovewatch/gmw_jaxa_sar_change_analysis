@@ -22,11 +22,25 @@ class CreateTileStats(PBPTQProcessTool):
         pxl_count_chng_mng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_mng_chng_tile'], vals=[1])
         pxl_count_chng_nmng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_nmng_chng_tile'], vals=[1])
 
-        pxl_count_chng_low_mng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_mng_chng_lower_tile'], vals=[1])
-        pxl_count_chng_low_nmng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_nmng_chng_lower_tile'], vals=[1])
+        if os.path.exists(self.params['img_mng_chng_lower_tile']):
+            pxl_count_chng_low_mng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_mng_chng_lower_tile'], vals=[1])
+        else:
+            pxl_count_chng_low_mng = [0]
 
-        pxl_count_chng_up_mng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_mng_chng_upper_tile'], vals=[1])
-        pxl_count_chng_up_nmng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_nmng_chng_upper_tile'], vals=[1])
+        if os.path.exists(self.params['img_nmng_chng_lower_tile']):
+            pxl_count_chng_low_nmng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_nmng_chng_lower_tile'], vals=[1])
+        else:
+            pxl_count_chng_low_nmng = [0]
+
+        if os.path.exists(self.params['img_mng_chng_upper_tile']):
+            pxl_count_chng_up_mng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_mng_chng_upper_tile'], vals=[1])
+        else:
+            pxl_count_chng_up_mng = [0]
+
+        if os.path.exists(self.params['img_nmng_chng_upper_tile']):
+            pxl_count_chng_up_nmng = rsgislib.imagecalc.countPxlsOfVal(self.params['img_nmng_chng_upper_tile'], vals=[1])
+        else:
+            pxl_count_chng_up_nmng = [0]
 
         stats_dict = dict()
         stats_dict['2010'] = int(pxl_count_mng_2010[0])
