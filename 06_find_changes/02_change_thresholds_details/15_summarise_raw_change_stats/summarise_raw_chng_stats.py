@@ -32,9 +32,9 @@ tile_lut_dict.pop("N13E045")
 tile_idx_lst = tile_lut_dict.keys()
 
 
-#in_data_dir = "/Users/pete/Temp/gmw_v3_analysis/v3_raw_chng_feats/out_stats_update"
+in_data_dir = "/Users/pete/Temp/gmw_v3_analysis/v3_raw_chng_feats/out_stats_update"
 
-in_data_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data"
+#in_data_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data"
 
 base_dir = os.path.join(in_data_dir, "gmw_2010_2020_chngs_stats")
 mng_ext_2010 = get_data(tile_idx_lst, base_dir, '2010')
