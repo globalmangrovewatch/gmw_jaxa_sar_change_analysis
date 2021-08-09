@@ -163,31 +163,34 @@ class CreateImageTile(PBPTQProcessTool):
             thres_lut = rsgis_utils.readJSON2Dict(self.params['gmw_proj_thres_file'])
             pprint.pprint(thres_lut)
 
+            sar_vld_img = os.path.join(self.params['tmp_dir'], "{}_sar_vld_msk.kea".format(self.params['tile']))
+            rsgislib.imageutils.genValidMask(self.params['sar_img'], sar_vld_img, "KEA", nodata=32767)
+
             if self.params['sar_year'] == '1996':
                 mng_hh_thres = thres_lut[self.params['sar_year']]['mng_hh']
                 mng_hh_thres_se = thres_lut[self.params['sar_year']]['mng_hh_se']
                 if math.isnan(mng_hh_thres_se):
                     mng_hh_thres_se = 0.0
-                create_1996_mng_msk(self.params['gmw_tile'], self.params['sar_img'], self.params['sar_vld_img'], mng_hh_thres, mng_hh_thres_se, self.params['out_mng_chng'], self.params['out_mng_chng_lower'], self.params['out_mng_chng_upper'], self.params['calc_intervals'])
+                create_1996_mng_msk(self.params['gmw_tile'], self.params['sar_img'], sar_vld_img, mng_hh_thres, mng_hh_thres_se, self.params['out_mng_chng'], self.params['out_mng_chng_lower'], self.params['out_mng_chng_upper'], self.params['calc_intervals'])
 
                 nmng_hh_thres = thres_lut[self.params['sar_year']]['nmng_hh']
                 nmng_hh_thres_se = thres_lut[self.params['sar_year']]['nmng_hh_se']
                 if math.isnan(nmng_hh_thres_se):
                     nmng_hh_thres_se = 0.0
-                create_1996_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], self.params['sar_vld_img'], nmng_hh_thres, nmng_hh_thres_se, self.params['out_nmng_chng'], self.params['out_nmng_chng_lower'], self.params['out_nmng_chng_upper'], self.params['calc_intervals'])
+                create_1996_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], sar_vld_img, nmng_hh_thres, nmng_hh_thres_se, self.params['out_nmng_chng'], self.params['out_nmng_chng_lower'], self.params['out_nmng_chng_upper'], self.params['calc_intervals'])
 
             else:
                 mng_hv_thres = thres_lut[self.params['sar_year']]['mng_hv']
                 mng_hv_thres_se = thres_lut[self.params['sar_year']]['mng_hv_se']
                 if math.isnan(mng_hv_thres_se):
                     mng_hv_thres_se = 0.0
-                create_alos_mng_msk(self.params['gmw_tile'], self.params['sar_img'], self.params['sar_vld_img'], mng_hv_thres, mng_hv_thres_se, self.params['out_mng_chng'], self.params['out_mng_chng_lower'], self.params['out_mng_chng_upper'], self.params['calc_intervals'])
+                create_alos_mng_msk(self.params['gmw_tile'], self.params['sar_img'], sar_vld_img, mng_hv_thres, mng_hv_thres_se, self.params['out_mng_chng'], self.params['out_mng_chng_lower'], self.params['out_mng_chng_upper'], self.params['calc_intervals'])
 
                 nmng_hv_thres = thres_lut[self.params['sar_year']]['nmng_hv']
                 nmng_hv_thres_se = thres_lut[self.params['sar_year']]['nmng_hv_se']
                 if math.isnan(nmng_hv_thres_se):
                     nmng_hv_thres_se = 0.0
-                create_alos_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], self.params['sar_vld_img'], nmng_hv_thres, nmng_hv_thres_se, self.params['out_nmng_chng'], self.params['out_nmng_chng_lower'], self.params['out_nmng_chng_upper'], self.params['calc_intervals'])
+                create_alos_nmng_msk(self.params['potent_chng_msk_img'], self.params['sar_img'], sar_vld_img, nmng_hv_thres, nmng_hv_thres_se, self.params['out_nmng_chng'], self.params['out_nmng_chng_lower'], self.params['out_nmng_chng_upper'], self.params['calc_intervals'])
         else:
             rsgislib.imagecalc.imageMath(self.params['gmw_tile'], self.params['out_mng_chng'], '0', 'KEA', rsgislib.TYPE_8UINT)
             rsgislib.imagecalc.imageMath(self.params['gmw_tile'], self.params['out_nmng_chng'], '0', 'KEA', rsgislib.TYPE_8UINT)
@@ -202,9 +205,10 @@ class CreateImageTile(PBPTQProcessTool):
 
 
     def required_fields(self, **kwargs):
-        return ["tile", "gmw_tile", "sar_year", "potent_chng_msk_img", "sar_img", "sar_vld_img",
+        return ["tile", "gmw_tile", "sar_year", "potent_chng_msk_img", "sar_img",
                 "gmw_proj_thres_file", "out_mng_chng", "out_nmng_chng", "out_mng_chng_upper",
-                "out_nmng_chng_upper", "out_mng_chng_lower", "out_nmng_chng_lower", "calc_intervals"]
+                "out_nmng_chng_upper", "out_mng_chng_lower", "out_nmng_chng_lower",
+                "calc_intervals", "tmp_dir"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()

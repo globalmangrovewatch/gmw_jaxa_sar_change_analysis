@@ -27,13 +27,10 @@ class GenCmds(PBPTGenQProcessToolCmds):
             sar_scn_dir = os.path.join(kwargs['sar_tiles_dir'], tile_name)
             if os.path.exists(sar_scn_dir):
                 sar_img = os.path.join(sar_scn_dir, '{}_{}_db_mskd_reg.kea'.format(tile_name, kwargs['sar_year']))
-                sar_vld_img = os.path.join(sar_scn_dir, '{}_{}_bin_vmsk.kea'.format(tile_name, kwargs['sar_year']))
                 if not os.path.exists(sar_img):
                     sar_img = None
-                    sar_vld_img = None
             else:
                 sar_img = None
-                sar_vld_img = None
 
             potent_chng_msk_img = os.path.join(kwargs['potent_chng_msk_dir'], '{}_2010_v3_chg_rgn.kea'.format(tile_basename))
 
@@ -64,7 +61,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['sar_year'] = kwargs['sar_year']
                 c_dict['potent_chng_msk_img'] = potent_chng_msk_img
                 c_dict['sar_img'] = sar_img
-                c_dict['sar_vld_img'] = sar_vld_img
                 c_dict['gmw_proj_thres_file'] = gmw_proj_thres_file
                 c_dict['out_mng_chng'] = out_mng_chng
                 c_dict['out_nmng_chng'] = out_nmng_chng
