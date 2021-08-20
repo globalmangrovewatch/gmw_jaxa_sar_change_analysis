@@ -13,19 +13,40 @@ class GenCmds(PBPTGenQProcessToolCmds):
         jaxa_tile_lst = rsgis_utils.readTextFile2List(kwargs['tile_list'])
 
         for tile in jaxa_tile_lst:
-            tile_imgs = glob.glob(kwargs['tiles_srch_path'].format(tile))
-            if len(tile_imgs) > 0:
-                out_min_dB_img = os.path.join(kwargs['out_min_dB_path'], '{}_min_hh_db_mskd.kea'.format(tile))
-                out_max_dB_img = os.path.join(kwargs['out_max_dB_path'], '{}_max_hh_db_mskd.kea'.format(tile))
-                out_diff_dB_img = os.path.join(kwargs['out_diff_dB_path'], '{}_dmaxmin_hh_db_mskd.kea'.format(tile))
+            tile_hh_imgs = list()
+            tile_hv_imgs = list()
 
-                if (not os.path.exists(out_min_dB_img)) or (not os.path.exists(out_max_dB_img)) or (not os.path.exists(out_diff_dB_img)):
+            for year in [1996, 2007, 2008, 2009, 2010, 2015, 2016, 2017, 2018, 2019, 2020]:
+                if (year == 1996) or (year == 2010):
+                    img_path = self.find_file("/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}/{}".format(year, tile), "*_db_mskd.kea")
+                    if img_path is not None:
+                        tile_hh_imgs.append(img_path)
+                else:
+                    img_path = self.find_file("/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}/{}".format(year, tile), "*_db_mskd_reg.kea")
+                    if img_path is not None:
+                        tile_hh_imgs.append(img_path)
+
+
+            if len(tile_hh_imgs) > 0:
+                out_min_hh_dB_img = os.path.join(kwargs['out_min_dB_path'], '{}_min_hh_db_mskd_reg.kea'.format(tile))
+                out_max_hh_dB_img = os.path.join(kwargs['out_max_dB_path'], '{}_max_hh_db_mskd_reg.kea'.format(tile))
+                out_diff_hh_dB_img = os.path.join(kwargs['out_diff_dB_path'], '{}_dmaxmin_hh_db_mskd_reg.kea'.format(tile))
+
+                out_min_hv_dB_img = os.path.join(kwargs['out_min_dB_path'], '{}_min_hv_db_mskd_reg.kea'.format(tile))
+                out_max_hv_dB_img = os.path.join(kwargs['out_max_dB_path'], '{}_max_hv_db_mskd_reg.kea'.format(tile))
+                out_diff_hv_dB_img = os.path.join(kwargs['out_diff_dB_path'], '{}_dmaxmin_hv_db_mskd_reg.kea'.format(tile))
+
+                if (not os.path.exists(out_min_hh_dB_img)) or (not os.path.exists(out_max_hh_dB_img)) or (not os.path.exists(out_diff_hh_dB_img)) or (not os.path.exists(out_min_hv_dB_img)) or (not os.path.exists(out_max_hv_dB_img)) or (not os.path.exists(out_diff_hv_dB_img)):
                     c_dict = dict()
                     c_dict['tile'] = tile
-                    c_dict['sar_imgs'] = tile_imgs
-                    c_dict['out_min_dB_img'] = out_min_dB_img
-                    c_dict['out_max_dB_img'] = out_max_dB_img
-                    c_dict['out_diff_dB_img'] = out_diff_dB_img
+                    c_dict['sar_hh_imgs'] = tile_hh_imgs
+                    c_dict['sar_hv_imgs'] = tile_hv_imgs
+                    c_dict['out_min_hh_dB_img'] = out_min_hh_dB_img
+                    c_dict['out_max_hh_dB_img'] = out_max_hh_dB_img
+                    c_dict['out_diff_hh_dB_img'] = out_diff_hh_dB_img
+                    c_dict['out_min_hv_dB_img'] = out_min_hv_dB_img
+                    c_dict['out_max_hv_dB_img'] = out_max_hv_dB_img
+                    c_dict['out_diff_hv_dB_img'] = out_diff_hv_dB_img
                     c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_min_max_dB".format(tile))
                     if not os.path.exists(c_dict['tmp_dir']):
                         os.mkdir(c_dict['tmp_dir'])
@@ -34,7 +55,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(tile_list='/scratch/a.pfb/gmw_v3_change/scripts/01_download_jaxa_sar/gmw_jaxa_tile_names.txt',
-                              tiles_srch_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/*/{}/*_db_mskd.kea',
                               out_min_dB_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/min_dB',
                               out_max_dB_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/max_dB',
                               out_diff_dB_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/dmaxmin_dB',
