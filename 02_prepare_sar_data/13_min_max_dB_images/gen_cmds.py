@@ -21,10 +21,13 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     img_path = self.find_file("/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}/{}".format(year, tile), "*_db_mskd.kea")
                     if img_path is not None:
                         tile_hh_imgs.append(img_path)
+                        if year == 2010:
+                            tile_hv_imgs.append(img_path)
                 else:
                     img_path = self.find_file("/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}/{}".format(year, tile), "*_db_mskd_reg.kea")
                     if img_path is not None:
                         tile_hh_imgs.append(img_path)
+                        tile_hv_imgs.append(img_path)
 
 
             if len(tile_hh_imgs) > 0:
