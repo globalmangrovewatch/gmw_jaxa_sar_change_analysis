@@ -17,12 +17,15 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_hv_imgs = list()
 
             for year in [1996, 2007, 2008, 2009, 2010, 2015, 2016, 2017, 2018, 2019, 2020]:
-                if (year == 1996) or (year == 2010):
-                    img_path = self.find_file("/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}/{}".format(year, tile), "*_db_mskd.kea")
+                if year == 1996:
+                    img_path = self.find_file("/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg/{}".format(tile), "*_db.kea")
                     if img_path is not None:
                         tile_hh_imgs.append(img_path)
-                        if year == 2010:
-                            tile_hv_imgs.append(img_path)
+                elif year == 2010:
+                    img_path = self.find_file("/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010/{}".format(tile), "*_db_mskd.kea")
+                    if img_path is not None:
+                        tile_hh_imgs.append(img_path)
+                        tile_hv_imgs.append(img_path)
                 else:
                     img_path = self.find_file("/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/{}/{}".format(year, tile), "*_db_mskd_reg.kea")
                     if img_path is not None:
