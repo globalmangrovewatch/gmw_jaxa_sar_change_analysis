@@ -38,10 +38,10 @@ class CalcMinMaxdB(PBPTQProcessTool):
             os.mkdir(self.params['tmp_dir'])
 
         if len(self.params['sar_hh_imgs']) == 1:
-            rsgislib.imagecalc.imageMath(self.params['sar_hh_imgs'][0], self.params['out_min_hh_dB_img'], "b1", "KEA", rsgislib.TYPE_16INT)
+            rsgislib.imagecalc.imageBandMath(self.params['sar_hh_imgs'][0], self.params['out_min_hh_dB_img'], "b1", "KEA", rsgislib.TYPE_16INT)
             rsgislib.imageutils.popImageStats(self.params['out_min_hh_dB_img'], usenodataval=True, nodataval=32767, calcpyramids=True)
 
-            rsgislib.imagecalc.imageMath(self.params['sar_hh_imgs'][0], self.params['out_max_hh_dB_img'], "b1", "KEA", rsgislib.TYPE_16INT)
+            rsgislib.imagecalc.imageBandMath(self.params['sar_hh_imgs'][0], self.params['out_max_hh_dB_img'], "b1", "KEA", rsgislib.TYPE_16INT)
             rsgislib.imageutils.popImageStats(self.params['out_max_hh_dB_img'], usenodataval=True, nodataval=32767, calcpyramids=True)
 
         elif len(self.params['sar_hh_imgs']) > 1:
@@ -69,10 +69,10 @@ class CalcMinMaxdB(PBPTQProcessTool):
 
 
         if len(self.params['sar_hv_imgs']) == 1:
-            rsgislib.imagecalc.imageMath(self.params['sar_hv_imgs'][0], self.params['out_min_hv_dB_img'], "b2", "KEA", rsgislib.TYPE_16INT)
+            rsgislib.imagecalc.imageBandMath(self.params['sar_hv_imgs'][0], self.params['out_min_hv_dB_img'], "b2", "KEA", rsgislib.TYPE_16INT)
             rsgislib.imageutils.popImageStats(self.params['out_min_hv_dB_img'], usenodataval=True, nodataval=32767, calcpyramids=True)
 
-            rsgislib.imagecalc.imageMath(self.params['sar_hv_imgs'][0], self.params['out_max_hv_dB_img'], "b2", "KEA", rsgislib.TYPE_16INT)
+            rsgislib.imagecalc.imageBandMath(self.params['sar_hv_imgs'][0], self.params['out_max_hv_dB_img'], "b2", "KEA", rsgislib.TYPE_16INT)
             rsgislib.imageutils.popImageStats(self.params['out_max_hv_dB_img'], usenodataval=True, nodataval=32767, calcpyramids=True)
 
         elif len(self.params['sar_hv_imgs']) > 1:
