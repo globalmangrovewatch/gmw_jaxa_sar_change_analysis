@@ -15,22 +15,36 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
             tile = tile_basename.split('_')[1]
 
+            jers1_1996_img = os.path.join(kwargs['jers1_path'], tile, "{}_1996_db.kea".format(tile))
+
             gmw_buf_tile = os.path.join(kwargs['tiles_buf_path'], '{}_buf_rgns.kea'.format(basename))
-            min_dB_img = os.path.join(kwargs['min_dB_img_path'], '{}_min_hh_db_mskd.kea'.format(tile))
-            max_dB_img = os.path.join(kwargs['max_dB_img_path'], '{}_max_hh_db_mskd.kea'.format(tile))
-            diff_dB_img = os.path.join(kwargs['diff_dB_img_path'], '{}_dmaxmin_hh_db_mskd.kea'.format(tile))
+            min_hh_dB_img = os.path.join(kwargs['min_dB_img_path'], '{}_min_hh_db_mskd_reg.kea'.format(tile))
+            max_hh_dB_img = os.path.join(kwargs['max_dB_img_path'], '{}_max_hh_db_mskd_reg.kea'.format(tile))
+            diff_hh_dB_img = os.path.join(kwargs['diff_dB_img_path'], '{}_dmaxmin_hh_db_mskd_reg.kea'.format(tile))
 
-            if not os.path.exists(diff_dB_img):
-                diff_dB_img = None
+            min_hv_dB_img = os.path.join(kwargs['min_dB_img_path'], '{}_min_hv_db_mskd_reg.kea'.format(tile))
+            max_hv_dB_img = os.path.join(kwargs['max_dB_img_path'], '{}_max_hv_db_mskd_reg.kea'.format(tile))
+            diff_hv_dB_img = os.path.join(kwargs['diff_dB_img_path'], '{}_dmaxmin_hv_db_mskd_reg.kea'.format(tile))
 
-            if not os.path.exists(min_dB_img):
-                min_dB_img = None
-
-            if not os.path.exists(max_dB_img):
-                max_dB_img = None
+            if not os.path.exists(max_hh_dB_img):
+                max_hh_dB_img = None
+            if not os.path.exists(min_hh_dB_img):
+                min_hh_dB_img = None
+            if not os.path.exists(diff_hh_dB_img):
+                diff_hh_dB_img = None
+                
+            if not os.path.exists(max_hv_dB_img):
+                max_hv_dB_img = None
+            if not os.path.exists(min_hv_dB_img):
+                min_hv_dB_img = None
+            if not os.path.exists(diff_hv_dB_img):
+                diff_hv_dB_img = None
 
             if not os.path.exists(gmw_buf_tile):
                 gmw_buf_tile = None
+
+            if not os.path.exists(jers1_1996_img):
+                jers1_1996_img = None
 
             gmw_buf_chng_rgns_img = os.path.join(kwargs['out_tiles_dir'], '{}_v3_init_chng_rgns.kea'.format(tile_basename))
 
@@ -40,9 +54,13 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['tile'] = tile
                 c_dict['gmw_tile'] = gmw_tile
                 c_dict['gmw_buf_tile'] = gmw_buf_tile
-                c_dict['min_dB_img'] = min_dB_img
-                c_dict['max_dB_img'] = max_dB_img
-                c_dict['diff_dB_img'] = diff_dB_img
+                c_dict['jers1_1996_img'] = jers1_1996_img
+                c_dict['min_hh_dB_img'] = min_hh_dB_img
+                c_dict['max_hh_dB_img'] = max_hh_dB_img
+                c_dict['diff_hh_dB_img'] = diff_hh_dB_img
+                c_dict['min_hv_dB_img'] = min_hv_dB_img
+                c_dict['max_hv_dB_img'] = max_hv_dB_img
+                c_dict['diff_hv_dB_img'] = diff_hv_dB_img
                 c_dict['gmw_buf_chng_rgns_img'] = gmw_buf_chng_rgns_img
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_buf_chng_rgns".format(tile_basename))
                 if not os.path.exists(c_dict['tmp_dir']):
@@ -53,6 +71,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
         self.gen_command_info(in_tiles_path='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
                               tiles_buf_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_v3_init_buffer/',
+                              jers1_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg',
                               min_dB_img_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/min_dB',
                               max_dB_img_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/max_dB',
                               diff_dB_img_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/dmaxmin_dB',

@@ -20,22 +20,33 @@ class FindPotentialMngChngRegions(PBPTQProcessTool):
         if not os.path.exists(self.params['tmp_dir']):
             os.mkdir(self.params['tmp_dir'])
 
-        if self.params['gmw_buf_tile'] is None and self.params['diff_dB_img'] is None:
+        if self.params['gmw_buf_tile'] is None and self.params['diff_hv_dB_img'] is None:
             band_defns = [rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1)]
-            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:0', 'KEA', rsgislib.TYPE_16INT, band_defns)
+            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
             rsgislib.rastergis.populateStats(self.params['gmw_buf_chng_rgns_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
-        elif self.params['diff_dB_img'] is None:
+        elif self.params['diff_hv_dB_img'] is None:
             band_defns = [rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1),
                           rsgislib.imagecalc.BandDefn('gmw_buf', self.params['gmw_buf_tile'], 1)]
-            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:gmw_buf==1?1:0', 'KEA', rsgislib.TYPE_16INT, band_defns)
+            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:gmw_buf==1?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+            rsgislib.rastergis.populateStats(self.params['gmw_buf_chng_rgns_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
+        elif self.params['jers1_1996_img'] is None:
+            band_defns = [
+                rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1),
+              rsgislib.imagecalc.BandDefn('gmw_buf', self.params['gmw_buf_tile'], 1),
+              rsgislib.imagecalc.BandDefn('minHV', self.params['min_hv_dB_img'], 1),
+              rsgislib.imagecalc.BandDefn('maxHV', self.params['max_hv_dB_img'], 1),
+              rsgislib.imagecalc.BandDefn('difHV', self.params['diff_hv_dB_img'], 1)]
+            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:(gmw_buf==1)&&(difHV>500)&&(minHV<-1800)&&(maxHV>-2500)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
             rsgislib.rastergis.populateStats(self.params['gmw_buf_chng_rgns_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         else:
-            band_defns = [rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1),
-                          rsgislib.imagecalc.BandDefn('gmw_buf', self.params['gmw_buf_tile'], 1),
-                          rsgislib.imagecalc.BandDefn('minHH', self.params['min_dB_img'], 1),
-                          rsgislib.imagecalc.BandDefn('maxHH', self.params['max_dB_img'], 1),
-                          rsgislib.imagecalc.BandDefn('difHH', self.params['diff_dB_img'], 1)]
-            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:(gmw_buf==1)&&(difHH>800)&&(minHH<-1000)&&(maxHH>-1500)?1:0', 'KEA', rsgislib.TYPE_16INT, band_defns)
+            band_defns = [
+                rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1),
+                rsgislib.imagecalc.BandDefn('gmw_buf', self.params['gmw_buf_tile'], 1),
+                rsgislib.imagecalc.BandDefn('minHV', self.params['min_hv_dB_img'], 1),
+                rsgislib.imagecalc.BandDefn('maxHV', self.params['max_hv_dB_img'], 1),
+                rsgislib.imagecalc.BandDefn('difHV', self.params['diff_hv_dB_img'], 1),
+                rsgislib.imagecalc.BandDefn('jers1', self.params['jers1_1996_img'], 1)]
+            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:(gmw_buf==1)&&(difHV>500)&&(minHV<-1800)&&(maxHV>-2500)?1:(gmw_buf==1)&&(jers1>-1500)&&(minHV<-1800)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
             rsgislib.rastergis.populateStats(self.params['gmw_buf_chng_rgns_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         
         if os.path.exists(self.params['tmp_dir']):
@@ -44,7 +55,7 @@ class FindPotentialMngChngRegions(PBPTQProcessTool):
 
 
     def required_fields(self, **kwargs):
-        return ["tile", "gmw_tile", "gmw_buf_tile", "min_dB_img", "max_dB_img", "diff_dB_img", "gmw_buf_chng_rgns_img", "tmp_dir"]
+        return ["tile", "gmw_tile", "gmw_buf_tile", "jers1_1996_img", "min_hh_dB_img", "max_hh_dB_img", "diff_hh_dB_img", "min_hv_dB_img", "max_hv_dB_img", "diff_hv_dB_img", "gmw_buf_chng_rgns_img", "tmp_dir"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
