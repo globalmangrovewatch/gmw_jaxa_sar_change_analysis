@@ -19,7 +19,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             gmw_rmsml_chng_rgns_img = os.path.join(kwargs['init_potent_chng'], '{}_v3_init_chng_rgns_rmsml.kea'.format(tile_basename))
             gmw_morph_chng_rgns_img = os.path.join(kwargs['out_tiles_dir'], '{}_v3_init_chng_rgns_rmsml_morph.kea'.format(tile_basename))
 
-            if (not os.path.exists(gmw_rmsml_chng_rgns_img)):
+            if (not os.path.exists(gmw_morph_chng_rgns_img)):
                 #print("rm {}".format(gmw_rmsml_chng_rgns_img))
                 c_dict = dict()
                 c_dict['tile'] = tile
