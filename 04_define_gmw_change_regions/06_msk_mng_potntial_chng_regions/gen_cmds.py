@@ -15,7 +15,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
             pot_ocean_chng_img = os.path.join(kwargs['pot_chng_regs_tiles_dir'], '{}_pot_chng_ocean_chg_rgns.kea'.format(tile_basename))
-            pot_sar_chng_img = os.path.join(kwargs['pot_jaxa_chng_tiles_dir'], '{}_v3_init_chng_rgns_rmsml.kea'.format(tile_basename))
+            pot_sar_chng_img = os.path.join(kwargs['pot_jaxa_chng_tiles_dir'], '{}_v3_init_chng_rgns_rmsml_morph.kea'.format(tile_basename))
 
             out_img = os.path.join(kwargs['out_dir'], '{}_gmw_v3_pot_chng_ocean_chg_rgns.kea'.format(tile_basename))
 
@@ -36,7 +36,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
                               pot_chng_regs_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/pot_chng_ocean_chg_rgns',
-                              pot_jaxa_chng_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_v3_init_change_regions_rm_sml',
+                              pot_jaxa_chng_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_v3_init_change_regions_rm_sml_morph',
                               out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/pot_gmw_chng_ocean_chg_rgns',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
         self.pop_params_db()
