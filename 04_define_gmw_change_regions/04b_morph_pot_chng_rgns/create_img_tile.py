@@ -86,18 +86,18 @@ class ProcessImgTile(PBPTQProcessTool):
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
-        files_dict[self.self.params['gmw_morph_chng_rgns_img']] = 'gdal_image'
+        files_dict[self.params['gmw_morph_chng_rgns_img']] = 'gdal_image'
         return self.check_files(files_dict)
 
     def remove_outputs(self, **kwargs):
         # Remove the output files.
-        if os.path.exists(self.self.params['gmw_morph_chng_rgns_img']):
-            os.remove(self.self.params['gmw_morph_chng_rgns_img'])
+        if os.path.exists(self.params['gmw_morph_chng_rgns_img']):
+            os.remove(self.params['gmw_morph_chng_rgns_img'])
 
         # Reset the tmp dir
-        if os.path.exists(self.self.params['tmp_dir']):
-            shutil.rmtree(self.self.params['tmp_dir'])
-        os.mkdir(self.self.params['tmp_dir'])
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
+        os.mkdir(self.params['tmp_dir'])
 
 if __name__ == "__main__":
     ProcessImgTile().std_run()
