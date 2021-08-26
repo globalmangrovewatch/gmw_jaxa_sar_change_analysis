@@ -36,7 +36,7 @@ class FindPotentialMngChngRegions(PBPTQProcessTool):
               rsgislib.imagecalc.BandDefn('minHV', self.params['min_hv_dB_img'], 1),
               rsgislib.imagecalc.BandDefn('maxHV', self.params['max_hv_dB_img'], 1),
               rsgislib.imagecalc.BandDefn('difHV', self.params['diff_hv_dB_img'], 1)]
-            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:(gmw_buf==1)&&(difHV>500)&&(minHV<-1800)&&(maxHV>-2500)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:(gmw_buf==1)&&(difHV>800)&&(minHV<-1800)&&(maxHV>-2500)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
             rsgislib.rastergis.populateStats(self.params['gmw_buf_chng_rgns_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         else:
             band_defns = [
@@ -46,7 +46,7 @@ class FindPotentialMngChngRegions(PBPTQProcessTool):
                 rsgislib.imagecalc.BandDefn('maxHV', self.params['max_hv_dB_img'], 1),
                 rsgislib.imagecalc.BandDefn('difHV', self.params['diff_hv_dB_img'], 1),
                 rsgislib.imagecalc.BandDefn('jers1', self.params['jers1_1996_img'], 1)]
-            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:(gmw_buf==1)&&(difHV>500)&&(minHV<-1800)&&(maxHV>-2500)?1:(gmw_buf==1)&&(jers1>-1500)&&(minHV<-1800)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+            rsgislib.imagecalc.bandMath(self.params['gmw_buf_chng_rgns_img'], 'gmw==1?1:(gmw_buf==1)&&(difHV>800)&&(minHV<-1800)&&(maxHV>-2500)?1:(gmw_buf==1)&&(jers1>-1100)&&(jers1<0)&&(minHV<-1800)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
             rsgislib.rastergis.populateStats(self.params['gmw_buf_chng_rgns_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         
         if os.path.exists(self.params['tmp_dir']):
