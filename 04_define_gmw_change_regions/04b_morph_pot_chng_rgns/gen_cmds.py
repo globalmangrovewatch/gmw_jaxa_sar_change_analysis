@@ -15,7 +15,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
             tile = tile_basename.split('_')[1]
 
-            gmw_dist_regions_img = os.path.join(kwargs['gmw_dist_path'], '{}_dist_pxls.kea'.format(tile_basename))
+            gmw_dist_regions_img = os.path.join(kwargs['gmw_dist_path'], '{}_tile_gmw_v3_init_qad_dist_pxls.kea'.format(tile_basename))
             gmw_rmsml_chng_rgns_img = os.path.join(kwargs['init_potent_chng'], '{}_v3_init_chng_rgns_rmsml.kea'.format(tile_basename))
             gmw_morph_chng_rgns_img = os.path.join(kwargs['out_tiles_dir'], '{}_v3_init_chng_rgns_rmsml_morph.kea'.format(tile_basename))
 
