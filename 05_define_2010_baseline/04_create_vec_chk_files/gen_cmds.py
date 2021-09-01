@@ -14,30 +14,32 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_basename = self.get_file_basename(img_tile)
             tile = tile_basename.split('_')[0]
 
-            vec_file = os.path.join(kwargs['tiles_out_vec'], '{}_vec.gpkg'.format(tile_basename))
+            vec_file = os.path.join(kwargs['tiles_out_vec'], '{}.gpkg'.format(tile_basename))
+            out_cmp_file = os.path.join(kwargs['tiles_out_vec'], '{}.txt'.format(tile_basename))
 
-            if (not os.path.exists(vec_file)):
+            if (not os.path.exists(out_cmp_file)):
                 print("rm {}".format(img_tile))
                 c_dict = dict()
                 c_dict['tile'] = tile
                 c_dict['img'] = img_tile
                 c_dict['out_vec'] = vec_file
                 c_dict['lyr_name'] = kwargs['lyr_name']
+                c_dict['out_cmp_file'] = out_cmp_file
                 self.params.append(c_dict)
 
 
     def run_gen_commands(self):
-        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
-                              lyr_name='gmw_v3',
-                              tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3_vecs')
+        #self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
+        #                      lyr_name='gmw_v3',
+        #                      tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3_vecs')
 
         self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn/*.kea',
                               lyr_name='gmw_2010_potent_chng',
                               tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn_vecs')
 
-        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_stats_rgn/*.kea',
-                              lyr_name='gmw_2010_potent_chng_stats_rgns',
-                              tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_stats_rgn_vecs')
+        #self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_stats_rgn/*.kea',
+        #                      lyr_name='gmw_2010_potent_chng_stats_rgns',
+        #                      tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_stats_rgn_vecs')
 
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_2010_init_water_mask_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
