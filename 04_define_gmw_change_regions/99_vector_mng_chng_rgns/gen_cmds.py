@@ -17,7 +17,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_basename = self.get_file_basename(gmw_potent_chng_tile)
             tile = tile_basename.split('_')[0]
 
-            gmw_potent_chng_tile_vec = os.path.join(kwargs['tiles_out_vec'], '{}_vec.gpkg'.format(tile_basename))
+            gmw_potent_chng_tile_vec = os.path.join(kwargs['tiles_out_vec'], '{}.gpkg'.format(tile_basename))
             out_cmp_file = os.path.join(kwargs['tiles_out_vec'], '{}.txt'.format(tile_basename))
 
             if (not os.path.exists(out_cmp_file)):
