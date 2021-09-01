@@ -4,6 +4,7 @@ import os
 import pathlib
 import rsgislib
 import rsgislib.vectorutils
+import rsgislib.imagecalc
 
 logger = logging.getLogger(__name__)
 
