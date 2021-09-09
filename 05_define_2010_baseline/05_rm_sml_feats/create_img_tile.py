@@ -20,21 +20,30 @@ class CreateImageTile(PBPTQProcessTool):
         if not os.path.exists(self.params['tmp_dir']):
             os.mkdir(self.params['tmp_dir'])
 
-        chgn_rgns_clmps_img = os.path.join(self.params['tmp_dir'], "{}_chng_rgn_clumps.kea".format(self.params['tile']))
-        rsgislib.segmentation.clump(self.params['chng_rgns_img'], chgn_rgns_clmps_img, 'KEA', False, 0.0)
-        rsgislib.rastergis.populateStats(chgn_rgns_clmps_img, addclrtab=True, calcpyramids=False, ignorezero=True)
+        pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['chng_rgns_img'], vals=[1])
+        print("N Pixels: ", pxl_count[0])
 
-        morph_op = os.path.join(self.params['tmp_dir'], "{}_morph_op.gmtxt".format(self.params['tile']))
-        rsgislib.imagemorphology.createCircularOp(morph_op, 3)
+        if pxl_count[0] > 0:
+            chgn_rgns_clmps_img = os.path.join(self.params['tmp_dir'], "{}_chng_rgn_clumps.kea".format(self.params['tile']))
+            rsgislib.segmentation.clump(self.params['chng_rgns_img'], chgn_rgns_clmps_img, 'KEA', False, 0.0)
+            rsgislib.rastergis.populateStats(chgn_rgns_clmps_img, addclrtab=True, calcpyramids=False, ignorezero=True)
 
-        chgn_rgns_erode_img = os.path.join(self.params['tmp_dir'], "{}_chng_rgn_clumps.kea".format(self.params['tile']))
-        rsgislib.imagemorphology.imageErode(self.params['chng_rgns_img'], chgn_rgns_erode_img, morph_op, True, 3, "KEA", rsgislib.TYPE_8UINT)
+            morph_op = os.path.join(self.params['tmp_dir'], "{}_morph_op.gmtxt".format(self.params['tile']))
+            rsgislib.imagemorphology.createCircularOp(morph_op, 3)
 
-        bs = [rsgislib.rastergis.BandAttStats(band=1, minField='chng_min', maxField='chng_max')]
-        rsgislib.rastergis.populateRATWithStats(chgn_rgns_erode_img, chgn_rgns_clmps_img, bs)
+            chgn_rgns_erode_img = os.path.join(self.params['tmp_dir'], "{}_chng_rgn_clumps.kea".format(self.params['tile']))
+            rsgislib.imagemorphology.imageErode(self.params['chng_rgns_img'], chgn_rgns_erode_img, morph_op, True, 3, "KEA", rsgislib.TYPE_8UINT)
+            rsgislib.rastergis.populateStats(chgn_rgns_erode_img, addclrtab=True, calcpyramids=False, ignorezero=True)
 
-        rsgislib.rastergis.exportCol2GDALImage(chgn_rgns_clmps_img, self.params['out_img'], "KEA", rsgislib.TYPE_8UINT, 'chng_max')
-        rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
+            bs = [rsgislib.rastergis.BandAttStats(band=1, minField='chng_min', maxField='chng_max')]
+            rsgislib.rastergis.populateRATWithStats(chgn_rgns_erode_img, chgn_rgns_clmps_img, bs)
+
+            rsgislib.rastergis.exportCol2GDALImage(chgn_rgns_clmps_img, self.params['out_img'], "KEA", rsgislib.TYPE_8UINT, 'chng_max')
+            rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
+        else:
+            band_defns = [rsgislib.imagecalc.BandDefn('b1', self.params['chng_rgns_img'], 1)]
+            rsgislib.imagecalc.bandMath(self.params['out_img'], '0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+            rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
         if os.path.exists(self.params['tmp_dir']):
             shutil.rmtree(self.params['tmp_dir'])
