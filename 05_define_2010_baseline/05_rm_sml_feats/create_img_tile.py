@@ -89,22 +89,23 @@ class CreateImageTile(PBPTQProcessTool):
             fill_feats[(chng_overlap == 1) & (gmw_overlap == 1)] = 1
             rsgislib.rastergis.ratutils.setColumnData(gmw_mng_dilate_sml_feats_dilate_clumps_img, "fill_feats", fill_feats)
 
-            gmw_mng_chng_fill_feats_img = os.path.join(self.params['tmp_dir'], "{}_gmw_mng_dilate_sml_feats.kea".format(self.params['tile']))
+            gmw_mng_chng_fill_feats_img = os.path.join(self.params['tmp_dir'], "{}_mng_potchng_sml_feats_rgns.kea".format(self.params['tile']))
             rsgislib.rastergis.exportCol2GDALImage(gmw_mng_dilate_sml_feats_dilate_clumps_img, gmw_mng_chng_fill_feats_img, "KEA", rsgislib.TYPE_8UINT, 'fill_feats')
 
             band_defns = [
+                rsgislib.imagecalc.BandDefn('mng', self.params['gmw_tile'], 1),
                 rsgislib.imagecalc.BandDefn('potfill', gmw_mng_dilate_sml_feats_img, 1),
                 rsgislib.imagecalc.BandDefn('fillrgns', gmw_mng_chng_fill_feats_img, 1),
                 rsgislib.imagecalc.BandDefn('chng', chgn_rgns_rm_sml_img, 1)]
-            rsgislib.imagecalc.bandMath(self.params['out_img'], '(potfill==1)&&(fillrgns==1)?1:chng', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+            rsgislib.imagecalc.bandMath(self.params['out_img'], '(mng==1)?0:(potfill==1)&&(fillrgns==1)?1:chng', 'KEA', rsgislib.TYPE_8UINT, band_defns)
             rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
         else:
             band_defns = [rsgislib.imagecalc.BandDefn('b1', self.params['chng_rgns_img'], 1)]
             rsgislib.imagecalc.bandMath(self.params['out_img'], '0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
             rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
-        #if os.path.exists(self.params['tmp_dir']):
-        #    shutil.rmtree(self.params['tmp_dir'])
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
 
 
     def required_fields(self, **kwargs):
