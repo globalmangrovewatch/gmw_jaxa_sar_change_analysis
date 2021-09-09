@@ -22,7 +22,7 @@ class CreateImageTile(PBPTQProcessTool):
 
         chgn_rgns_clmps_img = os.path.join(self.params['tmp_dir'], "{}_chng_rgn_clumps.kea".format(self.params['tile']))
         rsgislib.segmentation.clump(self.params['chng_rgns_img'], chgn_rgns_clmps_img, 'KEA', False, 0.0)
-        rsgislib.rastergis.populateStats(chgn_rgns_clmps_img, addclrtab=False, calcpyramids=False, ignorezero=True)
+        rsgislib.rastergis.populateStats(chgn_rgns_clmps_img, addclrtab=True, calcpyramids=False, ignorezero=True)
 
         morph_op = os.path.join(self.params['tmp_dir'], "{}_morph_op.gmtxt".format(self.params['tile']))
         rsgislib.imagemorphology.createCircularOp(morph_op, 3)
