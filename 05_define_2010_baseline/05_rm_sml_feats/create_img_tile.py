@@ -103,8 +103,8 @@ class CreateImageTile(PBPTQProcessTool):
             rsgislib.imagecalc.bandMath(self.params['out_img'], '0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
             rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
-        if os.path.exists(self.params['tmp_dir']):
-            shutil.rmtree(self.params['tmp_dir'])
+        #if os.path.exists(self.params['tmp_dir']):
+        #    shutil.rmtree(self.params['tmp_dir'])
 
 
     def required_fields(self, **kwargs):
