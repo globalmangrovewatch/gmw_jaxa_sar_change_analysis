@@ -35,7 +35,7 @@ class CreateImageTile(PBPTQProcessTool):
                       rsgislib.imagecalc.BandDefn('chng_rgns', self.params['chng_rgns_img'], 1),
                       rsgislib.imagecalc.BandDefn('add', add_rgns_img, 1),
                       rsgislib.imagecalc.BandDefn('rm', rm_rgns_img, 1)]
-        rsgislib.imagecalc.bandMath(self.params['out_img'], '(rm==1)?0:(add==1)&&(mng==0)?1:chng_rgns', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.imagecalc.bandMath(self.params['out_img'], '(mng==1)?0:(rm==1)?0:(add==1)?1:chng_rgns', 'KEA', rsgislib.TYPE_8UINT, band_defns)
         rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
         if os.path.exists(self.params['tmp_dir']):
