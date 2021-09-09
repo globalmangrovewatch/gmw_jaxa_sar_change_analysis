@@ -33,9 +33,9 @@ class GenCmds(PBPTGenQProcessToolCmds):
                               lyr_name='gmw_2010_potent_chng',
                               tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn_vecs')
 
-        #self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_stats_rgn/*.kea',
-        #                      lyr_name='gmw_2010_potent_chng_stats_rgns',
-        #                      tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_stats_rgn_vecs')
+        self.gen_command_info(tiles_path='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn_qad_rm_sml/*.kea',
+                              lyr_name='gmw_2010_potent_chng_qa_rm_sml',
+                              tiles_out_vec='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn_qad_rm_sml_vecs')
 
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_2010_fnl_potent_chg_rgn_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
