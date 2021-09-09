@@ -26,8 +26,6 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['add_rgns_vec_lyr'] = kwargs['add_rgns_vec_lyr']
                 c_dict['rm_rgns_vec_file'] = kwargs['rm_rgns_vec_file']
                 c_dict['rm_rgns_vec_lyr'] = kwargs['rm_rgns_vec_lyr']
-                c_dict['not_mng_qa_vec_file'] = kwargs['not_mng_qa_vec_file']
-                c_dict['not_mng_qa_vec_lyr'] = kwargs['not_mng_qa_vec_lyr']
                 c_dict['out_img'] = out_img
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_2010_v3_chg_rgn_qad".format(tile_basename))
                 if not os.path.exists(c_dict['tmp_dir']):
