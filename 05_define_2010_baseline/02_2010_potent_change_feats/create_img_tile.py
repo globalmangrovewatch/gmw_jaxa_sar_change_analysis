@@ -18,9 +18,10 @@ class CreateImageTile(PBPTQProcessTool):
     def do_processing(self, **kwargs):
         band_defns = [rsgislib.imagecalc.BandDefn('wchng', self.params['water_chng_img'], 1),
                       rsgislib.imagecalc.BandDefn('pchng', self.params['pot_chng_rgns_img'], 1),
+                      rsgislib.imagecalc.BandDefn('wmsk', self.params['water_msk_img'], 1),
                       rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1),
                       rsgislib.imagecalc.BandDefn('gmwinit', self.params['gmw_init_msk_img'], 1)]
-        rsgislib.imagecalc.bandMath(self.params['out_img'], '(gmwinit==1)&&(gmw==0)?1:(pchng==1)&&(((wchng>=1)&&(wchng<95))||((wchng>105)&&(wchng<=200)))?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.imagecalc.bandMath(self.params['out_img'], '(gmw==1)?0:(gmwinit==1)&&(gmw==0)?1:(wchng==254)&&(wmsk==1)&&(pchng==1)?1:(pchng==1)&&(((wchng>=1)&&(wchng<95))||((wchng>105)&&(wchng<=200)))?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
         rsgislib.rastergis.populateStats(self.params['out_img'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
 
