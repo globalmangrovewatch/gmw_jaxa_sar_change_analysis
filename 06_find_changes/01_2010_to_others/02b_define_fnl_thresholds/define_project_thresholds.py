@@ -51,8 +51,8 @@ years = ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019',
 #thres_base_dir = "/Users/pete/Temp/gmw_v3_analysis/gmw_chng_thresholds/outputs"
 #out_dir = "/Users/pete/Temp/gmw_v3_analysis/gmw_chng_thresholds/fnl_thresholds"
 
-thres_base_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/"
-out_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/fnl_prj_thresholds"
+thres_base_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010"
+out_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/fnl_prj_thresholds"
 
 for prj in prj_idx_lst:
     print(prj)

@@ -86,8 +86,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                   potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn',
                                   sar_tiles_dir=sar_tiles_dir,
                                   sar_year=year,
-                                  thres_files_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/fnl_prj_thresholds',
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs'.format(year),
+                                  thres_files_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/fnl_prj_thresholds',
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_{}_chngs'.format(year),
                                   tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.pop_params_db()

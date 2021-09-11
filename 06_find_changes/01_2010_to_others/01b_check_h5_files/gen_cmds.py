@@ -32,8 +32,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
             if year == '1996':
                 sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg'
 
-            self.gen_command_info(input_files='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_pxl_vals/*.h5'.format(year),
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_pxl_vals_chk'.format(year))
+            self.gen_command_info(input_files='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_{}_pxl_vals/*.h5'.format(year),
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_{}_pxl_vals_chk'.format(year))
 
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_2010_XXXX_pxl_vals_chk", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
