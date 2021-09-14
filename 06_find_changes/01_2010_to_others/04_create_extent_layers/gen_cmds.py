@@ -8,8 +8,10 @@ logger = logging.getLogger(__name__)
 class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
-        if not os.path.exists(kwargs['out_dir']):
-            os.mkdir(kwargs['out_dir'])
+        if not os.path.exists(kwargs['out_mng_dir']):
+            os.mkdir(kwargs['out_mng_dir'])
+        if not os.path.exists(kwargs['out_nmng_dir']):
+            os.mkdir(kwargs['out_nmng_dir'])
 
         img_tiles = glob.glob(kwargs['gmw_tiles'])
         for gmw_tile in img_tiles:
