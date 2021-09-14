@@ -14,7 +14,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         img_tiles = glob.glob(kwargs['gmw_tiles'])
         for gmw_tile in img_tiles:
-            basename = self.get_file_basename(gmw_tile)
+            #basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
             tile_name = tile_basename.split('_')[1]
 
@@ -23,7 +23,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 sar_img = os.path.join(sar_scn_dir, '{}_{}_db_mskd_reg.kea'.format(tile_name, kwargs['sar_year']))
 
                 if os.path.exists(sar_img):
-                    potent_chng_msk_img = os.path.join(kwargs['potent_chng_msk_dir'], '{}_2010_v3_chg_rgn.kea'.format(tile_basename))
+                    potent_chng_msk_img = os.path.join(kwargs['potent_chng_msk_dir'], '{}_{}_pchg_v3_base2010.kea'.format(tile_basename, kwargs['base_year']))
 
                     out_mng_data = os.path.join(kwargs['out_dir'], '{}_{}_mng_dB.h5'.format(tile_basename, kwargs['sar_year']))
                     out_nmng_data = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_dB.h5'.format(tile_basename, kwargs['sar_year']))
@@ -51,10 +51,11 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 if chg_year == '1996':
                     sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg'
 
-                self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
-                                      potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_stats_rgn',
+                self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_base2010_mng_{}_v3/*.kea'.format(l1_year),
+                                      potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_base2010_pchg_{}_v3'.format(l1_year),
                                       sar_tiles_dir=sar_tiles_dir,
                                       sar_year=chg_year,
+                                      base_year=l1_year,
                                       out_dir=os.path.join(base_dir, 'gmw_{}_{}_pxl_vals'.format(l1_year, chg_year)))
 
         self.pop_params_db()
