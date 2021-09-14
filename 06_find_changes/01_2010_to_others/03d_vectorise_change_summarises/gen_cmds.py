@@ -19,7 +19,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_cmp_file = os.path.join(kwargs['out_dir'], '{}.txt'.format(basename))
 
             if not os.path.exists(out_cmp_file):
-                print("rm {}".format(img_tile))
+                #print('rm {}'.format(img_tile))
                 c_dict = dict()
                 c_dict['img_tile'] = img_tile
                 c_dict['out_vec'] = out_vec
@@ -29,28 +29,46 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        self.gen_command_info(
-            img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_pre_2010_chngs/*_sum_not_mng_chng.kea',
-            out_lyr_name='pre_2010_mng_loss',
-            out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_pre_2010_chngs_vecs')
 
-        self.gen_command_info(
-            img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_pre_2010_chngs/*_sum_mng_chng.kea',
-            out_lyr_name='pre_2010_mng_gain',
-            out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_pre_2010_chngs_vecs')
+        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+            self.gen_command_info(
+                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_{0}_chngs/*{0}_mng_chng.kea'.format(year),
+                out_lyr_name='gmw_mng_chng',
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_{}_chngs_vecs/'.format(year))
 
-        self.gen_command_info(
-                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_post_2010_chngs/*_sum_not_mng_chng.kea',
-                out_lyr_name='pre_2010_mng_gain',
-                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_post_2010_chngs_vecs')
+        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+            self.gen_command_info(
+                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_{0}_chngs/*{0}_not_mng_chng.kea'.format(year),
+                out_lyr_name='gmw_nmng_chng',
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_{}_chngs_vecs/'.format(year))
+        """
+        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+            self.gen_command_info(
+                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{0}_chngs/*{0}_mng_chng_upper.kea'.format(year),
+                out_lyr_name='gmw_mng_chng_upper',
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_vecs/'.format(year))
 
-        self.gen_command_info(
-                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_post_2010_chngs/*_sum_mng_chng.kea',
-                out_lyr_name='pre_2010_mng_loss',
-                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_post_2010_chngs_vecs')
+        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+            self.gen_command_info(
+                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{0}_chngs/*{0}_not_mng_chng_upper.kea'.format(year),
+                out_lyr_name='gmw_nmng_chng_upper',
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_vecs/'.format(year))
+
+        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+            self.gen_command_info(
+                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{0}_chngs/*{0}_mng_chng_lower.kea'.format(year),
+                out_lyr_name='gmw_mng_chng_lower',
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_vecs/'.format(year))
+
+        for year in ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']:
+            self.gen_command_info(
+                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{0}_chngs/*{0}_not_mng_chng_lower.kea'.format(year),
+                out_lyr_name='gmw_nmng_chng_lower',
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_{}_chngs_vecs/'.format(year))
+        """
 
         self.pop_params_db()
-        self.create_slurm_sub_sh("gmw_vec_chng_sum", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
+        self.create_slurm_sub_sh("gmw_chngs_msk_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
