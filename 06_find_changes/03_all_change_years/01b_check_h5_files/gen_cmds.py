@@ -29,13 +29,13 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
 
         all_years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
-        years_l1 = ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']
+        years_l1 = ['1996']#, '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']
         for l1_year in years_l1:
             base_dir = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from{}'.format(l1_year)
             chng_years = all_years.copy()
             chng_years.remove(l1_year)
             for chg_year in chng_years:
-                self.gen_command_info(input_files=os.path.join(base_dir, 'gmw_{}_{}_pxl_vals'.format(l1_year, chg_year)),
+                self.gen_command_info(input_files=os.path.join(base_dir, 'gmw_{}_{}_pxl_vals/*.h5'.format(l1_year, chg_year)),
                                       out_dir=os.path.join(base_dir, 'gmw_{}_{}_pxl_vals_chk'.format(l1_year, chg_year)))
 
 
