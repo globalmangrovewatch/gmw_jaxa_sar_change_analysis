@@ -23,7 +23,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 sar_img = os.path.join(sar_scn_dir, '{}_{}_db_mskd_reg.kea'.format(tile_name, kwargs['sar_year']))
 
                 if os.path.exists(sar_img):
-                    potent_chng_msk_img = os.path.join(kwargs['potent_chng_msk_dir'], '{}_{}_pchg_v3_base2010.kea'.format(tile_basename, kwargs['base_year']))
+                    potent_chng_msk_img = os.path.join(kwargs['potent_chng_msk_dir'], '{}_{}_stat_chg_rgns_v3_base2010.kea'.format(tile_basename, kwargs['base_year']))
 
                     out_mng_data = os.path.join(kwargs['out_dir'], '{}_{}_mng_dB.h5'.format(tile_basename, kwargs['sar_year']))
                     out_nmng_data = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_dB.h5'.format(tile_basename, kwargs['sar_year']))
@@ -41,7 +41,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         all_years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
-        years_l1 = ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']
+        years_l1 = ['1996']#, '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']
         for l1_year in years_l1:
             base_dir = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from{}'.format(l1_year)
             chng_years = all_years.copy()
