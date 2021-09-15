@@ -314,7 +314,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
                                                                                                         init_thres=-1400,
                                                                                                         low_thres=True,
                                                                                                         contamination=10.0,
-                                                                                                        n_iters=20,
+                                                                                                        n_iters=5,
                                                                                                         prop_samples=0.5,
                                                                                                         min_smpl_size=1000,
                                                                                                         max_smpl_size=500000)
@@ -341,7 +341,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
                                                                                                         init_thres=-1400,
                                                                                                         low_thres=False,
                                                                                                         contamination=10.0,
-                                                                                                        n_iters=20,
+                                                                                                        n_iters=5,
                                                                                                         prop_samples=0.5,
                                                                                                         min_smpl_size=1000,
                                                                                                         max_smpl_size=500000)
@@ -368,7 +368,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
                                                                                                         init_thres=-1600,
                                                                                                         low_thres=True,
                                                                                                         contamination=10.0,
-                                                                                                        n_iters=20,
+                                                                                                        n_iters=5,
                                                                                                         prop_samples=0.5,
                                                                                                         min_smpl_size=1000,
                                                                                                         max_smpl_size=500000)
@@ -395,7 +395,7 @@ class CalcProjectThreholds(PBPTQProcessTool):
                                                                                                         init_thres=-1600,
                                                                                                         low_thres=False,
                                                                                                         contamination=10.0,
-                                                                                                        n_iters=20,
+                                                                                                        n_iters=5,
                                                                                                         prop_samples=0.5,
                                                                                                         min_smpl_size=1000,
                                                                                                         max_smpl_size=500000)
