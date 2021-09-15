@@ -218,6 +218,8 @@ years_l1 = ['1996']#, '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2
 for l1_year in years_l1:
     base_dir = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from{}'.format(l1_year)
     out_dir = os.path.join(base_dir, "fnl_prj_thresholds")
+    if not os.path.exists(out_dir):
+        os.mkdir(out_dir)
     chng_years = all_years.copy()
     chng_years.remove(l1_year)
     calcFnlPrjThreholds(prj_lut_file, base_dir, out_dir, chng_years, l1_year)
