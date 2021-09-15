@@ -52,7 +52,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     sar_tiles_dir = '/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg'
 
                 self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_base2010_mng_{}_v3/*.kea'.format(l1_year),
-                                      potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_base2010_pchg_{}_v3'.format(l1_year),
+                                      potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_base2010_pchg_stats_rgns_{}_v3'.format(l1_year),
                                       sar_tiles_dir=sar_tiles_dir,
                                       sar_year=chg_year,
                                       base_year=l1_year,
