@@ -16,11 +16,11 @@ class GenCmds(PBPTGenQProcessToolCmds):
             basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
-            chng_stats_rgns_img = os.path.join(kwargs['pchg_msk_dir'], '{}_2010_v3_chg_rgn.kea'.format(tile_basename))
+            chng_stats_rgns_img = os.path.join(kwargs['pchg_stats_msk_dir'], '{}_2010_v3_chg_rgn.kea'.format(tile_basename))
             mng_chng_img = os.path.join(kwargs['chng_img_dir'], '{}_{}_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
             nmng_chng_img = os.path.join(kwargs['chng_img_dir'], '{}_{}_not_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
 
-            out_img = os.path.join(kwargs['out_mng_dir'], '{}_{}_stat_chg_rgns_v3_base2010.kea'.format(tile_basename, kwargs['sar_year']))
+            out_img = os.path.join(kwargs['out_dir'], '{}_{}_stat_chg_rgns_v3_base2010.kea'.format(tile_basename, kwargs['sar_year']))
 
             if not os.path.exists(out_img):
                 c_dict = dict()
