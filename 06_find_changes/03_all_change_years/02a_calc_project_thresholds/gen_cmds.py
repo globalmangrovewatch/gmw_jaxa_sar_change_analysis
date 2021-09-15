@@ -43,7 +43,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     c_dict['mng_data_files'] = mng_data_files
                     c_dict['nmng_data_files'] = nmng_data_files
                     c_dict['out_file'] = out_file
-                    c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_chng_thres".format(gmw_prj, kwargs['sar_year']))
+                    c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_{}_chng_thres".format(gmw_prj, kwargs['sar_year'], kwargs['base_year']))
                     if not os.path.exists(c_dict['tmp_dir']):
                         os.mkdir(c_dict['tmp_dir'])
                     self.params.append(c_dict)
@@ -61,6 +61,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     prjs_lut_file='/scratch/a.pfb/gmw_v3_change/scripts/03_prepare_datasets/09_create_project_tile_lut/gmw_projects_luts.json',
                     pxl_data_dir=os.path.join(base_dir, 'gmw_{}_{}_pxl_vals'.format(l1_year, chg_year)),
                     sar_year=chg_year,
+                    base_year=l1_year,
                     out_dir=os.path.join(base_dir, 'gmw_{}_{}_prj_thres'.format(l1_year, chg_year)),
                     tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
