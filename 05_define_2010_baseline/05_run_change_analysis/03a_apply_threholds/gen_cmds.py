@@ -37,7 +37,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 sar_img = None
                 sar_vld_img = None
 
-            potent_chng_msk_img = os.path.join(kwargs['potent_chng_msk_dir'], '{}_2010_v3_chg_rgn.kea'.format(tile_basename))
+            potent_chng_msk_img = os.path.join(kwargs['potent_chng_msk_dir'], '{}_2010_v3_chg_rgn_qad_rm_sml.kea'.format(tile_basename))
 
             out_mng_chng = os.path.join(kwargs['out_dir'], '{}_{}_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
             out_nmng_chng = os.path.join(kwargs['out_dir'], '{}_{}_not_mng_chng.kea'.format(tile_basename, kwargs['sar_year']))
@@ -85,7 +85,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
                               prjs_lut_file='/scratch/a.pfb/gmw_v3_change/scripts/03_prepare_datasets/09_create_project_tile_lut/gmw_tiles_luts.json',
-                              potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn',
+                              potent_chng_msk_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn_qad_rm_sml',
                               sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
                               sar_year='2010',
                               thres_file='/scratch/a.pfb/gmw_v3_change/scripts/05_define_2010_baseline/05_run_change_analysis/02b_define_final_thresholds/gmw_2010_fnl_thresholds_lut.json',
