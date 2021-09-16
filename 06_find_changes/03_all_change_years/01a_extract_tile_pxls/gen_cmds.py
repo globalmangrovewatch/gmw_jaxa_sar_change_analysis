@@ -22,6 +22,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
             if os.path.exists(sar_scn_dir):
                 if kwargs['sar_year'] == '1996':
                     sar_img = os.path.join(sar_scn_dir, '{}_1996_db.kea'.format(tile_name))
+                elif kwargs['sar_year'] == '2010':
+                    sar_img = os.path.join(sar_scn_dir, '{}_2010_db_mskd.kea'.format(tile_name))
                 else:
                     sar_img = os.path.join(sar_scn_dir, '{}_{}_db_mskd_reg.kea'.format(tile_name, kwargs['sar_year']))
 
