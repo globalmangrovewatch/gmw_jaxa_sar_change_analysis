@@ -19,7 +19,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_cmp_file = os.path.join(kwargs['out_dir'], "{}_cmp.txt".format(basename))
 
             if not os.path.exists(out_cmp_file):
-                #print('rm {}'.format(h5_file))
+                print('rm {}'.format(h5_file))
                 c_dict = dict()
                 c_dict['h5_file'] = h5_file
                 c_dict['out_cmp_file'] = out_cmp_file
