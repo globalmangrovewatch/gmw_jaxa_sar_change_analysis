@@ -45,8 +45,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
                               sar_year = '2010',
-                              chng_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_2010_chngs/',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_2010_chngs_stats/')
+                              chng_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_2010_chngs/',
+                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_2010_chngs_stats/')
 
 
         self.pop_params_db()
