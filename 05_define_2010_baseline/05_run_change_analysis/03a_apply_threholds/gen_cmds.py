@@ -89,7 +89,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                               sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
                               sar_year='2010',
                               thres_file='/scratch/a.pfb/gmw_v3_change/scripts/05_define_2010_baseline/05_run_change_analysis/02b_define_final_thresholds/gmw_2010_fnl_thresholds_lut.json',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_2010_chngs',
+                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_2010_2010_chngs',
                               tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
         self.pop_params_db()
