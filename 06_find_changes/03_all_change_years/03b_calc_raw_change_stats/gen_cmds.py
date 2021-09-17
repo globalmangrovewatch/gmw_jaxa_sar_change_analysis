@@ -27,8 +27,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
             nmng_chng_upper_img = os.path.join(kwargs['chng_dir'], '{}_{}_not_mng_chng_upper_base{}.kea'.format(tile_basename, kwargs['sar_year'], kwargs['base_year']))
 
             if not os.path.exists(out_file):
-                #print("rm {}".format(mng_chng_img))
-                #print("rm {}".format(nmng_chng_img))
+                print("rm {}".format(mng_chng_img))
+                print("rm {}".format(nmng_chng_img))
                 c_dict = dict()
                 c_dict['img_base_extent'] = gmw_tile
                 c_dict['img_mng_chng_tile'] = mng_chng_img
