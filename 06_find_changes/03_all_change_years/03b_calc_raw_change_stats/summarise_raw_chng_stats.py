@@ -72,12 +72,12 @@ def run_summarise_stats(tile_lut_file, in_data_dir, base_year_data_dir, base_yea
     xls_writer = pandas.ExcelWriter(output_file, engine='xlsxwriter')
 
     if len(before_years) > 0:
-        df_mng_before_data.to_excel(xls_writer, sheet_name='before_2010_mng_to_nmng')
-        df_nmng_before_data.to_excel(xls_writer, sheet_name='before_2010_nmng_to_mng')
+        df_mng_before_data.to_excel(xls_writer, sheet_name='before_{}_mng_to_nmng'.format(base_year))
+        df_nmng_before_data.to_excel(xls_writer, sheet_name='before_{}_nmng_to_mng'.format(base_year))
 
     if len(after_years) > 0:
-        df_mng_after_data.to_excel(xls_writer, sheet_name='after_2010_mng_to_nmng')
-        df_nmng_after_data.to_excel(xls_writer, sheet_name='after_2010_nmng_to_mng')
+        df_mng_after_data.to_excel(xls_writer, sheet_name='after_{}_mng_to_nmng'.format(base_year))
+        df_nmng_after_data.to_excel(xls_writer, sheet_name='after_{}_nmng_to_mng'.format(base_year))
 
     xls_writer.save()
 
