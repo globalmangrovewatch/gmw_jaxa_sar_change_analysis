@@ -29,6 +29,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
             calc_intervals = False
 
             if not os.path.exists(out_file):
+                print("rm {}".format(mng_chng_img))
+                print("rm {}".format(nmng_chng_img))
                 c_dict = dict()
                 c_dict['img_2010_extent'] = gmw_tile
                 c_dict['img_mng_chng_tile'] = mng_chng_img
