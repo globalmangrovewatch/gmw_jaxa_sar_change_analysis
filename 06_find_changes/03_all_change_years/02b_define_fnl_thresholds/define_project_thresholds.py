@@ -214,7 +214,7 @@ prj_lut_file = "../../../03_prepare_datasets/09_create_project_tile_lut/gmw_proj
 #thres_base_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010"
 
 all_years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
-years_l1 = ['1996']#, '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']
+years_l1 = ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']
 for l1_year in years_l1:
     base_dir = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from{}'.format(l1_year)
     out_dir = os.path.join(base_dir, "fnl_prj_thresholds")
