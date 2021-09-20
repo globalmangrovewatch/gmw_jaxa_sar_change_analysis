@@ -89,14 +89,13 @@ def run_summarise_stats(tile_lut_file, in_data_dir, base_year_data_dir, base_yea
     for year_key in out_mng_km_ext_data:
         glb_tots_mng_ext_data[year_key] = numpy.sum(out_mng_km_ext_data[year_key])
 
-    df_glb_mng_ext_km_data = pandas.DataFrame(glb_tots_mng_ext_data, index=glb_tots_mng_ext_data.keys())
+    df_glb_mng_ext_km_data = pandas.DataFrame(glb_tots_mng_ext_data, index=["Global Extent Base {}".format(base_year)])
 
     rgns_tots_mng_ext_data = dict()
     for rgn in tile_rgn_lut:
         print("Region: {}".format(rgn))
         tiles_arr = numpy.array(tile_rgn_lut[rgn])
-        for year_key in out_mng_km_ext_data:
-            rgns_tots_mng_ext_data[rgn] = list()
+        rgns_tots_mng_ext_data[rgn] = list()
 
         for year_key in out_mng_km_ext_data:
             year_arr = numpy.array(out_mng_km_ext_data[year_key])
@@ -105,7 +104,7 @@ def run_summarise_stats(tile_lut_file, in_data_dir, base_year_data_dir, base_yea
                 msk[tile_idx_arr == tile_id] = True
             rgns_tots_mng_ext_data[rgn].append(numpy.sum(year_arr[msk]))
 
-    df_rgns_tots_mng_ext_data = pandas.DataFrame(rgns_tots_mng_ext_data, index=glb_tots_mng_ext_data.keys())
+    df_rgns_tots_mng_ext_data = pandas.DataFrame(rgns_tots_mng_ext_data, index=out_mng_km_ext_data.keys())
 
     # Create a Pandas Excel writer using XlsxWriter as the engine.
     xls_writer = pandas.ExcelWriter(output_file, engine='xlsxwriter')
