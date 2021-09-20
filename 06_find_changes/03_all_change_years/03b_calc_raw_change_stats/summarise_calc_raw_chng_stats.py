@@ -100,9 +100,11 @@ def run_summarise_stats(tile_lut_file, in_data_dir, base_year_data_dir, base_yea
 
         for year_key in out_mng_km_ext_data:
             year_arr = numpy.array(out_mng_km_ext_data[year_key])
-            rgns_tots_mng_ext_data[rgn].append(numpy.sum(year_arr[tile_idx_arr == tiles_arr]))
+            msk = numpy.zeros_like(year_arr, dtype=bool)
+            for tile_id in tiles_arr:
+                msk[tile_idx_arr == tile_id] = True
+            rgns_tots_mng_ext_data[rgn].append(numpy.sum(year_arr[msk]))
 
-        #numpy.sum(out_mng_km_ext_data[year_key])
     df_rgns_tots_mng_ext_data = pandas.DataFrame(rgns_tots_mng_ext_data, index=glb_tots_mng_ext_data.keys())
 
     # Create a Pandas Excel writer using XlsxWriter as the engine.
