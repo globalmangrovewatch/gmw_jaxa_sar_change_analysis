@@ -56,7 +56,7 @@ def run_summarise_stats(tile_lut_file, in_data_dir, base_year_data_dir, base_yea
         for year in before_years:
             base_dir = os.path.join(in_data_dir, "gmw_{}_{}_chngs_stats".format(base_year, year))
             out_nmng_before_data[year] = numpy.array(get_data(tile_idx_lst, base_dir, 'chng_nmng'))
-            out_mng_pxl_ext_data[year] = out_mng_pxl_ext_data[year] + out_mng_before_data[year]
+            out_mng_pxl_ext_data[year] = out_mng_pxl_ext_data[year] + out_nmng_before_data[year]
             out_mng_km_ext_data[year] = out_mng_pxl_ext_data[year] / 1600.0
 
         df_mng_before_data = pandas.DataFrame(out_mng_before_data, index=tile_idx_lst)
