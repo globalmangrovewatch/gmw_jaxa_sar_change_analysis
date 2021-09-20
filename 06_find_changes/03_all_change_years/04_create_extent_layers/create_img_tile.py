@@ -22,7 +22,7 @@ class CreateImageTile(PBPTQProcessTool):
 
 
     def required_fields(self, **kwargs):
-        return ["tile", "gmw_tile", "year", "mng_chng_img", "nmng_chng_img", "out_gmw_mng_msk", "tmp_dir"]
+        return ["tile", "gmw_tile", "year", "mng_chng_img", "nmng_chng_img", "out_gmw_mng_msk"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
