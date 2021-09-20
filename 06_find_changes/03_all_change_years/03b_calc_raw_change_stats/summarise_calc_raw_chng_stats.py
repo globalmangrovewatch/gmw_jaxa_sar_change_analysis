@@ -31,7 +31,7 @@ def run_summarise_stats(tile_lut_file, in_data_dir, base_year_data_dir, base_yea
 
     tile_lut_dict = readJSON2Dict(tile_lut_file)
     tile_lut_dict.pop("N13E045")
-    tile_idx_lst = tile_lut_dict.keys()
+    tile_idx_lst = list(tile_lut_dict.keys())
     tile_idx_arr = numpy.array(tile_idx_lst)
 
     base_dir = os.path.join(in_data_dir, base_year_data_dir)
@@ -90,13 +90,13 @@ def run_summarise_stats(tile_lut_file, in_data_dir, base_year_data_dir, base_yea
         glb_tots_mng_ext_data[year_key] = numpy.sum(out_mng_km_ext_data[year_key])
 
     df_glb_mng_ext_km_data = pandas.DataFrame(glb_tots_mng_ext_data, index=["Global Extent Base {}".format(base_year)])
+    
 
     rgns_tots_mng_ext_data = dict()
     for rgn in tile_rgn_lut:
         print("Region: {}".format(rgn))
         tiles_arr = numpy.array(tile_rgn_lut[rgn])
         rgns_tots_mng_ext_data[rgn] = list()
-
         for year_key in out_mng_km_ext_data:
             year_arr = numpy.array(out_mng_km_ext_data[year_key])
             msk = numpy.zeros_like(year_arr, dtype=bool)
