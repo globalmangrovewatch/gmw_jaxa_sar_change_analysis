@@ -23,13 +23,13 @@ class CreateImageTile(PBPTQProcessTool):
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
-        files_dict[self.params['out_gmw_mng_msk']] = 'gdal_image'
+        files_dict[self.params['out_gmw_mng_sum_img']] = 'gdal_image'
         return self.check_files(files_dict)
 
     def remove_outputs(self, **kwargs):
         # Remove the output files.
-        if os.path.exists(self.params['out_gmw_mng_msk']):
-            os.remove(self.params['out_gmw_mng_msk'])
+        if os.path.exists(self.params['out_gmw_mng_sum_img']):
+            os.remove(self.params['out_gmw_mng_sum_img'])
 
 if __name__ == "__main__":
     CreateImageTile().std_run()
