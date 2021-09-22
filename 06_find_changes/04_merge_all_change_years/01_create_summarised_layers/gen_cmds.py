@@ -2,8 +2,25 @@ from pbprocesstools.pbpt_q_process import PBPTGenQProcessToolCmds
 import logging
 import os
 import glob
+import rsgislib
+import osgeo.gdal as gdal
 
 logger = logging.getLogger(__name__)
+
+def getImageBandCount(input_img):
+    """
+    A function to retrieve the number of image bands in an image file.
+
+    :return: nBands
+
+    """
+    rasterDS = gdal.Open(input_img, gdal.GA_ReadOnly)
+    if rasterDS == None:
+        raise rsgislib.RSGISPyException('Could not open raster image: \'' + input_img + '\'')
+
+    nBands = rasterDS.RasterCount
+    rasterDS = None
+    return nBands
 
 class GenCmds(PBPTGenQProcessToolCmds):
 
@@ -27,6 +44,10 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_gmw_mng_sum_img = os.path.join(kwargs['out_dir'], '{}_{}_mng_sum_v3.tif'.format(tile_basename, kwargs['year']))
 
             if not os.path.exists(out_gmw_mng_sum_img):
+                for img in mng_ext_imgs:
+                    n_bands = getImageBandCount(img)
+                    if n_bands != 1:
+                        print("rm {}".format(img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
