@@ -24,7 +24,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     mng_ext_img = gmw_tile
                 mng_ext_imgs.append(mng_ext_img)
 
-            out_gmw_mng_sum_img = os.path.join(kwargs['out_dir'], '{}_{}_mng_v3_base{}.tif'.format(tile_basename, kwargs['sar_year'], kwargs['base_year']))
+            out_gmw_mng_sum_img = os.path.join(kwargs['out_dir'], '{}_{}_mng_sum_v3.tif'.format(tile_basename, kwargs['year']))
 
             if not os.path.exists(out_gmw_mng_sum_img):
                 c_dict = dict()
