@@ -8,44 +8,45 @@ logger = logging.getLogger(__name__)
 class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
-        if not os.path.exists(kwargs['out_mng_dir']):
-            os.mkdir(kwargs['out_mng_dir'])
+        if not os.path.exists(kwargs['out_dir']):
+            os.mkdir(kwargs['out_dir'])
 
         img_tiles = glob.glob(kwargs['gmw_tiles'])
         for gmw_tile in img_tiles:
             basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
-            mng_chng_img = os.path.join(kwargs['chng_img_dir'], '{}_{}_mng_chng_base{}.kea'.format(tile_basename, kwargs['sar_year'], kwargs['base_year']))
-            nmng_chng_img = os.path.join(kwargs['chng_img_dir'], '{}_{}_not_mng_chng_base{}.kea'.format(tile_basename, kwargs['sar_year'], kwargs['base_year']))
+            mng_ext_imgs = list()
+            for chng_year in kwargs['chng_years']:
+                if chng_year != '2010':
+                    mng_ext_img = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from{0}/gmw_base{0}_{1}_mng_ext/{2}_{1}_mng_v3_base{0}.kea'.format(chng_year, kwargs['year'], tile_basename)
+                else:
+                    mng_ext_img = gmw_tile
+                mng_ext_imgs.append(mng_ext_img)
 
-            out_gmw_mng_msk = os.path.join(kwargs['out_mng_dir'], '{}_{}_mng_v3_base{}.kea'.format(tile_basename, kwargs['sar_year'], kwargs['base_year']))
+            out_gmw_mng_sum_img = os.path.join(kwargs['out_mng_dir'], '{}_{}_mng_v3_base{}.kea'.format(tile_basename, kwargs['sar_year'], kwargs['base_year']))
 
-            if not os.path.exists(out_gmw_mng_msk):
+            if not os.path.exists(out_gmw_mng_sum_img):
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
-                c_dict['year'] = kwargs['sar_year']
-                c_dict['mng_chng_img'] = mng_chng_img
-                c_dict['nmng_chng_img'] = nmng_chng_img
-                c_dict['out_gmw_mng_msk'] = out_gmw_mng_msk
+                c_dict['year'] = kwargs['year']
+                c_dict['mng_ext_imgs'] = mng_ext_imgs
+                c_dict['out_gmw_mng_sum_img'] = out_gmw_mng_sum_img
                 self.params.append(c_dict)
 
 
     def run_gen_commands(self):
 
-        all_years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
-        years_l1 = ['1996', '2007', '2008', '2009', '2015', '2016', '2017', '2018', '2019', '2020']
-        for l1_year in years_l1:
-            base_dir = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from{}'.format(l1_year)
-            chng_years = all_years.copy()
-            chng_years.remove(l1_year)
-            for chg_year in chng_years:
-                self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_base2010_mng_{}_v3/*.kea'.format(l1_year),
-                                      chng_img_dir=os.path.join(base_dir, 'gmw_{}_{}_chngs'.format(l1_year, chg_year)),
-                                      base_year=l1_year,
-                                      sar_year=chg_year,
-                                      out_mng_dir=os.path.join(base_dir, 'gmw_base{}_{}_mng_ext'.format(l1_year, chg_year)))
+        years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
+        for year in years:
+            chng_years = years.copy()
+            chng_years.remove(year)
+
+            self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
+                                  year=year,
+                                  chng_years=chng_years,
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_mng_ext_sum_{}'.format(year))
 
         self.pop_params_db()
         self.create_slurm_sub_sh("calc_annual_mng_ext", 16448, '/scratch/a.pfb/gmw_v3_change/logs',

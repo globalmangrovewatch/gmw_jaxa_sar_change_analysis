@@ -3,7 +3,7 @@ import logging
 import os
 import shutil
 import rsgislib
-import rsgislib.rastergis
+import rsgislib.imageutils
 import rsgislib.imagecalc
 
 logger = logging.getLogger(__name__)
@@ -14,15 +14,12 @@ class CreateImageTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_img_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
-        band_defns = [rsgislib.imagecalc.BandDefn('gmw', self.params['gmw_tile'], 1),
-                      rsgislib.imagecalc.BandDefn('mng_chg', self.params['mng_chng_img'], 1),
-                      rsgislib.imagecalc.BandDefn('n_mng_chg', self.params['nmng_chng_img'], 1)]
-        rsgislib.imagecalc.bandMath(self.params['out_gmw_mng_msk'], '(gmw==1)&&(mng_chg==1)?0:(gmw==0)&&(n_mng_chg==1)?1:gmw', 'KEA', rsgislib.TYPE_8UINT, band_defns)
-        rsgislib.rastergis.populateStats(self.params['out_gmw_mng_msk'], addclrtab=True, calcpyramids=True, ignorezero=True)
 
+        rsgislib.imagecalc.calcMultiImgBandStats(self.params['mng_msks'], self.params['out_gmw_mng_sum_img'], rsgislib.SUMTYPE_SUM, 'GTIFF', rsgislib.TYPE_8UINT, 0.0, True)
+        rsgislib.imageutils.popImageStats(self.params['out_gmw_mng_sum_img'], True, 0, True)
 
     def required_fields(self, **kwargs):
-        return ["tile", "gmw_tile", "year", "mng_chng_img", "nmng_chng_img", "out_gmw_mng_msk"]
+        return ["tile", "gmw_tile", "mng_msks", "out_gmw_mng_sum_img"]
 
     def outputs_present(self, **kwargs):
         files_dict = dict()
