@@ -45,9 +45,10 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             if not os.path.exists(out_gmw_mng_sum_img):
                 for img in mng_ext_imgs:
-                    n_bands = getImageBandCount(img)
-                    if n_bands != 1:
-                        print("rm {}".format(img))
+                    if os.path.exists(img:
+                        n_bands = getImageBandCount(img)
+                        if n_bands != 1:
+                            print("rm {}".format(img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
