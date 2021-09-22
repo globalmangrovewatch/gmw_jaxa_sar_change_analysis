@@ -21,7 +21,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 if chng_year != '2010':
                     mng_ext_img = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from{0}/gmw_base{0}_{1}_mng_ext/{2}_{1}_mng_v3_base{0}.kea'.format(chng_year, kwargs['year'], tile_basename)
                 else:
-                    mng_ext_img = gmw_tile
+                    mng_ext_img = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_base2010_mng_{0}_v3/{1}_{0}_mng_v3_base2010.kea'.format(kwargs['year'], tile_basename)
                 mng_ext_imgs.append(mng_ext_img)
 
             out_gmw_mng_sum_img = os.path.join(kwargs['out_dir'], '{}_{}_mng_sum_v3.tif'.format(tile_basename, kwargs['year']))
