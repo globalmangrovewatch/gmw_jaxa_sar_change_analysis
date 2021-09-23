@@ -24,9 +24,9 @@ class GenCmds(PBPTGenQProcessToolCmds):
             basename = self.get_file_basename(gmw_sum_tile)
             tile_basename = self.get_file_basename(gmw_sum_tile, n_comps=2)
 
-            out_gmw_mng_mjr_ext_img = os.path.join(kwargs['out_mjr_dir'], '{}_{}_mng_mjr_ext_v3.tif'.format(tile_basename, kwargs['year']))
-            out_gmw_mng_min_ext_img = os.path.join(kwargs['out_min_dir'], '{}_{}_mng_min_ext_v3.tif'.format(tile_basename, kwargs['year']))
-            out_gmw_mng_max_ext_img = os.path.join(kwargs['out_max_dir'], '{}_{}_mng_max_ext_v3.tif'.format(tile_basename, kwargs['year']))
+            out_gmw_mng_mjr_ext_img = os.path.join(kwargs['out_mjr_dir'], '{}_{}_mng_mjr_ext_v3.kea'.format(tile_basename, kwargs['year']))
+            out_gmw_mng_min_ext_img = os.path.join(kwargs['out_min_dir'], '{}_{}_mng_min_ext_v3.kea'.format(tile_basename, kwargs['year']))
+            out_gmw_mng_max_ext_img = os.path.join(kwargs['out_max_dir'], '{}_{}_mng_max_ext_v3.kea'.format(tile_basename, kwargs['year']))
 
             if (not os.path.exists(out_gmw_mng_mjr_ext_img)) or (not os.path.exists(out_gmw_mng_min_ext_img)) or (not os.path.exists(out_gmw_mng_max_ext_img)):
                 c_dict = dict()
