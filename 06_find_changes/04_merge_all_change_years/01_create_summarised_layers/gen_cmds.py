@@ -41,7 +41,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     mng_ext_img = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/from2010/gmw_base2010_mng_{0}_v3/{1}_{0}_mng_v3_base2010.kea'.format(kwargs['year'], tile_basename)
                 mng_ext_imgs.append(mng_ext_img)
 
-            out_gmw_mng_sum_img = os.path.join(kwargs['out_dir'], '{}_{}_mng_sum_v3.tif'.format(tile_basename, kwargs['year']))
+            out_gmw_mng_sum_img = os.path.join(kwargs['out_dir'], '{}_{}_mng_sum_v3.kea'.format(tile_basename, kwargs['year']))
 
             if not os.path.exists(out_gmw_mng_sum_img):
                 """

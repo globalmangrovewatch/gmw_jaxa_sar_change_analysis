@@ -14,8 +14,7 @@ class CreateImageTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_img_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
-        os.environ["RSGISLIB_IMG_CRT_OPTS_GTIFF"] = "TILED=YES:COMPRESS=LZW"
-        rsgislib.imagecalc.calcMultiImgBandStats(self.params['mng_ext_imgs'], self.params['out_gmw_mng_sum_img'], rsgislib.SUMTYPE_SUM, 'GTIFF', rsgislib.TYPE_8UINT, 0.0, True)
+        rsgislib.imagecalc.calcMultiImgBandStats(self.params['mng_ext_imgs'], self.params['out_gmw_mng_sum_img'], rsgislib.SUMTYPE_SUM, 'KEA', rsgislib.TYPE_8UINT, 0.0, True)
         rsgislib.imageutils.popImageStats(self.params['out_gmw_mng_sum_img'], True, 0, True)
 
     def required_fields(self, **kwargs):
