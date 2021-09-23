@@ -29,6 +29,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_gmw_mng_max_ext_img = os.path.join(kwargs['out_max_dir'], '{}_{}_mng_max_ext_v3.kea'.format(tile_basename, kwargs['year']))
 
             if (not os.path.exists(out_gmw_mng_mjr_ext_img)) or (not os.path.exists(out_gmw_mng_min_ext_img)) or (not os.path.exists(out_gmw_mng_max_ext_img)):
+                #print("rm {}".format(gmw_sum_tile))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_sum_tile'] = gmw_sum_tile
