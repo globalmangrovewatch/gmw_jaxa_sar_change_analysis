@@ -42,8 +42,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
         for year in years:
-
             self.gen_command_info(gmw_sum_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_mng_ext_sum_{}/*.tif'.format(year),
+                                  year=year,
                                   out_mjr_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_mjr_ext_{}'.format(year),
                                   out_min_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_min_ext_{}'.format(year),
                                   out_max_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_max_ext_{}'.format(year))
