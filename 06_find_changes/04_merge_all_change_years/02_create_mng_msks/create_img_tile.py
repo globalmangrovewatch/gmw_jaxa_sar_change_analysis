@@ -17,11 +17,11 @@ class CreateImageTile(PBPTQProcessTool):
         rsgislib.imagecalc.imageMath(self.params['gmw_sum_tile'], self.params['out_gmw_mng_mjr_ext_img'], 'b1>5?1:0', 'KEA', rsgislib.TYPE_8UINT)
         rsgislib.rastergis.populateStats(self.params['out_gmw_mng_mjr_ext_img'], True, True, True)
 
-        rsgislib.imagecalc.imageMath(self.params['gmw_sum_tile'], self.params['out_gmw_mng_min_ext_img'], 'b1>0?1:0', 'KEA', rsgislib.TYPE_8UINT)
-        rsgislib.rastergis.populateStats(self.params['out_gmw_mng_min_ext_img'], True, True, True)
-
-        rsgislib.imagecalc.imageMath(self.params['gmw_sum_tile'], self.params['out_gmw_mng_max_ext_img'], 'b1>9?1:0', 'KEA', rsgislib.TYPE_8UINT)
+        rsgislib.imagecalc.imageMath(self.params['gmw_sum_tile'], self.params['out_gmw_mng_max_ext_img'], 'b1>0?1:0', 'KEA', rsgislib.TYPE_8UINT)
         rsgislib.rastergis.populateStats(self.params['out_gmw_mng_max_ext_img'], True, True, True)
+
+        rsgislib.imagecalc.imageMath(self.params['gmw_sum_tile'], self.params['out_gmw_mng_min_ext_img'], 'b1>9?1:0', 'KEA', rsgislib.TYPE_8UINT)
+        rsgislib.rastergis.populateStats(self.params['out_gmw_mng_min_ext_img'], True, True, True)
 
     def required_fields(self, **kwargs):
         return ["tile", "gmw_sum_tile", "out_gmw_mng_mjr_ext_img", "out_gmw_mng_min_ext_img", "out_gmw_mng_max_ext_img"]
