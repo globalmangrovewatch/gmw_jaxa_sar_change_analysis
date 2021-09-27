@@ -7,14 +7,18 @@ import rsgislib
 import rsgislib.imagecalc
 
 
-def get_tile_pxl_counts(input_imgs, output_file):
+def get_tile_pxl_counts(input_imgs_path, output_file):
+    input_imgs = glob.glob(input_imgs_path)
     rsgis_utils = rsgislib.RSGISPyUtils()
     out_tile_stats = dict()
     for img in tqdm.tqdm(input_imgs):
+        #print(img)
         basename = rsgis_utils.get_file_basename(img)
+        #print(basename)
+        #print(basename.split("_"))
         tile_name = basename.split('_')[1]
         #GMW_N10W078_2019_mng_min_ext_v3.kea
-        print(img)
+        #print(img)
         pxl_count = rsgislib.imagecalc.countPxlsOfVal(img, vals=[1])
         out_tile_stats[tile_name] =  int(pxl_count)
     rsgis_utils.writeDict2JSON(out_tile_stats, output_file)
