@@ -50,7 +50,7 @@ for lyr in lyrs:
     stats_files = dict()
     for year in all_years:
         stats_files[year] = 'gmw_v3_mng_{}_ext_{}.json'.format(lyr, year)
-    output_file = "gmw_v3_mng_{}_ext_306.xlsx".format(lyr)
-    sheet_name = "mng_{}_ext_306".format(lyr)
+    output_file = "gmw_v3_mng_{}_ext_307.xlsx".format(lyr)
+    sheet_name = "mng_{}_ext_307".format(lyr)
     summarise_stats(tile_lut_file, all_years, stats_files, output_file, sheet_name)
 
