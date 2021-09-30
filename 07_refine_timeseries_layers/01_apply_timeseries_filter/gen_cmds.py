@@ -12,128 +12,44 @@ class GenCmds(PBPTGenQProcessToolCmds):
         if not os.path.exists(kwargs['out_dir']):
             os.mkdir(kwargs['out_dir'])
 
-        rsgis_utils = rsgislib.RSGISPyUtils()
-
         img_tiles = glob.glob(kwargs['gmw_tiles'])
         for gmw_tile in img_tiles:
             basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
-            out_img = os.path.join(kwargs['out_dir'], '{}_{}_v3.kea'.format(tile_basename, kwargs['year']))
+            out_img = os.path.join(kwargs['out_dir'], '{}_tpflt.kea'.format(basename))
+            pre_gmw_img = os.path.join(kwargs['pre_tiles_dir'], '{}_{}_mng_mjr_ext_v3.kea'.format(tile_basename, kwargs['pre_year']))
+            post_gmw_img = os.path.join(kwargs['post_tiles_dir'], '{}_{}_mng_mjr_ext_v3.kea'.format(tile_basename, kwargs['post_year']))
 
             if not os.path.exists(out_img):
-                if kwargs['year'] == '2015':
-                    pre_gmw_img = self.find_file(kwargs['pre_tiles_dir'], "{}*v3.kea".format(tile_basename))
-                    if pre_gmw_img is None:
-                        print(kwargs['pre_tiles_dir'])
-                        print("{}*v3.kea".format(tile_basename))
-                        raise Exception("Something has gone wrong - couldn't find the pre image")
-                else:
-                    pre_gmw_img = self.find_file(kwargs['pre_tiles_dir'], "{}*v3_init.kea".format(tile_basename))
-                    if pre_gmw_img is None:
-                        print(kwargs['pre_tiles_dir'])
-                        print("{}*v3_init.kea".format(tile_basename))
-                        raise Exception("Something has gone wrong - couldn't find the pre image")
-
-                if kwargs['year'] == '2009':
-                    post_gmw_img = self.find_file(kwargs['post_tiles_dir'], "{}*v3.kea".format(tile_basename))
-                    if post_gmw_img is None:
-                        print(kwargs['post_tiles_dir'])
-                        print("{}*v3.kea".format(tile_basename))
-                        raise Exception("Something has gone wrong - couldn't find the post image")
-                else:
-                    post_gmw_img = self.find_file(kwargs['post_tiles_dir'], "{}*v3_init.kea".format(tile_basename))
-                    if post_gmw_img is None:
-                        print(kwargs['post_tiles_dir'])
-                        print("{}*v3_init.kea".format(tile_basename))
-                        raise Exception("Something has gone wrong - couldn't find the post image")
-
-
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
                 c_dict['gmw_pre_tile'] = pre_gmw_img
                 c_dict['gmw_post_tile'] = post_gmw_img
                 c_dict['out_img'] = out_img
-                c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_chng_timeseries".format(tile_basename, kwargs['year']))
-                if not os.path.exists(c_dict['tmp_dir']):
-                    os.mkdir(c_dict['tmp_dir'])
                 self.params.append(c_dict)
 
 
     def run_gen_commands(self):
-        print("2007")
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2007_v3/*v3_init.kea',
-                              year='2007',
-                              pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_1996_v3',
-                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2008_v3',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2007_v3_fnl',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-
-        print("2008")
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2008_v3/*v3_init.kea',
-                              year='2008',
-                              pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2007_v3',
-                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2009_v3',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2008_v3_fnl',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-
-        print("2009")
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2009_v3/*v3_init.kea',
-                              year='2009',
-                              pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2008_v3',
-                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2009_v3_fnl',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-
-        print("2010")
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*v3.kea',
-                              year='2010',
-                              pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2009_v3',
-                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2015_v3',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2010_v3_fnl',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-
-        print("2015")
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2015_v3/*v3_init.kea',
-                              year='2015',
-                              pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3',
-                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2016_v3',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2015_v3_fnl',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-
-        print("2016")
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2016_v3/*v3_init.kea',
-                              year='2016',
-                              pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2015_v3',
-                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2017_v3',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2016_v3_fnl',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-
-        print("2017")
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2017_v3/*v3_init.kea',
-                              year='2017',
-                              pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2016_v3',
-                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2018_v3',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2017_v3_fnl',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-
-        print("2018")
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2018_v3/*v3_init.kea',
-                              year='2018',
-                              pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2017_v3',
-                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2019_v3',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2018_v3_fnl',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-
-        print("2019")
-        self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2019_v3/*v3_init.kea',
-                              year='2019',
-                              pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2018_v3',
-                              post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_init_2020_v3',
-                              out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_2019_v3_fnl',
-                              tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-
+        years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
+        for year_idx in range(len(years)):
+            year = years[year_idx]
+            print(year)
+            if year == '1996':
+                continue
+            elif year == '2020':
+                break
+            else:
+                pre_year = years[year_idx - 1]
+                post_year = years[year_idx + 1]
+                self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_mjr_ext_{}/*.kea'.format(year),
+                                      year=year,
+                                      pre_year=pre_year,
+                                      post_year=post_year,
+                                      pre_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_mjr_ext_{}'.format(pre_year),
+                                      post_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_mjr_ext_{}'.format(post_year),
+                                      out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_mjr_ext_{}_tpflt'.format(year))
         
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_chng_timeseries", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
