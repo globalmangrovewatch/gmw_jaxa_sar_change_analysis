@@ -19,7 +19,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             out_cmp_file = os.path.join(kwargs['out_dir'], '{}.txt'.format(basename))
 
             if not os.path.exists(out_cmp_file):
-                print("rm {}".format(img_tile))
+                #print('rm {}'.format(img_tile))
                 c_dict = dict()
                 c_dict['img_tile'] = img_tile
                 c_dict['out_vec'] = out_vec
@@ -29,13 +29,28 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
+
+        for year in ['2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019']:
+            self.gen_command_info(
+                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_mjr_ext_{}_tpflt/*.kea'.format(year),
+                out_lyr_name='mng_mjr_{}'.format(year),
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_mjr_ext_{}_tpflt_vecs/'.format(year))
+        """
         for year in ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']:
-            self.gen_command_info(img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_{}_v3_fnl/*.kea'.format(year),
-                                  out_lyr_name='gmw_{}_v3'.format(year),
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_{}_v3_fnl_vecs'.format(year))
+            self.gen_command_info(
+                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_min_ext_{}/*.kea'.format(year),
+                out_lyr_name='mng_min_{}'.format(year),
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_min_ext_{}_vecs/'.format(year))
+
+        for year in ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']:
+            self.gen_command_info(
+                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_max_ext_{}/*.kea'.format(year),
+                out_lyr_name='mng_max_{}'.format(year),
+                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_max_ext_{}_vecs/'.format(year))
+        """
 
         self.pop_params_db()
-        self.create_slurm_sub_sh("gmw_init_v3_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
+        self.create_slurm_sub_sh("gmw_mng_lyr_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
