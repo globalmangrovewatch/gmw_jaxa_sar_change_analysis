@@ -44,8 +44,6 @@ class CreateImageTile(PBPTQProcessTool):
         if os.path.exists(self.params['out_max_ext_img']):
             os.remove(self.params['out_max_ext_img'])
 
-        if os.path.exists(self.params['tmp_dir']):
-            shutil.rmtree(self.params['tmp_dir'])
 
 if __name__ == "__main__":
     CreateImageTile().std_run()
