@@ -41,7 +41,7 @@ def summarise_stats(tile_lut_file, years, stats_files, output_file, sheet_name):
     xls_writer.save()
 
 
-lyrs = ['mjr']#, 'min', 'max']
+lyrs = ['mjr', 'min', 'max']
 tile_lut_file = "../../03_prepare_datasets/09_create_project_tile_lut/gmw_tiles_luts.json"
 all_years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
 for lyr in lyrs:
