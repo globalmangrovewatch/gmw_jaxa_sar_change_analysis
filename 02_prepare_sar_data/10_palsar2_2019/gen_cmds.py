@@ -38,7 +38,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
     def run_gen_commands(self):
-        self.gen_command_info(in_tiles_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/2019/*.tar.gz',
+        self.gen_command_info(in_tiles_path='/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2019/*.tar.gz',
                               out_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2019',
                               tmp_dir='/scratch/a.pfb/gmw_v2_gapfill/tmp')
         self.pop_params_db()
