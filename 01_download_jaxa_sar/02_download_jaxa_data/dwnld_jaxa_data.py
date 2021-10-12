@@ -183,7 +183,7 @@ def find_run_dwnlds(jaxa_tile_lst_file, jaxa_server_lst_file, dir2ignore, jaxa_s
     print("Did not have tiles for {} of {} tiles.".format(len(no_file_tiles), len(jaxa_tile_lst)))
     writeList2File(no_file_tiles, err_tiles_file)
 
-
+"""
 find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '1996', 'ftp.eorc.jaxa.jp', '/data/1996', './unavailable_1996_tiles.txt')
 find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_PALSAR_2007_FileLst.txt', '2007', 'ftp.eorc.jaxa.jp', '/data/2007', './unavailable_2007_tiles.txt')
 find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_PALSAR_2008_FileLst.txt', '2008', 'ftp.eorc.jaxa.jp', '/data/2008', './unavailable_2008_tiles.txt')
@@ -195,6 +195,21 @@ find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_PALSAR2_
 find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_PALSAR2_2018_FileLst.txt', '2018', 'ftp.eorc.jaxa.jp', '/data/2018', './unavailable_2018_tiles.txt')
 find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_PALSAR2_2019_FileLst.txt', '2019', 'ftp.eorc.jaxa.jp', '/data/2019', './unavailable_2019_tiles.txt')
 find_run_dwnlds('../gmw_jaxa_tile_names.txt', '../00_file_listings/JAXA_PALSAR2_2020_FileLst.txt', '2020', 'ftp.eorc.jaxa.jp', '/data/2020', './unavailable_2020_tiles.txt')
+"""
+
+
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_JERS-1_1996_FileLst.txt', '1996', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/1996', './unavailable_1996_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR_2007_FileLst.txt', '2007', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2007', './unavailable_2007_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR_2008_FileLst.txt', '2008', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2008', './unavailable_2008_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR_2009_FileLst.txt', '2009', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2009', './unavailable_2009_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR_2010_FileLst.txt', '2010', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2010', './unavailable_2010_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR2_2015_FileLst.txt', '2015', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2015', './unavailable_2015_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR2_2016_FileLst.txt', '2016', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2016', './unavailable_2016_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR2_2017_FileLst.txt', '2017', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2017', './unavailable_2017_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR2_2018_FileLst.txt', '2018', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2018', './unavailable_2018_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR2_2019_FileLst.txt', '2019', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2019', './unavailable_2019_tiles_india_extras.txt')
+find_run_dwnlds('../gmw_jaxa_tile_names_extras.txt', '../00_file_listings/JAXA_PALSAR2_2020_FileLst.txt', '2020', 'ftp.eorc.jaxa.jp', '/scratch/a.pfb/gmw_v3_change/data/jaxa_dwnlds/india_extras/2020', './unavailable_2020_tiles_india_extras.txt')
+
 
 #100Gb per year = ~1Tb
 
