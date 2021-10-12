@@ -35,7 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v309/*.kea'.format(year),
                 out_lyr_name='mng_mjr_{}'.format(year),
                 out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v309_vecs/'.format(year))
-        """
+        
         for year in ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']:
             self.gen_command_info(
                 img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_min_{}_v309/*.kea'.format(year),
@@ -47,7 +47,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_max_{}_v309/*.kea'.format(year),
                 out_lyr_name='mng_max_{}'.format(year),
                 out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_max_{}_v309_vecs/'.format(year))
-        """
+        
 
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_mng_fnl_lyr_vecs", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
