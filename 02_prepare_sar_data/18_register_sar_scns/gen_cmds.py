@@ -43,6 +43,12 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
+            sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996',
+            sar_year='1996',
+            tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
+        self.gen_command_info(
+            gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
+            sar_base_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2010',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2007',
             sar_year='2007',
             tmpdir='/scratch/a.pfb/gmw_v3_change/tmp')
