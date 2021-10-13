@@ -12,7 +12,7 @@ import rsgislib.imagecalc
 logger = logging.getLogger(__name__)
 
 
-def msk_imgs(in_ref_img, in_flt_img, tmp_dir):
+def msk_imgs(in_ref_img, in_flt_img, tmp_dir, sar_year):
     ref_img_base = rsgislib.tools.filetools.get_file_basename(in_ref_img)
     flt_img_base = rsgislib.tools.filetools.get_file_basename(in_flt_img)
 
@@ -30,8 +30,12 @@ def msk_imgs(in_ref_img, in_flt_img, tmp_dir):
 
     msk_img = os.path.join(tmp_dir, "{}_{}_msk.kea".format(ref_img_base, flt_img_base))
 
-    rsgislib.imagecalc.imageBandMath(in_ref_img, ref_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
-    rsgislib.imagecalc.imageBandMath(in_flt_img, flt_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
+    if sar_year == '1996':
+        rsgislib.imagecalc.imageBandMath(in_ref_img, ref_msk_img, '(b1>-1500)&&(b1<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
+        rsgislib.imagecalc.imageBandMath(in_flt_img, flt_msk_img, '(b1>-1500)&&(b1<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
+    else:
+        rsgislib.imagecalc.imageBandMath(in_ref_img, ref_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
+        rsgislib.imagecalc.imageBandMath(in_flt_img, flt_msk_img, '(b2>-2000)&&(b2<500)?1:0', 'KEA', rsgislib.TYPE_8UINT)
 
     n_ref_pxls = rsgislib.imagecalc.countPxlsOfVal(ref_msk_img, [0,1])
     n_flt_pxls = rsgislib.imagecalc.countPxlsOfVal(flt_msk_img, [0,1])
@@ -80,7 +84,7 @@ class CreateImageTile(PBPTQProcessTool):
         if not os.path.exists(self.params['tmpdir']):
             os.mkdir(self.params['tmpdir'])
 
-        in_ref_img_mskd, in_flt_img_mskd = msk_imgs(self.params['sar_ref_img'], self.params['sar_flt_buf_img'], self.params['tmpdir'])
+        in_ref_img_mskd, in_flt_img_mskd = msk_imgs(self.params['sar_ref_img'], self.params['sar_flt_buf_img'], self.params['tmpdir'], self.params['sar_year'])
 
         if (in_ref_img_mskd is not None) and (in_flt_img_mskd is not None):
             offsets = rsgislib.imageregistration.findImageOffset(in_ref_img_mskd, in_flt_img_mskd, [2], [2], rsgislib.imageregistration.METRIC_CORELATION, 5, 5, 10)
@@ -112,7 +116,7 @@ class CreateImageTile(PBPTQProcessTool):
 
 
     def required_fields(self, **kwargs):
-        return ["tile", "sar_ref_img", "sar_flt_buf_img", "out_flt_buf_img", "out_rsmpld_img", "out_off_json", "tmpdir"]
+        return ["tile", "sar_ref_img", "sar_flt_buf_img", "out_flt_buf_img", "out_rsmpld_img", "out_off_json", "sar_year", "tmpdir"]
 
 
     def outputs_present(self, **kwargs):

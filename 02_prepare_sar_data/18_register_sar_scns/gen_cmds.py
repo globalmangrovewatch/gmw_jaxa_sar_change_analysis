@@ -12,7 +12,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def gen_command_info(self, **kwargs):
         img_tiles = glob.glob(kwargs['gmw_tiles'])
 
-        for tile_name in ["N19E070", "N19E073", "N18E073", "N17E073", "N16E073",
+        for tile_name in ["N19E072", "N19E073", "N18E073", "N17E073", "N16E073",
                           "N16E074", "N15E074", "N14E074", "N13E074", "N13E075",
                           "N12E075", "N11E075", "N11E076", "N10E076", "N10E078",
                           "N10E079", "N10E080", "N09E076", "N09E077", "N09E078",
@@ -42,6 +42,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                     c_dict['out_flt_buf_img'] = out_off_img
                     c_dict['out_rsmpld_img'] = out_rsmp_img
                     c_dict['out_off_json'] = out_off_json
+                    c_dict['sar_year'] = kwargs['sar_year']
                     c_dict['tmpdir'] = os.path.join(kwargs['tmpdir'], "{}_{}_reg_scn".format(tile_name, kwargs['sar_year']))
                     self.params.append(c_dict)
 
