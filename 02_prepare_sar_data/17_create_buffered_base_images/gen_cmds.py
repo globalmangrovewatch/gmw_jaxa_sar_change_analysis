@@ -32,7 +32,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
 
         #for gmw_tile in img_tiles:
-        for tile_name in ["N19E070", "N19E073", "N18E073", "N17E073", "N16E073",
+        for tile_name in ["N19E072", "N19E073", "N18E073", "N17E073", "N16E073",
                           "N16E074", "N15E074", "N14E074", "N13E074", "N13E075",
                           "N12E075", "N11E075", "N11E076", "N10E076", "N10E078",
                           "N10E079", "N10E080", "N09E076", "N09E077", "N09E078",
