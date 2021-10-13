@@ -87,7 +87,10 @@ class CreateImageTile(PBPTQProcessTool):
         in_ref_img_mskd, in_flt_img_mskd = msk_imgs(self.params['sar_ref_img'], self.params['sar_flt_buf_img'], self.params['tmpdir'], self.params['sar_year'])
 
         if (in_ref_img_mskd is not None) and (in_flt_img_mskd is not None):
-            offsets = rsgislib.imageregistration.findImageOffset(in_ref_img_mskd, in_flt_img_mskd, [2], [2], rsgislib.imageregistration.METRIC_CORELATION, 5, 5, 10)
+            if self.params['sar_year'] == '1996':
+                offsets = rsgislib.imageregistration.findImageOffset(in_ref_img_mskd, in_flt_img_mskd, [1], [1], rsgislib.imageregistration.METRIC_CORELATION, 5, 5, 10)
+            else:
+                offsets = rsgislib.imageregistration.findImageOffset(in_ref_img_mskd, in_flt_img_mskd, [2], [2], rsgislib.imageregistration.METRIC_CORELATION, 5, 5, 10)
 
             img_res_x, img_res_y = rsgislib.imageutils.getImageRes(self.params['sar_flt_buf_img'], abs_vals=True)
 
