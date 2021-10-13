@@ -28,6 +28,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 out_off_json = os.path.join(sar_flt_scn_dir, '{}_{}_2010_offsets.json'.format(tile_name, kwargs['sar_year']))
 
                 if not os.path.exists(out_off_json):
+                    print("rm {}".format(sar_base_img))
                     c_dict = dict()
                     c_dict['tile'] = tile_name
                     c_dict['sar_ref_img'] = sar_base_img

@@ -42,6 +42,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 out_img = os.path.join(sar_scn_dir, '{}_{}_db_mskd_bufd.kea'.format(tile_name, kwargs['sar_year']))
 
                 if (not os.path.exists(out_img)):
+                    print("rm {}".format(sar_img))
                     c_dict = dict()
                     c_dict['tile'] = tile_name
                     c_dict['sar_tiles_lut_file'] = kwargs['sar_tiles_lut_file']
