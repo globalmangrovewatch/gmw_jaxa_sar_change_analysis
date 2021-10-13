@@ -33,7 +33,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 out_rsmp_img = os.path.join(sar_flt_scn_dir, '{}_{}_db_mskd_reg.kea'.format(tile_name, kwargs['sar_year']))
                 out_off_json = os.path.join(sar_flt_scn_dir, '{}_{}_2010_offsets.json'.format(tile_name, kwargs['sar_year']))
 
-                if (not os.path.exists(out_off_json)) and (not os.path.exists(out_rsmp_img)):
+                if (not os.path.exists(out_off_json)) or (not os.path.exists(out_rsmp_img)):
                     print("rm {}".format(sar_base_img))
                     c_dict = dict()
                     c_dict['tile'] = tile_name
