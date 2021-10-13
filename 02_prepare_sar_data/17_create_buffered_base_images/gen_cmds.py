@@ -55,6 +55,12 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
         self.gen_command_info(
             gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
+            sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996',
+            sar_tiles_lut_file='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/jers1_1996_lut.gpkg',
+            sar_tiles_lut_lyr='jers1_1996_lut',
+            sar_year='1996')
+        self.gen_command_info(
+            gmw_tiles='/scratch/a.pfb/gmw_v2_gapfill/data/gmw_tiles/gmw_init_v3_further_qa_part2/*.kea',
             sar_tiles_dir='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2007',
             sar_tiles_lut_file='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/palsar_2007_lut.gpkg',
             sar_tiles_lut_lyr='palsar_2007_lut',
