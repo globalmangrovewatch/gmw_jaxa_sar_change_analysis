@@ -14,10 +14,11 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
         if not os.path.exists(kwargs['sar_tiles_lut_file']):
             sar_imgs = list()
-            for gmw_tile in img_tiles:
-                basename = self.get_file_basename(gmw_tile)
-                tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
-                tile_name = tile_basename.split('_')[1]
+            #for gmw_tile in img_tiles:
+            for tile_name in ["N19E070", "N19E073", "N18E073", "N17E073", "N16E073", "N16E074", "N15E074", "N14E074", "N13E074", "N13E075", "N12E075", "N11E075", "N11E076", "N10E076", "N10E078", "N10E079", "N10E080", "N09E076", "N09E077", "N09E078", "N09E079", "N09E080"]:
+                #basename = self.get_file_basename(gmw_tile)
+                #tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
+                #tile_name = tile_basename.split('_')[1]
 
                 sar_scn_dir = os.path.join(kwargs['sar_tiles_dir'], tile_name)
 
