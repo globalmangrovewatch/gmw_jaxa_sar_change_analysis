@@ -9,10 +9,15 @@ logger = logging.getLogger(__name__)
 class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
-        rsgis_utils = rsgislib.RSGISPyUtils()
-        jaxa_tile_lst = rsgis_utils.readTextFile2List(kwargs['tile_list'])
+        #rsgis_utils = rsgislib.RSGISPyUtils()
+        #jaxa_tile_lst = rsgis_utils.readTextFile2List(kwargs['tile_list'])
 
-        for tile in jaxa_tile_lst:
+        #for tile in jaxa_tile_lst:
+        for tile in ["N19E072", "N19E073", "N18E073", "N17E073", "N16E073",
+                          "N16E074", "N15E074", "N14E074", "N13E074", "N13E075",
+                          "N12E075", "N11E075", "N11E076", "N10E076", "N10E078",
+                          "N10E079", "N10E080", "N09E076", "N09E077", "N09E078",
+                          "N09E079", "N09E080"]:
             tile_10_img = self.find_file(kwargs['tiles_srch_path_10'].format(tile), "*_db_mskd.kea")
 
             if tile_10_img is not None:
@@ -20,7 +25,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 years = ['1996', '2007', '2008', '2009']
                 i = 0
                 for srch_path in [kwargs['tiles_srch_path_96'], kwargs['tiles_srch_path_07'], kwargs['tiles_srch_path_08'], kwargs['tiles_srch_path_09']]:
-                    tmp_img = self.find_file(srch_path.format(tile), "*_db_mskd.kea")
+                    tmp_img = self.find_file(srch_path.format(tile), "*_db_mskd_reg.kea")
                     if tmp_img is not None:
                         start_img = tmp_img
                         start_year = years[i]
@@ -32,7 +37,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 years = ['2020', '2019', '2018', '2017', '2016', '2015']
                 i = 0
                 for srch_path in [kwargs['tiles_srch_path_20'], kwargs['tiles_srch_path_19'], kwargs['tiles_srch_path_18'], kwargs['tiles_srch_path_17'], kwargs['tiles_srch_path_16'], kwargs['tiles_srch_path_15']]:
-                    tmp_img = self.find_file(srch_path.format(tile), "*_db_mskd.kea")
+                    tmp_img = self.find_file(srch_path.format(tile), "*_db_mskd_reg.kea")
                     if tmp_img is not None:
                         end_img = tmp_img
                         end_year = years[i]
@@ -59,7 +64,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
         self.gen_command_info(tile_list='/scratch/a.pfb/gmw_v3_change/scripts/01_download_jaxa_sar/gmw_jaxa_tile_names.txt',
-                              tiles_srch_path_96='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996/{}/',
+                              tiles_srch_path_96='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/1996_v2_reg/{}/',
                               tiles_srch_path_07='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2007/{}/',
                               tiles_srch_path_08='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2008/{}/',
                               tiles_srch_path_09='/scratch/a.pfb/gmw_v3_change/data/jaxa_tiles/2009/{}/',
