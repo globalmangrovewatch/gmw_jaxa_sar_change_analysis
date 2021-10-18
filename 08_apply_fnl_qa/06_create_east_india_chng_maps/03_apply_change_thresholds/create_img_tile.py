@@ -15,6 +15,9 @@ class CreateImageTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_img_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
+        if not os.path.exists(self.params['tmp_dir']):
+            os.mkdir(self.params['tmp_dir'])
+
         if self.params['year'] == '1996':
             nmng_thres = -1215.430489
             mng_thres = -1511.171434
@@ -72,6 +75,9 @@ class CreateImageTile(PBPTQProcessTool):
             rsgislib.imagecalc.bandMath(self.params['out_img'], exp, 'KEA', rsgislib.TYPE_8UINT, band_defns)
         rsgislib.rastergis.populateStats(self.params['out_img'], True, True, True)
 
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
+
 
     def required_fields(self, **kwargs):
         return ["tile", "gmw_tile", "sar_img", "pchng_img", "year", "out_img", "tmp_dir"]
@@ -86,6 +92,9 @@ class CreateImageTile(PBPTQProcessTool):
         # Remove the output files.
         if os.path.exists(self.params['out_img']):
             os.remove(self.params['out_img'])
+
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
 
 if __name__ == "__main__":
     CreateImageTile().std_run()
