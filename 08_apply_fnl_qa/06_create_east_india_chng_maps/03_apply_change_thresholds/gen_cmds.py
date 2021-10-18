@@ -24,7 +24,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             elif kwargs['year'] == '2010':
                 sar_img = os.path.join(sar_scn_dir, '{}_2010_db_mskd.kea'.format(tile_name))
             else:
-                sar_img = os.path.join(sar_scn_dir, '{}_{}_db_mskd_reg.kea'.format(tile_name, kwargs['sar_year']))
+                sar_img = os.path.join(sar_scn_dir, '{}_{}_db_mskd_reg.kea'.format(tile_name, kwargs['year']))
 
             pchng_img = os.path.join(kwargs['pochange_rgns_dir'], '{}_east_india_chng_rgns.kea'.format(tile_basename))
             out_img = os.path.join(kwargs['out_dir'], '{}_east_india_chng_rgns.kea'.format(tile_basename))
