@@ -19,9 +19,9 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_name = tile_basename.split('_')[1]
 
             sar_scn_dir = os.path.join(kwargs['sar_tiles_dir'], tile_name)
-            if kwargs['sar_year'] == '1996':
+            if kwargs['year'] == '1996':
                 sar_img = os.path.join(sar_scn_dir, '{}_1996_db.kea'.format(tile_name))
-            elif kwargs['sar_year'] == '2010':
+            elif kwargs['year'] == '2010':
                 sar_img = os.path.join(sar_scn_dir, '{}_2010_db_mskd.kea'.format(tile_name))
             else:
                 sar_img = os.path.join(sar_scn_dir, '{}_{}_db_mskd_reg.kea'.format(tile_name, kwargs['sar_year']))
