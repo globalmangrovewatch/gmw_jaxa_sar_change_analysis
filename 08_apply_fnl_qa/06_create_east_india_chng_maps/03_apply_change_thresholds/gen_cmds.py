@@ -26,6 +26,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             else:
                 sar_img = os.path.join(sar_scn_dir, '{}_{}_db_mskd_reg.kea'.format(tile_name, kwargs['sar_year']))
 
+            pchng_img = os.path.join(kwargs['pochange_rgns_dir'], '{}_east_india_chng_rgns.kea'.format(tile_basename))
             out_img = os.path.join(kwargs['out_dir'], '{}_east_india_chng_rgns.kea'.format(tile_basename))
 
             if not os.path.exists(out_img):
@@ -33,7 +34,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['tile'] = tile_name
                 c_dict['gmw_tile'] = gmw_tile
                 c_dict['sar_img'] = sar_img
-                c_dict['pchng_img'] = kwargs['pchng_img']
+                c_dict['pchng_img'] = pchng_img
                 c_dict['year'] = kwargs['year']
                 c_dict['out_img'] = out_img
                 c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_apply_chng_thres".format(tile_basename, kwargs['year']))
