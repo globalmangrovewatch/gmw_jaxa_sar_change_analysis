@@ -60,7 +60,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_east_india_base", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
-                                 db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=1,
+                                 db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=5,
                                  job_time_limit='2-23:59',
                                  module_load='module load parallel singularity\n\nexport http_proxy="http://a.pfb:proxy101019@10.212.63.246:3128"\nexport https_proxy="http://a.pfb:proxy101019@10.212.63.246:3128"\n')
 
