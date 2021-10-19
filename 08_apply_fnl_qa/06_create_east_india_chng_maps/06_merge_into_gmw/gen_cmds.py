@@ -29,6 +29,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 india_tile_img = None
 
             if not os.path.exists(out_img):
+                #print("rm {}".format(india_tile_img))
                 c_dict = dict()
                 c_dict['tile'] = tile_basename
                 c_dict['gmw_tile'] = gmw_tile
