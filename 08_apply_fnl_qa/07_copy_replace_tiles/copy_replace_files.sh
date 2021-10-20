@@ -1,2 +1,9 @@
 cp /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_2007_v310/GMW_N27W079_2007_mjr_v3_fnl.kea /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_1996_v310/GMW_N27W079_1996_mjr_v3_fnl.kea
 cp /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_2007_v310/GMW_N27W078_2007_mjr_v3_fnl.kea /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_1996_v310/GMW_N27W078_1996_mjr_v3_fnl.kea
+
+cp /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_2007_v310_notpflt/GMW_N27W079_2007_mng_mjr_ext_v3.kea /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_1996_v310_notpflt/GMW_N27W079_1996_mng_mjr_ext_v3.kea
+cp /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_2007_v310_notpflt/GMW_N27W078_2007_mng_mjr_ext_v3.kea /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_1996_v310_notpflt/GMW_N27W078_1996_mng_mjr_ext_v3.kea
+
+
+#cp /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_2007_v311/GMW_N27W079_2007_mjr_v3_fnl.kea /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_1996_v311/GMW_N27W079_1996_mjr_v3_fnl.kea
+#cp /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_2007_v311/GMW_N27W078_2007_mjr_v3_fnl.kea /scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_1996_v311/GMW_N27W078_1996_mjr_v3_fnl.kea

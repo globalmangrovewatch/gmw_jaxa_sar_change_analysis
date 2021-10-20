@@ -28,7 +28,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 c_dict['qa_rm_file'] = kwargs['qa_rm_file']
                 c_dict['qa_rm_lyr'] = kwargs['qa_rm_lyr']
                 c_dict['out_img'] = out_img
-                c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_{}_mjr_v3_fnl".format(tile_basename, kwargs['year']))
+                c_dict['tmp_dir'] = os.path.join(kwargs['tmp_dir'], "{}_apply_qa_edits".format(basename))
                 if not os.path.exists(kwargs['tmp_dir']):
                     os.mkdir(kwargs['tmp_dir'])
                 self.params.append(c_dict)
@@ -46,6 +46,18 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                   qa_rm_file='rm_mangroves.gpkg',
                                   qa_rm_lyr='rm_mangroves',
                                   out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v311'.format(year),
+                                  tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
+
+        for year in years:
+            gmw_tiles = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v310_notpflt/*.kea'.format(year)
+
+            self.gen_command_info(gmw_tiles=gmw_tiles,
+                                  year=year,
+                                  qa_add_file='add_mangroves.gpkg',
+                                  qa_add_lyr='add_mangroves',
+                                  qa_rm_file='rm_mangroves.gpkg',
+                                  qa_rm_lyr='rm_mangroves',
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v311_notpflt'.format(year),
                                   tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
         
         self.pop_params_db()
