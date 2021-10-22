@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 def polygoniseRaster2VecLyr(out_vec_file: str, out_vec_lyr: str, out_format: str, input_img: str, img_band: int =1,
                             mask_img: str =None, mask_band: int =1, replace_file: bool =True, replace_lyr: bool =True,
-                            pxl_val_fieldname: str ='PXLVAL', use_8_conn: bool =True):
+                            pxl_val_fieldname: str ='PXLVAL', use_8_conn: bool =False):
     """
 A utility to polygonise a raster to a OGR vector layer. Recommended that you output with 8 connectedness
 otherwise the resulting vector can be invalid and cause problems for further processing in GIS applications.
@@ -106,7 +106,7 @@ class CreateVectorTile(PBPTQProcessTool):
                                     self.params['img_tile'], img_band=1,
                                     mask_img=self.params['img_tile'],
                                     mask_band=1, replace_file=True, replace_lyr=True,
-                                    pxl_val_fieldname='PXLVAL', use_8_conn=True)
+                                    pxl_val_fieldname='PXLVAL', use_8_conn=False)
 
         pathlib.Path(self.params['out_cmp_file']).touch()
 

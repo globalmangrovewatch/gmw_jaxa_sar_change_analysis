@@ -29,8 +29,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
         years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
         for lyr in ['mjr', 'min', 'max']:
             for year in years:
-                self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_{}_{}_v309/*.kea'.format(lyr, year),
-                                      out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/mng_v3_extent/gmw_v3_fnl_{}_{}_v309'.format(lyr, year))
+                self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_{}_{}_v311/*.kea'.format(lyr, year),
+                                      out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/mng_v3_extent/gmw_v3_fnl_{}_{}_v311'.format(lyr, year))
         
         self.pop_params_db()
         self.create_slurm_sub_sh("convert_gmw_extent_mng_gtiff", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
