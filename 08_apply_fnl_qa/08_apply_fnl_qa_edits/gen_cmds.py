@@ -45,23 +45,11 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                   qa_add_lyr='add_mangroves',
                                   qa_rm_file='rm_mangroves.gpkg',
                                   qa_rm_lyr='rm_mangroves',
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v311'.format(year),
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v312'.format(year),
                                   tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
 
-        for year in years:
-            gmw_tiles = '/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v310_notpflt/*.kea'.format(year)
-
-            self.gen_command_info(gmw_tiles=gmw_tiles,
-                                  year=year,
-                                  qa_add_file='add_mangroves.gpkg',
-                                  qa_add_lyr='add_mangroves',
-                                  qa_rm_file='rm_mangroves.gpkg',
-                                  qa_rm_lyr='rm_mangroves',
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v311_notpflt'.format(year),
-                                  tmp_dir='/scratch/a.pfb/gmw_v3_change/tmp')
-        
         self.pop_params_db()
-        self.create_slurm_sub_sh("gmw_apply_qa_fnl_v311", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
+        self.create_slurm_sub_sh("gmw_apply_qa_fnl_v312", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
