@@ -40,12 +40,12 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
         years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
         for year in years:
-            self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v311/*.kea'.format(year),
+            self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v312/*.kea'.format(year),
                                   year=year,
                                   min_ext_gmw='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_min_ext_{}_v309'.format(year),
                                   max_ext_gmw='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_max_ext_{}_v309'.format(year),
-                                  out_min_ext_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_min_{}_v311'.format(year),
-                                  out_max_ext_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_max_{}_v311'.format(year))
+                                  out_min_ext_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_min_{}_v312'.format(year),
+                                  out_max_ext_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_max_{}_v312'.format(year))
         
         self.pop_params_db()
         self.create_slurm_sub_sh("gmw_create_fnl_min_max_ext", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
