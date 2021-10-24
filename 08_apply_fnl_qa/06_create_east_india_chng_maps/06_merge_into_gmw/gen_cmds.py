@@ -41,7 +41,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
         for year in years:
             india_tiles_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_east_india_chgns_tpflt/{}".format(year)
-            if (year == '1996') or (year == '2010'):
+            if (year == '1996') or (year == '2020'):
                 india_tiles_dir = "/scratch/a.pfb/gmw_v3_change/data/gmw_east_india_edits/gmw_v3_east_india_chgns/{}".format(year)
 
             self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v309/*.kea'.format(year),
