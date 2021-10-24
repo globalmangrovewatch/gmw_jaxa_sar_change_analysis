@@ -20,7 +20,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
             out_img = os.path.join(kwargs['out_dir'], '{}.kea'.format(basename))
 
-            if (kwargs['year'] == '1996') or (kwargs['year'] == '2010'):
+            if (kwargs['year'] == '1996') or (kwargs['year'] == '2020'):
                 india_tile_img = os.path.join(kwargs['india_tiles_dir'], '{}_east_india_gmw_extent.kea'.format(tile_basename))
             else:
                 india_tile_img = os.path.join(kwargs['india_tiles_dir'], '{}_east_india_gmw_extent_tpflt.kea'.format(tile_basename))
