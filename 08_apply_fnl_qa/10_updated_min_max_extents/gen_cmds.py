@@ -19,8 +19,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
             basename = self.get_file_basename(gmw_tile)
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
 
-            min_ext_img = os.path.join(kwargs['min_ext_gmw'], '{}_{}_mng_min_ext_v3.kea'.format(tile_basename, kwargs['year']))
-            max_ext_img = os.path.join(kwargs['max_ext_gmw'], '{}_{}_mng_max_ext_v3.kea'.format(tile_basename, kwargs['year']))
+            min_ext_img = os.path.join(kwargs['min_ext_gmw'], '{}_{}_min_v3_fnl.kea'.format(tile_basename, kwargs['year']))
+            max_ext_img = os.path.join(kwargs['max_ext_gmw'], '{}_{}_max_v3_fnl.kea'.format(tile_basename, kwargs['year']))
 
             out_min_ext_img = os.path.join(kwargs['out_min_ext_dir'], '{}_{}_min_v3_fnl.kea'.format(tile_basename, kwargs['year']))
             out_max_ext_img = os.path.join(kwargs['out_max_ext_dir'], '{}_{}_max_v3_fnl.kea'.format(tile_basename, kwargs['year']))
