@@ -42,8 +42,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for year in years:
             self.gen_command_info(gmw_tiles='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v312/*.kea'.format(year),
                                   year=year,
-                                  min_ext_gmw='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_min_ext_{}_v309'.format(year),
-                                  max_ext_gmw='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_mng_max_ext_{}_v309'.format(year),
+                                  min_ext_gmw='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_min_{}_v309'.format(year),
+                                  max_ext_gmw='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_max_{}_v309'.format(year),
                                   out_min_ext_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_min_{}_v312'.format(year),
                                   out_max_ext_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_max_{}_v312'.format(year))
         
