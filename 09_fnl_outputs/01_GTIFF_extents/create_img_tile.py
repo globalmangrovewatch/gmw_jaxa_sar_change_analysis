@@ -68,7 +68,6 @@ def define_colour_table(input_img: str, clr_lut: dict, img_band:int =1):
     :param img_band: int specifying the band for the colour table (default = 1)
 
     """
-    import rsgislib.tools.utils
     gdal_ds = gdal.Open(input_img, gdal.GA_Update)
     gdal_band = gdal_ds.GetRasterBand(img_band)
     clr_tbl = gdal.ColorTable()
