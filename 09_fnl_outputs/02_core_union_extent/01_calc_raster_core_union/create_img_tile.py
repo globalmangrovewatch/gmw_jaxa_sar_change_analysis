@@ -8,6 +8,9 @@ import osgeo.gdal as gdal
 
 logger = logging.getLogger(__name__)
 
+
+gdal.UseExceptions()
+
 def get_gdal_datatype_from_img(input_img: str):
     """
     Returns the GDAL datatype ENUM (e.g., GDT_Float32) for the inputted raster file.
@@ -275,7 +278,7 @@ def define_colour_table(input_img: str, clr_lut: dict, img_band:int =1):
     """
     gdal_ds = gdal.Open(input_img, gdal.GA_Update)
     gdal_band = gdal_ds.GetRasterBand(img_band)
-    clr_tbl = gdal_band.GetColorTable()
+    clr_tbl = gdal.ColorTable()
     for pxl_val in clr_lut:
         if isinstance(clr_lut[pxl_val], str):
             r, g, b = hex_to_rgb(clr_lut[pxl_val])
