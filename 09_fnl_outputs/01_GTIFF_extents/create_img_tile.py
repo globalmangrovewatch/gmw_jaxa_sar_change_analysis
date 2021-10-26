@@ -4,6 +4,7 @@ import os
 import osgeo.gdal as gdal
 import rsgislib
 import rsgislib.imagecalc
+import numpy
 
 logger = logging.getLogger(__name__)
 
