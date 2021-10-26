@@ -3,32 +3,236 @@ import logging
 import os
 import osgeo.gdal as gdal
 import rsgislib
+import rsgislib.imagecalc
 
 logger = logging.getLogger(__name__)
 
-
-def gdal_translate(input_img, output_img, gdalformat='KEA', options=''):
+def get_gdal_datatype_from_img(input_img: str):
     """
-    Using GDAL translate to convert input image to a different format, if GTIFF selected
-    and no options are provided then a cloud optimised GeoTIFF will be outputted.
+    Returns the GDAL datatype ENUM (e.g., GDT_Float32) for the inputted raster file.
 
-    :param input_img: Input image which is GDAL readable.
-    :param output_img: The output image file.
-    :param gdalformat: The output image file format
-    :param options: options for the output driver (e.g., "-co TILED=YES -co COMPRESS=LZW -co BIGTIFF=YES")
+    :return: ints
+
     """
+    raster = gdal.Open(input_img, gdal.GA_ReadOnly)
+    if raster == None:
+        raise rsgislib.RSGISPyException(
+            "Could not open raster image: '" + input_img + "'"
+        )
+    band = raster.GetRasterBand(1)
+    if band == None:
+        raise rsgislib.RSGISPyException(
+            "Could not open raster band 1 in image: '" + input_img + "'"
+        )
+    gdal_dtype = band.DataType
+    raster = None
+    return gdal_dtype
 
-    options = "-co TILED=YES -co INTERLEAVE=PIXEL -co BLOCKXSIZE=256 -co BLOCKYSIZE=256 -co COMPRESS=LZW -co BIGTIFF=NO -co COPY_SRC_OVERVIEWS=YES"
+def get_gdal_format_name(input_img: str):
+    """
+    Gets the shorthand file format for the input image in uppercase.
 
-    try:
-        import tqdm
+    :param input_img: The current name of the GDAL layer.
+    :return: string with the file format (e.g., KEA or GTIFF).
+
+    """
+    layerDS = gdal.Open(input_img, gdal.GA_ReadOnly)
+    gdalDriver = layerDS.GetDriver()
+    layerDS = None
+    return str(gdalDriver.ShortName).upper()
+
+def set_img_thematic(input_img: str):
+    """
+    Set all image bands to be thematic.
+
+    :param input_img: The file for which the bands are to be set as thematic
+    """
+    ds = gdal.Open(input_img, gdal.GA_Update)
+    if ds == None:
+        raise Exception("Could not open the input_img.")
+    for bandnum in range(ds.RasterCount):
+        band = ds.GetRasterBand(bandnum + 1)
+        band.SetMetadataItem("LAYER_TYPE", "thematic")
+    ds = None
+
+def get_img_band_count(input_img: str):
+    """
+    A function to retrieve the number of image bands in an image file.
+
+    :return: nBands
+
+    """
+    rasterDS = gdal.Open(input_img, gdal.GA_ReadOnly)
+    if rasterDS == None:
+        raise rsgislib.RSGISPyException(
+            "Could not open raster image: '" + input_img + "'"
+        )
+
+    nBands = rasterDS.RasterCount
+    rasterDS = None
+    return nBands
+
+def get_img_size(input_img: str):
+    """
+    A function to retrieve the image size in pixels.
+
+    :return: xSize, ySize
+
+    """
+    rasterDS = gdal.Open(input_img, gdal.GA_ReadOnly)
+    if rasterDS == None:
+        raise rsgislib.RSGISPyException(
+            "Could not open raster image: '" + input_img + "'"
+        )
+
+    xSize = rasterDS.RasterXSize
+    ySize = rasterDS.RasterYSize
+    rasterDS = None
+    return xSize, ySize
+
+def pop_thmt_img_stats(input_img: str, add_clr_tab: bool=True, calc_pyramids: bool=True, ignore_zero: bool=True):
+    """
+    A function which populates a byte thematic input image (e.g., classification) with
+    pyramids and header statistics (e.g., colour table).
+
+    Note, for more complex thematic images using formats which support raster attribute
+    tables (e.g., KEA) then use the rsgislib.rastergis.pop_rat_img_stats function.
+
+    This function is best used aiding the visualisation of GTIFF's.
+
+    :param input_img: input image path
+    :param add_clr_tab: boolean specifying whether a colour table should be added
+                        (default: True)
+    :param calc_pyramids: boolean specifying whether a image pyramids should be added
+                        (default: True)
+    :param ignore_zero: boolean specifying whether to ignore pixel with a value of zero
+                        i.e., as a no data value (default: True)
+
+    """
+    import tqdm
+
+    # Get file data type
+    data_type = get_gdal_datatype_from_img(input_img)
+    if data_type != gdal.GDT_Byte:
+        raise Exception("This function only supports byte datasets")
+
+    # Get file format
+    img_format = get_gdal_format_name(input_img)
+    if img_format == "KEA":
+        print("Recommend using rsgislib.rastergis.pop_rat_img_stats for KEA files")
+    # Set image as being thematic
+    set_img_thematic(input_img)
+
+    if add_clr_tab:
+        n_bands = get_img_band_count(input_img)
+        gdal_ds = gdal.Open(input_img, gdal.GA_Update)
+        for band_idx in tqdm.tqdm(range(n_bands)):
+            gdal_band = gdal_ds.GetRasterBand(band_idx + 1)
+
+            # fill in the metadata
+            tmp_meta = gdal_band.GetMetadata()
+
+            if ignore_zero:
+                gdal_band.SetNoDataValue(0)
+                tmp_meta["STATISTICS_EXCLUDEDVALUES"] = "0"
+
+            try:
+                (min_val, max_val, mean_val, stddev_val) = gdal_band.ComputeStatistics(False)
+            except RuntimeError as e:
+                if str(e).endswith('Failed to compute statistics, no '
+                                   'valid pixels found in sampling.'):
+                    min_val = 0
+                    max_val = 0
+                    mean_val = 0
+                    stddev_val = 0
+                else:
+                    raise e
+
+            tmp_meta["STATISTICS_MINIMUM"] = "".format(min_val)
+            tmp_meta["STATISTICS_MAXIMUM"] = "".format(max_val)
+            tmp_meta["STATISTICS_MEAN"] = "".format(mean_val)
+            tmp_meta["STATISTICS_STDDEV"] = "".format(stddev_val)
+            tmp_meta["STATISTICS_SKIPFACTORX"] = "1"
+            tmp_meta["STATISTICS_SKIPFACTORY"] = "1"
+
+            # byte data use 256 bins and the whole range
+            hist_min = 0
+            hist_max = 255
+            hist_step = 1.0
+            hist_calc_min = -0.5
+            hist_calc_max = 255.5
+            hist_n_bins = 256
+            tmp_meta["STATISTICS_HISTOBINFUNCTION"] = 'direct'
+
+            hist = gdal_band.GetHistogram(hist_calc_min, hist_calc_max, hist_n_bins, False, False)
+
+            # Check if GDAL's histogram code overflowed. This is not a fool-proof test,
+            # as some overflows will not result in negative counts.
+            histogram_overflow = (min(hist) < 0)
+
+            if not histogram_overflow:
+                # comes back as a list for some reason
+                hist = numpy.array(hist)
+
+                # Note that we have explicitly set histstep in each datatype case
+                # above. In principle, this can be calculated, as it is done in the
+                # float case, but for some of the others we need it to be exactly
+                # equal to 1, so we set it explicitly there, to avoid rounding
+                # error problems.
+
+                # do the mode - bin with the highest count
+                mode_bin = numpy.argmax(hist)
+                mode_val = mode_bin * hist_step + hist_min
+                tmp_meta["STATISTICS_MODE"] = "{}".format(int(round(mode_val)))
+                tmp_meta["STATISTICS_HISTOBINVALUES"] = '|'.join(map(repr, hist)) + '|'
+                tmp_meta["STATISTICS_HISTOMIN"] = "{}".format(hist_min)
+                tmp_meta["STATISTICS_HISTOMAX"] = "{}".format(hist_max)
+                tmp_meta["STATISTICS_HISTONUMBINS"] = "{}".format(hist_n_bins)
+
+                # estimate the median
+                mid_num = hist.sum() / 2
+                gt_mid = hist.cumsum() >= mid_num
+                median_bin = gt_mid.nonzero()[0][0]
+                median_val = median_bin * hist_step + hist_min
+                tmp_meta["STATISTICS_MEDIAN"] = "{}".format(int(round(median_val)))
+
+            gdal_band.SetMetadata(tmp_meta)
+
+            clr_tab = gdal.ColorTable()
+            for i in range(hist_n_bins):
+                if (i == 0) and ignore_zero:
+                    clr_tab.SetColorEntry(0, (0, 0, 0, 0))
+                else:
+                    ran_clr = numpy.random.randint(1, 255, 3, dtype=numpy.uint8)
+                    clr_tab.SetColorEntry(i, (ran_clr[0], ran_clr[1], ran_clr[2], 255))
+            gdal_band.SetRasterColorTable(clr_tab)
+            gdal_band.SetRasterColorInterpretation(gdal.GCI_PaletteIndex)
+
+        gdal_ds = None
+
+    if calc_pyramids:
         pbar = tqdm.tqdm(total=100)
         callback = lambda *args, **kw: pbar.update()
-    except:
-        callback = gdal.TermProgress
 
-    trans_opt = gdal.TranslateOptions(format=gdalformat, options=options, callback=callback)
-    gdal.Translate(output_img, input_img, options=trans_opt)
+        img_x_size, img_y_size = get_img_size(input_img)
+        if img_x_size < img_y_size:
+            min_size = img_x_size
+        else:
+            min_size = img_y_size
+
+        n_overs = 0
+        pyd_lvls = [4, 8, 16, 32, 64, 128, 256, 512]
+        for i in pyd_lvls:
+            if (min_size // i) > 33:
+                n_overs = n_overs + 1
+
+        gdal_ds = gdal.Open(input_img, gdal.GA_Update)
+        if img_format == 'GTIFF':
+            gdal.SetConfigOption('COMPRESS_OVERVIEW', 'LZW')
+        gdal_ds.BuildOverviews('NEAREST', pyd_lvls[:n_overs], callback)
+        gdal_ds = None
+
+
 
 def hex_to_rgb(hex_str:str):
     """
@@ -93,7 +297,9 @@ class CreateImageTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_img_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
-        gdal_translate(self.params['gmw_tile'], self.params['out_img'], gdalformat='GTIFF')
+        os.environ["RSGISLIB_IMG_CRT_OPTS_GTIFF"] = "TILED=YES:COMPRESS=LZW"
+        rsgislib.imagecalc.imageMath(self.params['gmw_tile'], self.params['out_img'], 'b1', 'GTIFF', rsgislib.TYPE_8UINT)
+        pop_thmt_img_stats(self.params['out_img'])
         clr_lut = dict()
         clr_lut[1] = '#009600'
         define_colour_table(self.params['out_img'], clr_lut)
