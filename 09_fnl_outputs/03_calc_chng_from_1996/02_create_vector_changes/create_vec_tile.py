@@ -232,17 +232,18 @@ class CreateVectorTile(PBPTQProcessTool):
         super().__init__(cmd_name='create_vec_tile.py', descript=None)
 
     def do_processing(self, **kwargs):
-        pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['img_tile'], vals=[1])
-        print("N Pixels: ", pxl_count[0])
+        pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['img_tile'], vals=[1, 2])
+        tot_pxl_count = pxl_count[0] + pxl_count[1]
+        print("N Pixels: ", tot_pxl_count)
 
-        if pxl_count[0] > 0:
+        if tot_pxl_count > 0:
             polygoniseRaster2VecLyr(self.params['out_vec'], self.params['out_lyr_name'], 'GPKG',
                                     self.params['img_tile'], img_band=1,
                                     mask_img=self.params['img_tile'],
                                     mask_band=1, replace_file=True, replace_lyr=True,
-                                    pxl_val_fieldname='pxlval', use_8_conn=False)
+                                    pxl_val_fieldname='chng_type_id', use_8_conn=False)
 
-            pxl_val_col = read_vec_column(self.params['out_vec'], self.params['out_lyr_name'], "pxlval")
+            pxl_val_col = read_vec_column(self.params['out_vec'], self.params['out_lyr_name'], "chng_type_id")
             out_vals = list()
             for val in pxl_val_col:
                 if val == 1:
@@ -252,7 +253,7 @@ class CreateVectorTile(PBPTQProcessTool):
                 else:
                     out_vals.append("")
 
-            write_vec_column(self.params['out_vec'], self.params['out_lyr_name'], ogr.OFTString, out_vals)
+            write_vec_column(self.params['out_vec'], self.params['out_lyr_name'], "chng_type", ogr.OFTString, out_vals)
 
         pathlib.Path(self.params['out_cmp_file']).touch()
 
