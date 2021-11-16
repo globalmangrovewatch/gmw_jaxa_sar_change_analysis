@@ -12,7 +12,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
         if not os.path.exists(kwargs['out_dir']):
             os.mkdir(kwargs['out_dir'])
 
-        img_tiles = glob.glob(kwargs['gmw_tiles'])
+        img_tiles = glob.glob(kwargs['imgs_dir'])
         for gmw_tile in img_tiles:
             basename = self.get_file_basename(gmw_tile)
 
