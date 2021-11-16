@@ -303,7 +303,7 @@ class CreateImageTile(PBPTQProcessTool):
         band_defns = list()
         band_defns.append(rsgislib.imagecalc.BandDefn('base', self.params['gmw_base_tile'], 1))
         band_defns.append(rsgislib.imagecalc.BandDefn('chng', self.params['gmw_chg_img'], 1))
-        rsgislib.imagecalc.bandMath(self.params['out_img'], "(base==0)&&(chng==1)?1:(base==1)&&(chng==0)?2:0", 'GTIFF', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.imagecalc.bandMath(self.params['out_img'], "(base==0)&&(chng==1)?1:(base==1)&&(chng==0)?2:0", 'KEA', rsgislib.TYPE_8UINT, band_defns)
         pop_thmt_img_stats(self.params['out_img'])
 
         clr_lut = dict()

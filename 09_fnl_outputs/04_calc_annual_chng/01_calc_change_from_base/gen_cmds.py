@@ -17,7 +17,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             basename = self.get_file_basename(gmw_tile, n_comps=2)
 
             gmw_chg_img = os.path.join(kwargs['gmw_chng_dir'], "{}_{}_mjr_v3_fnl.kea".format(basename, kwargs['chng_year']))
-            out_img = os.path.join(kwargs['out_dir'], '{}_v3_chng_f{}_t{}.tif'.format(basename, kwargs['base_year'], kwargs['chng_year']))
+            out_img = os.path.join(kwargs['out_dir'], '{}_v3_chng_f{}_t{}.kea'.format(basename, kwargs['base_year'], kwargs['chng_year']))
 
             if not os.path.exists(out_img):
                 c_dict = dict()
@@ -35,10 +35,10 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                       gmw_chng_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v312'.format(years[i+1]),
                                       base_year=year,
                                       chng_year=years[i+1],
-                                      out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_chngs/gmw_v3_f{}_t{}_v312'.format(year, years[i+1]))
+                                      out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_chngs/gmw_v3_f{}_t{}_v312_kea'.format(year, years[i+1]))
         
         self.pop_params_db()
-        self.create_slurm_sub_sh("convert_gmw_extent_mng_gtiff", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
+        self.create_slurm_sub_sh("convert_gmw_extent_mng_kea", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
