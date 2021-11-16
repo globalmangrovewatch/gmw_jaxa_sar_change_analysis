@@ -38,16 +38,17 @@ class CreateImageTile(PBPTQProcessTool):
 
     def do_processing(self, **kwargs):
 
-        kea_pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['gmw_tile'], vals=[1])
-        tif_pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['tif_img'], vals=[1])
+        if os.path.exists(self.params['tif_img']):
+            kea_pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['gmw_tile'], vals=[1])
+            tif_pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['tif_img'], vals=[1])
 
-        if kea_pxl_count[0] != tif_pxl_count[0]:
-            os.remove(self.params['tif_img'])
-        else:
-            pxl_vals = dict()
-            pxl_vals['kea'] = int(kea_pxl_count[0])
-            pxl_vals['tif'] = int(tif_pxl_count[0])
-            write_dict_to_json(pxl_vals, self.params['out_file'])
+            if kea_pxl_count[0] != tif_pxl_count[0]:
+                os.remove(self.params['tif_img'])
+            else:
+                pxl_vals = dict()
+                pxl_vals['kea'] = int(kea_pxl_count[0])
+                pxl_vals['tif'] = int(tif_pxl_count[0])
+                write_dict_to_json(pxl_vals, self.params['out_file'])
 
 
     def required_fields(self, **kwargs):
