@@ -31,12 +31,12 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
 
         self.gen_command_info(
-            img_srch='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_union_v312/*.tif',
+            img_srch='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_union_v312_kea/*.kea',
             out_lyr_name='mng_union',
             out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_union_v312_vecs/')
 
         self.gen_command_info(
-            img_srch='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_core_v312/*.tif',
+            img_srch='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_core_v312_kea/*.kea',
             out_lyr_name='mng_core',
             out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_core_v312_vecs/')
 
