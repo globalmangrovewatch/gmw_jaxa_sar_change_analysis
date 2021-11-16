@@ -303,13 +303,13 @@ class CreateImageTile(PBPTQProcessTool):
     def do_processing(self, **kwargs):
         os.environ["RSGISLIB_IMG_CRT_OPTS_GTIFF"] = "TILED=YES:COMPRESS=LZW"
 
-        rsgislib.imagecalc.calcMultiImgBandStats(self.params['gmw_imgs'], self.params['out_union_img'], rsgislib.SUMTYPE_MAX, 'GTIFF', rsgislib.TYPE_8UINT, 0, False)
+        rsgislib.imagecalc.calcMultiImgBandStats(self.params['gmw_imgs'], self.params['out_union_img'], rsgislib.SUMTYPE_MAX, 'KEA', rsgislib.TYPE_8UINT, 0, False)
         pop_thmt_img_stats(self.params['out_union_img'])
         clr_lut = dict()
         clr_lut[1] = '#009600'
         define_colour_table(self.params['out_union_img'], clr_lut)
 
-        rsgislib.imagecalc.calcMultiImgBandStats(self.params['gmw_imgs'], self.params['out_core_img'], rsgislib.SUMTYPE_MIN, 'GTIFF', rsgislib.TYPE_8UINT, 0, False)
+        rsgislib.imagecalc.calcMultiImgBandStats(self.params['gmw_imgs'], self.params['out_core_img'], rsgislib.SUMTYPE_MIN, 'KEA', rsgislib.TYPE_8UINT, 0, False)
         pop_thmt_img_stats(self.params['out_core_img'])
         clr_lut = dict()
         clr_lut[1] = '#009600'
