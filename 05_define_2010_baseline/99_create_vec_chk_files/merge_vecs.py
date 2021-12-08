@@ -21,8 +21,8 @@ import rsgislib.vectorutils
 #rsgislib.vectorutils.mergeVectors2GPKG(input_vecs, out_file, "gmw_2010_potent_chng", False)
 
 
-input_vecs = glob.glob("/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn_qad_rm_sml_vecs/*.gpkg")
-out_file = "/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_fnl_potent_chg_rgn_qad_rm_sml_vecs.gpkg"
-rsgislib.vectorutils.mergeVectors2GPKG(input_vecs, out_file, "gmw_2010_potent_chng", False)
+input_vecs = glob.glob("/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3_vecs/*.gpkg")
+out_file = "/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v25_vecs.gpkg"
+rsgislib.vectorutils.mergeVectors2GPKG(input_vecs, out_file, "gmw_2010_v25", False)
 
 
