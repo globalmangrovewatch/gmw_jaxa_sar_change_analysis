@@ -17,7 +17,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
             tile_base_name = rsgislib.tools.filetools.get_file_basename(gmw_tile)
             tile_base_name = tile_base_name.replace("v3", "v25")
 
-            tif_img = os.path.join(kwargs['out_path'], f"{tile_base_name}.tif")
+            tif_img = os.path.join(kwargs['tif_dir'], f"{tile_base_name}.tif")
             out_file = os.path.join(kwargs['out_dir'], f"{tile_base_name}.json")
 
             if not os.path.exists(out_file):
@@ -31,7 +31,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
         self.gen_command_info(gmw_tiles = '/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v3/*.kea',
                               tif_dir = '/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v25_tif',
-                              out_path = '/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v25_tif_chkd')
+                              out_dir = '/scratch/a.pfb/gmw_v3_change/data/gmw_baseline/gmw_2010_v25_tif_chkd')
 
         self.pop_params_db()
         self.create_slurm_sub_sh("check_gmw_extent_mng_gtiff", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
