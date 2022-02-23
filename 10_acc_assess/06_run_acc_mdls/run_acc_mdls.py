@@ -27,9 +27,9 @@ cls_lst = ["Mangroves", "Not Mangroves", "Mangroves > Not Mangroves", "Not Mangr
 
 cls_clrs = dict()
 cls_clrs["Mangroves"] = [0.0, 1.0, 0.0]
-cls_clrs["Not Mangroves"] = [0.8, 0.8, 0.8]
-cls_clrs["Mangroves to Not Mangroves"] = [1.0, 0.0, 0.0]
-cls_clrs["Not Mangroves to Mangroves"] = [0.0, 0.0, 1.0]
+cls_clrs["Not Mangroves"] = [0.2, 0.2, 0.2]
+cls_clrs["Mangroves > Not Mangroves"] = [1.0, 0.0, 0.0]
+cls_clrs["Not Mangroves > Mangroves"] = [0.0, 0.0, 1.0]
 
 out_dir = "../00_data/03_experiment_outputs"
 
@@ -45,7 +45,7 @@ for i in tqdm.tqdm(range(10)):
     smpl_ref_acc = acc_ref_smpls[f"{acc_ref_smpls_id}"]
 
     cls_props = cls_prop_info["cls_prop"]
-    n_smpls = cls_prop_info["total"]
+    n_smpls = int(cls_prop_info["total"] * 0.25)
 
     err_mtx = create_norm_modelled_err_matrix(cls_props, smpl_ref_acc)
     ref_samples, pred_samples = create_modelled_acc_pts(err_mtx, cls_lst, n_smpls)
@@ -53,11 +53,11 @@ for i in tqdm.tqdm(range(10)):
     smpls_lst = [int(n_smpls*0.01), int(n_smpls*0.02), int(n_smpls*0.05), int(n_smpls*0.1), int(n_smpls*0.15), int(n_smpls*0.2), int(n_smpls*0.25), int(n_smpls*0.3), int(n_smpls*0.4), int(n_smpls*0.5), int(n_smpls*0.6)]#, int(n_smpls*0.7), int(n_smpls*0.8), int(n_smpls*0.9)]
     #print(smpls_lst)
 
-    out_metrics_file = os.path.join(out_dir, f"{i}_out_stats.json"),
-    out_usr_metrics_plot = os.path.join(out_dir, f"{i}_out_usrs_plot.png"),
-    out_prod_metrics_plot = os.path.join(out_dir, f"{i}_out_prod_plot.png"),
-    out_ref_usr_plot = os.path.join(out_dir, f"{i}_ref_usr_plot.png"),
-    out_ref_prod_plot = os.path.join(out_dir, f"{i}_ref_prod_plot.png"),
+    out_metrics_file = os.path.join(out_dir, f"{i}_out_stats.json")
+    out_usr_metrics_plot = os.path.join(out_dir, f"{i}_out_usrs_plot.png")
+    out_prod_metrics_plot = os.path.join(out_dir, f"{i}_out_prod_plot.png")
+    out_ref_usr_plot = os.path.join(out_dir, f"{i}_ref_usr_plot.png")
+    out_ref_prod_plot = os.path.join(out_dir, f"{i}_ref_prod_plot.png")
 
     calc_sampled_acc_metrics(ref_samples, pred_samples, cls_lst, smpls_lst,
                              out_metrics_file=out_metrics_file,
@@ -65,4 +65,5 @@ for i in tqdm.tqdm(range(10)):
                              out_prod_metrics_plot=out_prod_metrics_plot,
                              out_ref_usr_plot=out_ref_usr_plot,
                              out_ref_prod_plot=out_ref_prod_plot,
-                             cls_colours=cls_clrs)
+                             cls_colours=cls_clrs,
+                             in_loop=True)
