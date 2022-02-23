@@ -73,8 +73,8 @@ def run(n_sites, out_base):
 
 
 parser = argparse.ArgumentParser(description='Process Samples...')
-parser.add_argument('--nsites', type=int, help='n site files.')
-parser.add_argument('--outbase', type=str, help='output base file.')
+parser.add_argument('--nsites', type=int, required=True, help='n site files.')
+parser.add_argument('--outbase', type=str, required=True, help='output base file.')
 
 args = parser.parse_args()
 
