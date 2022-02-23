@@ -141,6 +141,8 @@ def calc_class_accuracy_metrics(
     """
     import sklearn.metrics
 
+    cls_names.sort()
+
     acc_metrics = sklearn.metrics.classification_report(
         ref_samples, pred_samples, target_names=cls_names, output_dict=True
     )
@@ -252,6 +254,7 @@ def calc_class_pt_accuracy_metrics(
 
     """
     import sklearn.metrics
+    cls_names.sort()
 
     acc_metrics = sklearn.metrics.classification_report(
         ref_samples, pred_samples, target_names=cls_names, output_dict=True
@@ -364,7 +367,7 @@ def calc_acc_metrics_vecsamples(
     # Find unique class values
     unq_cls_names = numpy.unique(
         numpy.concatenate((numpy.unique(ref_vals), numpy.unique(cls_vals)))
-    )
+    ).sort()
 
     # Create LUTs assigning each class a unique int ID.
     cls_name_lut = dict()
@@ -676,7 +679,7 @@ def calc_acc_ptonly_metrics_vecsamples(
     # Find unique class values
     unq_cls_names = numpy.unique(
         numpy.concatenate((numpy.unique(ref_vals), numpy.unique(cls_vals)))
-    )
+    ).sort()
 
     # Create LUTs assigning each class a unique int ID.
     cls_name_lut = dict()
@@ -845,7 +848,7 @@ def calc_acc_ptonly_metrics_vecsamples_bootstrap_conf_interval(
     # Find unique class values
     unq_cls_names = numpy.unique(
         numpy.concatenate((numpy.unique(ref_vals), numpy.unique(cls_vals)))
-    )
+    ).sort()
 
     # Create LUTs assigning each class a unique int ID.
     cls_name_lut = dict()
