@@ -1,0 +1,17 @@
+python calc_smpld_acc_ests.py --nsites 4 --outdir ./site_4_tests
+python calc_smpld_acc_ests.py --nsites 8 --outdir ./site_8_tests
+python calc_smpld_acc_ests.py --nsites 12 --outdir ./site_12_tests
+python calc_smpld_acc_ests.py --nsites 16 --outdir ./site_16_tests
+python calc_smpld_acc_ests.py --nsites 20 --outdir ./site_20_tests
+python calc_smpld_acc_ests.py --nsites 24 --outdir ./site_24_tests
+python calc_smpld_acc_ests.py --nsites 28 --outdir ./site_28_tests
+python calc_smpld_acc_ests.py --nsites 32 --outdir ./site_32_tests
+python calc_smpld_acc_ests.py --nsites 36 --outdir ./site_36_tests
+python calc_smpld_acc_ests.py --nsites 40 --outdir ./site_40_tests
+python calc_smpld_acc_ests.py --nsites 44 --outdir ./site_44_tests
+python calc_smpld_acc_ests.py --nsites 48 --outdir ./site_48_tests
+python calc_smpld_acc_ests.py --nsites 52 --outdir ./site_52_tests
+python calc_smpld_acc_ests.py --nsites 56 --outdir ./site_56_tests
+python calc_smpld_acc_ests.py --nsites 60 --outdir ./site_60_tests
+python calc_smpld_acc_ests.py --nsites 64 --outdir ./site_64_tests
+python calc_smpld_acc_ests.py --nsites 68 --outdir ./site_68_tests
