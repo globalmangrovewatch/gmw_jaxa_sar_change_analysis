@@ -32,8 +32,12 @@ def run_smpld_acc(params):
     write_dict_to_json(acc_stats, out_file)
 
 
-def run(n_sites, out_base):
+def run(n_sites, out_dir):
     ref_dir = "../00_data/04_ref_samples"
+    if not os.path.exists(out_dir):
+        os.mkdir(out_dir)
+
+    out_base = os.path.join(out_dir, f"sites_{n_sites}")
 
     ref_smpl_files = glob.glob(os.path.join(ref_dir, "*.feather"))
 
@@ -74,8 +78,8 @@ def run(n_sites, out_base):
 
 parser = argparse.ArgumentParser(description='Process Samples...')
 parser.add_argument('--nsites', type=int, required=True, help='n site files.')
-parser.add_argument('--outbase', type=str, required=True, help='output base file.')
+parser.add_argument('--outdir', type=str, required=True, help='output base file.')
 
 args = parser.parse_args()
 
-run(args.nsites, args.outbase)
+run(args.nsites, args.outdir)
