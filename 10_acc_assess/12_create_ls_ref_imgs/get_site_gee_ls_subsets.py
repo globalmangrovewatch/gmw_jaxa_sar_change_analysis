@@ -113,15 +113,8 @@ def extract_data_gee_to_drive(ls_row, ls_path, s_date, e_date, bbox, out_img, ou
     
     # Compute the median in each band, each pixel.
     # Band names are B1_median, B2_median, etc.
-    median_img = collection.reduce(ee.Reducer.median())
-    
-    # The output is an Image.  Add it to the map.
-    #vis_param = {'bands': ['B4_median', 'B5_median', 'B3_median'], 'opacity': 1.0, 'gamma': 1.2}
-    #Map.setCenter(-122.3355, 37.7924, 9)
-    #Map.addLayer(median, vis_param, 'Median Image')
-    
-    #bbox_str = '[[{0}, {3}], [{1}, {3}], [{1}, {2}], [{0}, {2}]]'.format(*bbox)
-    #print(bbox_str)
+    #median_img = collection.reduce(ee.Reducer.median())
+    composite_img = ee.Algorithms.Landsat.simpleComposite(collection)
 
     
     geom = ee.Geometry.Polygon(
@@ -138,16 +131,46 @@ def extract_data_gee_to_drive(ls_row, ls_path, s_date, e_date, bbox, out_img, ou
     roi = feature.geometry()
     
     
-    geemap.ee_export_image_to_drive(median_img, description=out_img, folder=out_folder, region=roi, scale=30)
+    geemap.ee_export_image_to_drive(composite_img, description=out_img, folder=out_folder, region=roi, scale=30)
 
 
 #extract_data_gee(ls_row=34, ls_path=44, s_date='2008-01-01', e_date='2008-12-31', bbox=[-122.2, -122.0, 37.5, 37.7], tmp_dir="r44_p34_2008_tmp", out_img="r44_p34_2008_img.kea", landsat_col='LANDSAT/LT05/C01/T1')
-extract_data_gee_to_drive(ls_row=34, ls_path=44, s_date='2008-01-01', e_date='2008-12-31', bbox=[-122.2, -122.0, 37.5, 37.7], out_img="r44_p34_2008_img_c2", out_folder='export_gmw_ls', landsat_col='LANDSAT/LT05/C02/T1_L2')
+#extract_data_gee_to_drive(ls_row=34, ls_path=44, s_date='2008-01-01', e_date='2008-12-31', bbox=[-122.2, -122.0, 37.5, 37.7], out_img="r44_p34_2008_img_c2", out_folder='export_gmw_ls', landsat_col='LANDSAT/LT05/C02/T1_L2')
 
 
+years = [1996, 2007, 2008, 2009, 2010, 2015, 2016, 2017, 2018, 2019, 2020]
+
+vec_file = "gmw_change_site_bboxs_ids_wrs2.geojson"
+vec_lyr = "gmw_change_site_bboxs_ids_wrs2"
 
 
+import rsgislib.vectorgeoms
+import rsgislib.vectorattrs
+import time
 
+
+bboxes = rsgislib.vectorgeoms.get_geoms_as_bboxs(vec_file, vec_lyr)
+site_info_lst = rsgislib.vectorattrs.read_vec_columns(vec_file, vec_lyr, ["roi_str_id", "PATH", "ROW"])
+
+ls5 = 'LANDSAT/LT05/C02/T1_L2'
+ls8 = 'LANDSAT/LC08/C02/T1_L2'
+
+for bbox, site_info in zip(bboxes, site_info_lst):
+    site = site_info['roi_str_id']
+    row = site_info['ROW']
+    path = site_info["PATH"]
+    out_folder = f"gmw_ref_ls_comp_imgs_site_{site}"
+    if site not in ["1"]:
+        print(out_folder)
+        for year in years:
+            out_img_name = f"site_{site}_ls_r{row}_p{path}_{year}_img"
+            ls_data = ls8
+            if year < 2011:
+                ls_data = ls5 
+            extract_data_gee_to_drive(ls_row=row, ls_path=path, s_date=f'{year}-01-01', e_date=f'{year}-12-31', bbox=bbox, out_img=out_img_name, out_folder=out_folder, landsat_col=ls_data)
+            
+        time.sleep(300)
+        break
 
 
 
