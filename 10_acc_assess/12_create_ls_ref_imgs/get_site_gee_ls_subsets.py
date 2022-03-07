@@ -160,7 +160,7 @@ for bbox, site_info in zip(bboxes, site_info_lst):
     row = site_info['ROW']
     path = site_info["PATH"]
     out_folder = f"gmw_ref_ls_comp_imgs_site_{site}"
-    if site not in ["1"]:
+    if site not in ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]:
         print(out_folder)
         for year in years:
             out_img_name = f"site_{site}_ls_r{row}_p{path}_{year}_img"
@@ -169,8 +169,7 @@ for bbox, site_info in zip(bboxes, site_info_lst):
                 ls_data = ls5 
             extract_data_gee_to_drive(ls_row=row, ls_path=path, s_date=f'{year}-01-01', e_date=f'{year}-12-31', bbox=bbox, out_img=out_img_name, out_folder=out_folder, landsat_col=ls_data)
             
-        time.sleep(300)
-        break
+        time.sleep(600)
 
 
 
