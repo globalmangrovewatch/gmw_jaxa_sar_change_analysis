@@ -152,8 +152,8 @@ import time
 bboxes = rsgislib.vectorgeoms.get_geoms_as_bboxs(vec_file, vec_lyr)
 site_info_lst = rsgislib.vectorattrs.read_vec_columns(vec_file, vec_lyr, ["roi_str_id", "PATH", "ROW"])
 
-ls5 = 'LANDSAT/LT05/C02/T1_L2'
-ls8 = 'LANDSAT/LC08/C02/T1_L2'
+ls5 = 'LANDSAT/LT05/C01/T1'#C02/T1_L2'
+ls8 = 'LANDSAT/LC08/C01/T1'#C02/T1_L2'
 
 for bbox, site_info in zip(bboxes, site_info_lst):
     site = site_info['roi_str_id']
