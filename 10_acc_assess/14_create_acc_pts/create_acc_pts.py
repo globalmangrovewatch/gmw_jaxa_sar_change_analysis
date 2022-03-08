@@ -32,7 +32,7 @@ for site in sites_lut:
     ref_img_file_path = os.path.join(site_dir, ref_img_file)
     print(ref_img_file_path)
 
-    acc_vec_file = os.path.join(out_vec_dir, f"gmw_chng_site_1_{base_year}_{chng_year}_acc_pts.geojson")
+    acc_vec_file = os.path.join(out_vec_dir, f"gmw_chng_site_{site}_{base_year}_{chng_year}_acc_pts.geojson")
     out_vec_lyr = f"gmw_chng_site_1_{base_year}_{chng_year}_acc_pts"
 
     rsgislib.classification.generate_random_accuracy_pts(ref_img_file_path, acc_vec_file, out_vec_lyr, "GeoJSON", "class_names", "chng_cls", "chng_ref", 500, 42, True)
