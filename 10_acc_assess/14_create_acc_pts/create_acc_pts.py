@@ -27,7 +27,7 @@ for site in sites_lut:
     print(f"\t{base_year} -- {chng_year}")
     site_dir = os.path.join(ref_img_base_dir, "site_{}".format(site))
 
-    ref_img_file = f"gmw_chng_site_1_{base_year}_{chng_year}.kea"
+    ref_img_file = f"gmw_chng_site_{site}_{base_year}_{chng_year}.kea"
 
     ref_img_file_path = os.path.join(site_dir, ref_img_file)
     print(ref_img_file_path)
