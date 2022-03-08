@@ -42,20 +42,21 @@ for in_dir in in_dirs:
     for img in imgs:
         img_basename = rsgislib.tools.filetools.get_file_basename(img)
         out_img = os.path.join(out_dir, f"{img_basename}.tif")
-        if "1996" in img_basename:
-            rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
-        elif "2007" in img_basename:
-            rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
-        elif "2008" in img_basename:
-            rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
-        elif "2009" in img_basename:
-            rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
-        elif "2010" in img_basename:
-            rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
-        else:
-            rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [2,3,4,5,6,7])
+        if not os.path.exists(out_img):
+            if "1996" in img_basename:
+                rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
+            elif "2007" in img_basename:
+                rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
+            elif "2008" in img_basename:
+                rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
+            elif "2009" in img_basename:
+                rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
+            elif "2010" in img_basename:
+                rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [1,2,3,4,5,7])
+            else:
+                rsgislib.imageutils.select_img_bands(img, out_img, "GTIFF", rsgislib.TYPE_16UINT, [2,3,4,5,6,7])
 
-        rsgislib.imageutils.set_band_names(out_img, band_names=["Blue", "Green", "Red", "NIR", "SWIR1", "SWIR2"], feedback = False)
-        rsgislib.imageutils.pop_img_stats(out_img, use_no_data=True, no_data_val=0, calc_pyramids=True)
+            rsgislib.imageutils.set_band_names(out_img, band_names=["Blue", "Green", "Red", "NIR", "SWIR1", "SWIR2"], feedback = False)
+            rsgislib.imageutils.pop_img_stats(out_img, use_no_data=True, no_data_val=0, calc_pyramids=True)
 
 
