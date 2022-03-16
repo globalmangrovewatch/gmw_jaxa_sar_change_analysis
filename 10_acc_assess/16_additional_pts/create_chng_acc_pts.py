@@ -41,8 +41,8 @@ for roi_id in roi_ids:
 
     chng_ref_pxls = rsgislib.imagecalc.count_pxls_of_val(input_img=chng_ref_img, vals=[1], img_band=1)[0]
 
-    n_samples = 100
-    if chng_ref_pxls < 100:
+    n_samples = 500
+    if chng_ref_pxls < 500:
         n_samples = int(math.floor(chng_ref_pxls/2))
 
     rsgislib.imageutils.perform_random_pxl_sample_in_mask_low_pxl_count(input_img=chng_ref_img, output_img=chng_acc_smpls_img, gdalformat="KEA", mask_vals=1, n_samples=n_samples, rnd_seed=42)
