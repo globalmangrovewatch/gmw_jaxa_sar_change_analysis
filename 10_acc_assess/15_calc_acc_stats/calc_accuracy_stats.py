@@ -1,6 +1,6 @@
 import os
 import glob
-import pprint
+import random
 
 import geopandas
 import numpy
@@ -35,6 +35,8 @@ for acc_set_pt_file in acc_set_pt_files:
     if numpy.sum(processed_vals) == n_vals:
         acc_set_vld_files.append(acc_set_pt_file)
     gpd_df = None
+
+random.shuffle(acc_set_vld_files)
 
 #print(len(acc_set_vld_files))
 

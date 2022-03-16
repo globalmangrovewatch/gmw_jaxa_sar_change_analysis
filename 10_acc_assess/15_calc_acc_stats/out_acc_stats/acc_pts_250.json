@@ -1,87 +1,66 @@
 {
     "Mangroves": {
-        "f1-score": 0.983388704318937,
-        "precision": 0.9866666666666667,
-        "recall": 0.9801324503311258,
-        "support": 151
+        "f1-score": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 22
     },
     "Not Mangroves": {
-        "f1-score": 0.964467005076142,
-        "precision": 0.9595959595959596,
-        "recall": 0.9693877551020408,
-        "support": 98
+        "f1-score": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "support": 228
     },
-    "Not Mangroves > Mangroves": {
-        "f1-score": 0.0,
-        "precision": 0.0,
-        "recall": 0.0,
-        "support": 1
-    },
-    "accuracy": 0.972,
+    "accuracy": 1.0,
     "accuracy_conf_interval": [
-        0.017111417661900497,
-        0.020450230864222547,
-        0.024310733629407416,
-        0.026919181443721518
+        0.0,
+        0.0,
+        0.0,
+        0.0
     ],
     "cls_confidence_intervals": {
         "Mangroves": [
-            0.015358641915269757,
-            0.01835545009385898,
-            0.021820509550352765,
-            0.024161765939875596
+            0.0,
+            0.0,
+            0.0,
+            0.0
         ],
         "Not Mangroves": [
-            0.03245509274000756,
-            0.038787793762448064,
-            0.04610997931964489,
-            0.05105740199342653
-        ],
-        "Not Mangroves > Mangroves": [
             0.0,
             0.0,
             0.0,
             0.0
         ]
     },
-    "cohen_kappa": 0.9419511062460609,
+    "cohen_kappa": 1.0,
     "confusion_matrix": [
         [
-            148,
-            3,
+            22,
             0
-        ],
-        [
-            2,
-            95,
-            1
         ],
         [
             0,
-            1,
-            0
+            228
         ]
     ],
     "macro avg": {
-        "f1-score": 0.6492852364650263,
-        "precision": 0.6487542087542087,
-        "recall": 0.6498400684777222,
+        "f1-score": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
         "support": 250
     },
     "producer_accuracy": [
-        98.66666666666667,
-        95.95959595959596,
-        0.0
+        100.0,
+        100.0
     ],
     "user_accuracy": [
-        98.01324503311258,
-        96.93877551020408,
-        0.0
+        100.0,
+        100.0
     ],
     "weighted avg": {
-        "f1-score": 0.9720378433984856,
-        "precision": 0.9721082828282829,
-        "recall": 0.972,
+        "f1-score": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
         "support": 250
     }
 }
