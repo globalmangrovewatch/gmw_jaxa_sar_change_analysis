@@ -1,66 +1,87 @@
 {
     "Mangroves": {
-        "f1-score": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "support": 22
+        "f1-score": 0.8333333333333334,
+        "precision": 0.967741935483871,
+        "recall": 0.7317073170731707,
+        "support": 41
+    },
+    "Mangroves > Not Mangroves": {
+        "f1-score": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "support": 0
     },
     "Not Mangroves": {
-        "f1-score": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
-        "support": 228
+        "f1-score": 0.976525821596244,
+        "precision": 0.9585253456221198,
+        "recall": 0.9952153110047847,
+        "support": 209
     },
-    "accuracy": 1.0,
+    "accuracy": 0.952,
     "accuracy_conf_interval": [
-        0.0,
-        0.0,
-        0.0,
-        0.0
+        0.022172411830921786,
+        0.02649873609061384,
+        0.031501048515882785,
+        0.0348809893437672
     ],
     "cls_confidence_intervals": {
         "Mangroves": [
+            0.05204295342027495,
+            0.06219767603886519,
+            0.07393907406661016,
+            0.08187245111238377
+        ],
+        "Mangroves > Not Mangroves": [
             0.0,
             0.0,
             0.0,
             0.0
         ],
         "Not Mangroves": [
-            0.0,
-            0.0,
-            0.0,
-            0.0
+            0.022197658692758467,
+            0.026528909169394266,
+            0.03153691753300441,
+            0.03492070696787613
         ]
     },
-    "cohen_kappa": 1.0,
+    "cohen_kappa": 0.8110355253212396,
     "confusion_matrix": [
         [
-            22,
-            0
+            30,
+            2,
+            9
         ],
         [
             0,
-            228
+            0,
+            0
+        ],
+        [
+            1,
+            0,
+            208
         ]
     ],
     "macro avg": {
-        "f1-score": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
+        "f1-score": 0.6032863849765259,
+        "precision": 0.6420890937019968,
+        "recall": 0.5756408760259851,
         "support": 250
     },
     "producer_accuracy": [
-        100.0,
-        100.0
+        96.7741935483871,
+        0.0,
+        95.85253456221197
     ],
     "user_accuracy": [
-        100.0,
-        100.0
+        73.17073170731707,
+        NaN,
+        99.52153110047847
     ],
     "weighted avg": {
-        "f1-score": 1.0,
-        "precision": 1.0,
-        "recall": 1.0,
+        "f1-score": 0.9530422535211267,
+        "precision": 0.960036866359447,
+        "recall": 0.952,
         "support": 250
     }
 }
