@@ -90,8 +90,8 @@ for roi_id in roi_ids:
         band_defns = list()
         band_defns.append(rsgislib.imagecalc.BandDefn('ref_chng', ref_chng_img, 1))
         band_defns.append(rsgislib.imagecalc.BandDefn('chng_rgn', tmp_img, 1))
-        rsgislib.imagecalc.band_math(out_img, 'chng_rgn==1?1:(ref_chng==3)||(ref_chng==4):1?0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
-    
+        rsgislib.imagecalc.band_math(out_img, 'chng_rgn==1?1:(ref_chng==3)||(ref_chng==4)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+
     rsgislib.rastergis.pop_rat_img_stats(out_img, add_clr_tab=True, calc_pyramids=True, ignore_zero=True)
 
 
