@@ -78,7 +78,7 @@ for roi_id in roi_ids:
     if sites_info[roi_id] is None:
         band_defns = list()
         band_defns.append(rsgislib.imagecalc.BandDefn('ref_chng', ref_chng_img, 1))
-        rsgislib.imagecalc.band_math(out_img, '(ref_chng==3)||(ref_chng==4):1?0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
+        rsgislib.imagecalc.band_math(out_img, '(ref_chng==3)||(ref_chng==4)?1:0', 'KEA', rsgislib.TYPE_8UINT, band_defns)
     elif sites_info[roi_id] == "all":
         band_defns = list()
         band_defns.append(rsgislib.imagecalc.BandDefn('ref_chng', ref_chng_img, 1))
