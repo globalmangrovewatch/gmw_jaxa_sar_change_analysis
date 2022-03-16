@@ -9,12 +9,23 @@ import rsgislib.vectorutils
 import rsgislib.classification.classaccuracymetrics
 import rsgislib.tools.utils
 
-set1_dir = "/Users/pete/Development/globalmangrovewatch/gmw_jaxa_sar_change_analysis/10_acc_assess/15_calc_acc_stats/acc_ref_pts_set_1"
-set2_dir = "/Users/pete/Development/globalmangrovewatch/gmw_jaxa_sar_change_analysis/10_acc_assess/15_calc_acc_stats/acc_ref_pts_set_2"
+set1_dir = "./acc_ref_pts_set_1"
+set2_dir = "./acc_ref_pts_set_2"
+
+acc_chng_pts_set_1_dir = "./acc_chng_pts_set_1"
+acc_chng_pts_set_2_dir = "./acc_chng_pts_set_2"
+acc_chng_pts_set_3_dir = "./acc_chng_pts_set_3"
+acc_chng_pts_set_4_dir = "./acc_chng_pts_set_4"
 
 set_1_files = glob.glob(os.path.join(set1_dir, "*.geojson"))
 set_2_files = glob.glob(os.path.join(set2_dir, "*.geojson"))
-acc_set_pt_files = set_1_files + set_2_files
+
+set_acc_chng_1_files = glob.glob(os.path.join(acc_chng_pts_set_1_dir, "*.geojson"))
+set_acc_chng_2_files = glob.glob(os.path.join(acc_chng_pts_set_2_dir, "*.geojson"))
+set_acc_chng_3_files = glob.glob(os.path.join(acc_chng_pts_set_3_dir, "*.geojson"))
+set_acc_chng_4_files = glob.glob(os.path.join(acc_chng_pts_set_4_dir, "*.geojson"))
+
+acc_set_pt_files = set_1_files + set_2_files + set_acc_chng_1_files + set_acc_chng_2_files + set_acc_chng_3_files + set_acc_chng_4_files
 
 acc_set_vld_files = list()
 for acc_set_pt_file in acc_set_pt_files:
