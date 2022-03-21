@@ -1,23 +1,26 @@
-overall accuracy,1.0
-cohen kappa,1.0
+overall accuracy,0.916
+cohen kappa,0.8185588387765682
 ""
 Confidence Interval,90%,95%,98%,99%
-Overall Accuracy,0.0,0.0,0.0,0.0
+Overall Accuracy,0.028771415147677382,0.03438534981063882,0.04087646176468799,0.04526234822012662
 ""
 class,f1-score,precision,recall,support
-Mangroves,1.0,1.0,1.0,22
-Not Mangroves,1.0,1.0,1.0,228
+Mangroves,0.8826815642458101,0.8404255319148937,0.9294117647058824,85
+Mangroves > Not Mangroves,0.0,0.0,0.0,0
+Not Mangroves,0.9374999999999999,0.967741935483871,0.9090909090909091,165
 ""
-macro avg,1.0,1.0,1.0,250
-weighted (pixel) avg,1.0,1.0,1.0,250
+macro avg,0.6067271880819366,0.6027224891329216,0.6128342245989304,250
+weighted (pixel) avg,0.9188617318435754,0.9244543582704187,0.916,250
 ""
 Confidence Interval,90%,95%,98%,99%
-Mangroves,0.0,0.0,0.0,0.0
-Not Mangroves,0.0,0.0,0.0,0.0
+Mangroves,0.06194571110977138,0.07403267913119019,0.08800823590595569,0.09745117967268914
+Mangroves > Not Mangroves,0.0,0.0,0.0,0.0
+Not Mangroves,0.023274316319517995,0.02781564633308248,0.03306655916126642,0.036614473234363676
 ""
 Point Count Confusion Matrix
-,Mangroves,Not Mangroves,User Acc
-Mangroves,22,0,100.0
-Not Mangroves,0,228,100.0
-Producer,100.0,100.0
+,Mangroves,Mangroves > Not Mangroves,Not Mangroves,User Acc
+Mangroves,79,1,5,92.94117647058823
+Mangroves > Not Mangroves,0,0,0,nan
+Not Mangroves,15,0,150,90.9090909090909
+Producer,84.04255319148936,0.0,96.7741935483871
 ""
