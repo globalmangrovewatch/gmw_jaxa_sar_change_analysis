@@ -101,7 +101,7 @@ fig, ax = plt.subplots(figsize=(10, 10))
 
 ax.plot(culm_n_pts_lst, acc_stats_dict["Overall"], color="black")
 ax.set_title("Overall Accuracy")
-ax.set_ylim(0.9, 1)
+ax.set_ylim(0.8, 1)
 fig.supylabel("%")
 plt.tight_layout()
 plt.savefig("overall_accuracy_increase_samples.pdf")
