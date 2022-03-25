@@ -143,4 +143,3 @@ for roi_id in roi_ids:
             rsgislib.rastergis.populate_rat_with_stats(pxl_area_img, chng_clumps_img, bs)
 
             rsgislib.rastergis.define_class_names(chng_clumps_img, class_num_col="chng_cls", class_name_col="chng_cls_name", class_names_dict=class_names_dict)
-
