@@ -1,6 +1,7 @@
 import os
 import glob
 import random
+import pprint
 
 import geopandas
 import numpy
@@ -49,3 +50,9 @@ gmw_acc_stats_json = "gmw_chng_acc_stats.json"
 gmw_acc_stats_csv = "gmw_chng_acc_stats.csv"
 rsgislib.classification.classaccuracymetrics.calc_acc_ptonly_metrics_vecsamples(vec_file=gmw_all_acc_pts, vec_lyr="gmw_chng_ref_acc_pts", ref_col="chng_ref", cls_col="chng_cls", out_json_file=gmw_acc_stats_json, out_csv_file=gmw_acc_stats_csv)
 
+gmw_acc_stats_conf_json = "gmw_chng_acc_stats_conf_int.json"
+acc_vals = rsgislib.classification.classaccuracymetrics.calc_acc_ptonly_metrics_vecsamples_bootstrap_conf_interval(
+    vec_file=gmw_all_acc_pts, vec_lyr="gmw_chng_ref_acc_pts", ref_col="chng_ref", cls_col="chng_cls",
+    out_json_file=gmw_acc_stats_conf_json,
+    sample_n_smps=15000,
+    bootstrap_n=1000)
