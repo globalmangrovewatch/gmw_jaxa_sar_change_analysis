@@ -10,7 +10,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def gen_command_info(self, **kwargs):
 
-        img_tiles = glob.glob(os.path.join(kwargs['gmw_tiles'].format(1996), "*.kea"))
+        img_tiles = glob.glob(os.path.join(kwargs['gmw_tiles_dir'].format(1996), "*.kea"))
 
         for gmw_tile in img_tiles:
             tile_basename = self.get_file_basename(gmw_tile, n_comps=2)
@@ -23,7 +23,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                 if not os.path.exists(out_dir):
                     os.mkdir(out_dir)
 
-                tiles_dir = kwargs['gmw_tiles'].format(year)
+                tiles_dir = kwargs['gmw_tiles_dir'].format(year)
                 gmw_tiles[year] = rsgislib.tools.filetools.find_file_none(tiles_dir, "{}*.kea".format(tile_basename))
                 out_imgs[year] = os.path.join(out_dir, "{}_{}_mjr_v314.kea".format(tile_basename, year))
 
