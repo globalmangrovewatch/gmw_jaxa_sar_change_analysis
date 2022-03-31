@@ -61,15 +61,15 @@ class CreateImageTile(PBPTQProcessTool):
             mng_cls_arr = numpy.zeros_like(chng_cls_arr, dtype=int)
             # Copy the No Change Classes across
             mng_cls_arr[(chng_cls_arr == 1)] = 1
-            mng_cls_arr[(chng_cls_arr == 2)] = 2
+            mng_cls_arr[(chng_cls_arr == 2)] = 0
             # Where features larger than 2 pixels then assign
             # to the class clump has changed to.
-            mng_cls_arr[(histogram_arr > 2) & (chng_cls_arr == 3)] = 2
+            mng_cls_arr[(histogram_arr > 2) & (chng_cls_arr == 3)] = 0
             mng_cls_arr[(histogram_arr > 2) & (chng_cls_arr == 4)] = 1
             # Where features are <=2 pixels then assign to the class
             # the clump was in the base classification (i.e., no change).
             mng_cls_arr[(histogram_arr <= 2) & (chng_cls_arr == 3)] = 1
-            mng_cls_arr[(histogram_arr <= 2) & (chng_cls_arr == 4)] = 2
+            mng_cls_arr[(histogram_arr <= 2) & (chng_cls_arr == 4)] = 0
 
             # Write data to clumps.
             rsgislib.rastergis.set_column_data(clumps_img=tmp_chngs_clumps_img, col_name="mng_cls", col_data=mng_cls_arr)
