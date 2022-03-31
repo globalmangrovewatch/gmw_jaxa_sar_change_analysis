@@ -51,7 +51,8 @@ class CreateImageTile(PBPTQProcessTool):
             tmp_chngs_clumps_img = os.path.join(self.params['tmp_dir'], "{}_{}_{}_chngs_clumps.kea".format(self.params['tile'], base_year, chng_year))
             rsgislib.segmentation.clump(tmp_chngs_img, tmp_chngs_clumps_img, "KEA", False, 0, False)
 
-            rsgislib.rastergis.populate_rat_with_mode(input_img=tmp_chngs_img, clumps_img=tmp_chngs_clumps_img, out_cols_name="chngcls", use_no_data=True, no_data_val=0, out_no_data=True, mode_band=1, rat_band=1)
+            bs = [rsgislib.rastergis.BandAttStats(band=1, min_field='chngcls')]
+            rsgislib.rastergis.populate_rat_with_stats(input, tmp_chngs_clumps_img, bs)
 
             chng_cls_arr = rsgislib.rastergis.get_column_data(tmp_chngs_clumps_img, col_name="chngcls")
             histogram_arr = rsgislib.rastergis.get_column_data(tmp_chngs_clumps_img, col_name="Histogram")
