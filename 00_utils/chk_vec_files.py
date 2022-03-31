@@ -76,7 +76,7 @@ def check_gdal_vector_file(gdal_vec, chkproj=True, epsg_prj=0):
                         if spt_ref_wkt is None:
                             file_ok = False
                             err_str = 'Vector projection WKT is None.'
-                        elif spt_ref_wkt is '':
+                        elif spt_ref_wkt == '':
                             file_ok = False
                             err_str = 'Vector projection is empty.'
 
