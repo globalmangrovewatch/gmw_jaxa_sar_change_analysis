@@ -22,9 +22,9 @@ class CreateImageTile(PBPTQProcessTool):
         years = ['2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
 
         exp = """(base==1)&&(chng==1)?1:
-                 (base==2)&&(chng==2)?2:
-                 (base==1)&&(chng==2)?3:
-                 (base==2)&&(chng==1)?4:0
+                 (base==0)&&(chng==0)?2:
+                 (base==1)&&(chng==0)?3:
+                 (base==0)&&(chng==1)?4:0
         """
         # 1 = Mangrove     - Mangrove
         # 2 = Not-Mangrove - Not-Mangrove
@@ -80,6 +80,7 @@ class CreateImageTile(PBPTQProcessTool):
             rsgislib.rastergis.pop_rat_img_stats(clumps_img=out_mng_img, add_clr_tab=True, calc_pyramids=True, ignore_zero=True)
             # Set as base classification for next iteration.
             base_mng_img = out_mng_img
+            base_year = chng_year
 
         #if os.path.exists(self.params['tmp_dir']):
         #    shutil.rmtree(self.params['tmp_dir'])
