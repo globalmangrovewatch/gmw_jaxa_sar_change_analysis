@@ -1,7 +1,7 @@
 import glob
 import rsgislib.vectorutils
 
-out_file = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_v311_notpflt.gpkg"
+out_file = "/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_v313.gpkg"
 
 # 1996
 input_vecs = glob.glob("/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_1996_v313_vecs/*.gpkg")
