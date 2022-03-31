@@ -52,7 +52,7 @@ class CreateImageTile(PBPTQProcessTool):
             rsgislib.segmentation.clump(tmp_chngs_img, tmp_chngs_clumps_img, "KEA", False, 0, False)
 
             bs = [rsgislib.rastergis.BandAttStats(band=1, min_field='chngcls')]
-            rsgislib.rastergis.populate_rat_with_stats(input, tmp_chngs_clumps_img, bs)
+            rsgislib.rastergis.populate_rat_with_stats(tmp_chngs_img, tmp_chngs_clumps_img, bs)
 
             chng_cls_arr = rsgislib.rastergis.get_column_data(tmp_chngs_clumps_img, col_name="chngcls")
             histogram_arr = rsgislib.rastergis.get_column_data(tmp_chngs_clumps_img, col_name="Histogram")
