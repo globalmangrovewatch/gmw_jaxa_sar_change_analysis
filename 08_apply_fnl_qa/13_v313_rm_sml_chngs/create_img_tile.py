@@ -55,8 +55,13 @@ class CreateImageTile(PBPTQProcessTool):
             bs = [rsgislib.rastergis.BandAttStats(band=1, min_field='chngcls')]
             rsgislib.rastergis.populate_rat_with_stats(tmp_chngs_img, tmp_chngs_clumps_img, bs)
 
+            rsgislib.rastergis.calc_rel_border(tmp_chngs_clumps_img, "rel_bor_mng", "chngcls", "1", True)
+            rsgislib.rastergis.calc_rel_border(tmp_chngs_clumps_img, "rel_bor_nmng", "chngcls", "2", True)
+
             chng_cls_arr = rsgislib.rastergis.get_column_data(tmp_chngs_clumps_img, col_name="chngcls")
             histogram_arr = rsgislib.rastergis.get_column_data(tmp_chngs_clumps_img, col_name="Histogram")
+            rel_bor_mng_arr = rsgislib.rastergis.get_column_data(tmp_chngs_clumps_img, col_name="rel_bor_mng")
+            rel_bor_nmng_arr = rsgislib.rastergis.get_column_data(tmp_chngs_clumps_img, col_name="rel_bor_nmng")
 
             mng_cls_arr = numpy.zeros_like(chng_cls_arr, dtype=int)
             # Copy the No Change Classes across
@@ -68,8 +73,13 @@ class CreateImageTile(PBPTQProcessTool):
             mng_cls_arr[(histogram_arr > 2) & (chng_cls_arr == 4)] = 1
             # Where features are <=2 pixels then assign to the class
             # the clump was in the base classification (i.e., no change).
-            mng_cls_arr[(histogram_arr <= 2) & (chng_cls_arr == 3)] = 1
-            mng_cls_arr[(histogram_arr <= 2) & (chng_cls_arr == 4)] = 0
+            # if rel border to the previous class is > 0.5
+            mng_cls_arr[(histogram_arr <= 2) & (chng_cls_arr == 3) & (rel_bor_mng_arr > 0.5)] = 1
+            mng_cls_arr[(histogram_arr <= 2) & (chng_cls_arr == 4) & (rel_bor_nmng_arr > 0.5)] = 0
+            # else if rel border to the previous class is < 0.5
+            # then allow change.
+            mng_cls_arr[(histogram_arr <= 2) & (chng_cls_arr == 3) & (rel_bor_mng_arr <= 0.5)] = 0
+            mng_cls_arr[(histogram_arr <= 2) & (chng_cls_arr == 4) & (rel_bor_nmng_arr <= 0.5)] = 1
 
             # Write data to clumps.
             rsgislib.rastergis.set_column_data(clumps_img=tmp_chngs_clumps_img, col_name="mng_cls", col_data=mng_cls_arr)
