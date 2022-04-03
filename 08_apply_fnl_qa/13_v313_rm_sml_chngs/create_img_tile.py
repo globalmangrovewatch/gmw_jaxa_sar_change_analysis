@@ -92,8 +92,8 @@ class CreateImageTile(PBPTQProcessTool):
             base_mng_img = out_mng_img
             base_year = chng_year
 
-        #if os.path.exists(self.params['tmp_dir']):
-        #    shutil.rmtree(self.params['tmp_dir'])
+        if os.path.exists(self.params['tmp_dir']):
+            shutil.rmtree(self.params['tmp_dir'])
 
 
     def required_fields(self, **kwargs):
