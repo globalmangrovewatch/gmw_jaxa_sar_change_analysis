@@ -35,6 +35,7 @@ class CreateImageTile(PBPTQProcessTool):
         base_mng_img = self.params['gmw_tiles']['1996']
         tmp_1996_msk_img = os.path.join(self.params['tmp_dir'], "{}_1996_mng_msk.kea".format(self.params['tile']))
         rsgislib.imagecalc.image_math(base_mng_img, tmp_1996_msk_img, "b1==1?1:2", "KEA", rsgislib.TYPE_8UINT)
+        rsgislib.rastergis.pop_rat_img_stats(clumps_img=tmp_1996_msk_img, add_clr_tab=True, calc_pyramids=True, ignore_zero=True)
 
         # Clump the layer to find small features.
         tmp_1996_clumps_img = os.path.join(self.params['tmp_dir'], "{}_1996_clumps.kea".format(self.params['tile']))
@@ -42,22 +43,22 @@ class CreateImageTile(PBPTQProcessTool):
         rsgislib.rastergis.pop_rat_img_stats(clumps_img=tmp_1996_clumps_img, add_clr_tab=True, calc_pyramids=True, ignore_zero=True)
 
         # Populate mangrove classification
-        bs = [rsgislib.rastergis.BandAttStats(band=1, min_field='mngcls')]
+        bs = [rsgislib.rastergis.BandAttStats(band=1, min_field='mng96cls')]
         rsgislib.rastergis.populate_rat_with_stats(tmp_1996_msk_img, tmp_1996_clumps_img, bs)
 
         # Read Arrays
-        mng_cls_arr = rsgislib.rastergis.get_column_data(tmp_1996_clumps_img, col_name="mngcls")
+        mng_96_cls_arr = rsgislib.rastergis.get_column_data(tmp_1996_clumps_img, col_name="mng96cls")
         histogram_arr = rsgislib.rastergis.get_column_data(tmp_1996_clumps_img, col_name="Histogram")
 
         # Define the classification.
-        out_mng_cls_arr = numpy.zeros_like(mng_cls_arr, dtype=int)
-        out_mng_cls_arr[(mng_cls_arr == 1)] = 1
-        out_mng_cls_arr[(mng_cls_arr == 2)] = 0
-        out_mng_cls_arr[(histogram_arr < 2) & (mng_cls_arr == 1)] = 0
-        out_mng_cls_arr[(histogram_arr < 2) & (mng_cls_arr == 2)] = 1
+        out_mng_cls_arr = numpy.zeros_like(mng_96_cls_arr, dtype=int)
+        out_mng_cls_arr[(mng_96_cls_arr == 1)] = 1
+        out_mng_cls_arr[(mng_96_cls_arr == 2)] = 0
+        out_mng_cls_arr[(histogram_arr < 2) & (mng_96_cls_arr == 1)] = 0
+        out_mng_cls_arr[(histogram_arr < 2) & (mng_96_cls_arr == 2)] = 1
 
         # Write classification to clumps.
-        rsgislib.rastergis.set_column_data(clumps_img=tmp_1996_clumps_img, col_name="out_mng_cls", col_data=mng_cls_arr)
+        rsgislib.rastergis.set_column_data(clumps_img=tmp_1996_clumps_img, col_name="out_mng_cls", col_data=out_mng_cls_arr)
 
         # Export 1996 mangrove classification.
         out_mng_img = self.params['out_imgs']['1996']
