@@ -34,7 +34,7 @@ class CreateImageTile(PBPTQProcessTool):
         # Create the 1996 layer with small features removed...
         base_mng_img = self.params['gmw_tiles']['1996']
         tmp_1996_msk_img = os.path.join(self.params['tmp_dir'], "{}_1996_mng_msk.kea".format(self.params['tile']))
-        rsgislib.imagecalc.image_math(base_mng_img, tmp_1996_msk_img, "b1==1?1:0", "KEA", rsgislib.TYPE_8UINT)
+        rsgislib.imagecalc.image_math(base_mng_img, tmp_1996_msk_img, "b1==1?1:2", "KEA", rsgislib.TYPE_8UINT)
 
         # Clump the layer to find small features.
         tmp_1996_clumps_img = os.path.join(self.params['tmp_dir'], "{}_1996_clumps.kea".format(self.params['tile']))
@@ -53,8 +53,8 @@ class CreateImageTile(PBPTQProcessTool):
         out_mng_cls_arr = numpy.zeros_like(mng_cls_arr, dtype=int)
         out_mng_cls_arr[(mng_cls_arr == 1)] = 1
         out_mng_cls_arr[(mng_cls_arr == 2)] = 0
-        out_mng_cls_arr[(histogram_arr == 1) & (mng_cls_arr == 1)] = 0
-        out_mng_cls_arr[(histogram_arr == 1) & (mng_cls_arr == 2)] = 1
+        out_mng_cls_arr[(histogram_arr < 2) & (mng_cls_arr == 1)] = 0
+        out_mng_cls_arr[(histogram_arr < 2) & (mng_cls_arr == 2)] = 1
 
         # Write classification to clumps.
         rsgislib.rastergis.set_column_data(clumps_img=tmp_1996_clumps_img, col_name="out_mng_cls", col_data=mng_cls_arr)
