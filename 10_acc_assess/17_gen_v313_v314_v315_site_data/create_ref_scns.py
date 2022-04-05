@@ -49,7 +49,7 @@ for version in versions:
     gmw_info = dict()
     for year in gmw_years:
         gmw_info[year] = dict()
-        gmw_info[year]["lut_lyr"] = f"gmw_extent_{year}"
+        gmw_info[year]["lut_lyr"] = f"{year}_mng_v{version}"
         gmw_info[year]["out_dir"] = f"../00_data/07_site_maps/{version}/{year}"
         if not os.path.exists(gmw_info[year]["out_dir"]):
             os.makedirs(gmw_info[year]["out_dir"])
