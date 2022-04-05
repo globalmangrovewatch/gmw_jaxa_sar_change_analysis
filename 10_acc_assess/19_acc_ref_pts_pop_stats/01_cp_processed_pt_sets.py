@@ -40,7 +40,7 @@ for acc_set_pt_file in acc_chng_set_pt_files:
     processed_vals = gpd_df["Processed"].values
     n_vals = processed_vals.shape[0]
     if numpy.sum(processed_vals) == n_vals:
-        acc_set_vld_files.append(acc_set_pt_file)
+        acc_chng_set_vld_files.append(acc_set_pt_file)
     gpd_df = None
 
 out_dir = "acc_ref_pts"
@@ -53,6 +53,6 @@ for vld_file in acc_set_vld_files:
 out_dir = "acc_chng_pts"
 if not os.path.exists(out_dir):
     os.mkdir(out_dir)
-    
+
 for vld_file in acc_chng_set_vld_files:
     shutil.copy2(vld_file, out_dir)
