@@ -39,8 +39,8 @@ class CreateImageTile(PBPTQProcessTool):
     def do_processing(self, **kwargs):
 
         if os.path.exists(self.params['tif_img']):
-            kea_pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['gmw_tile'], vals=[1])
-            tif_pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['tif_img'], vals=[1])
+            kea_pxl_count = rsgislib.imagecalc.count_pxls_of_val(self.params['gmw_tile'], vals=[1])
+            tif_pxl_count = rsgislib.imagecalc.count_pxls_of_val(self.params['tif_img'], vals=[1])
 
             if kea_pxl_count[0] != tif_pxl_count[0]:
                 os.remove(self.params['tif_img'])
