@@ -21,14 +21,14 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for gmw_tile in img_tiles:
             basename = self.get_file_basename(gmw_tile, n_comps=2)
 
-            out_union_img = os.path.join(kwargs['out_union_dir'], '{}_v3_union.kea'.format(basename))
-            out_core_img = os.path.join(kwargs['out_core_dir'], '{}_v3_core.kea'.format(basename))
+            out_union_img = os.path.join(kwargs['out_union_dir'], '{}_v314_union.kea'.format(basename))
+            out_core_img = os.path.join(kwargs['out_core_dir'], '{}_v314_core.kea'.format(basename))
 
             if (not os.path.exists(out_union_img)) or (not os.path.exists(out_core_img)):
                 gmw_imgs = list()
                 for year in kwargs['years']:
                     img_dir = kwargs['gmw_base_dir'].format(year)
-                    gmw_img = os.path.join(img_dir, "{}_{}_mjr_v3_fnl.kea".format(basename, year))
+                    gmw_img = os.path.join(img_dir, "{}_{}_mjr_v314.kea".format(basename, year))
                     gmw_imgs.append(gmw_img)
 
                 c_dict = dict()
@@ -41,13 +41,13 @@ class GenCmds(PBPTGenQProcessToolCmds):
 
     def run_gen_commands(self):
 
-        self.gen_command_info(gmw_base_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v312/',
+        self.gen_command_info(gmw_base_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v314/',
                               years=['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020'],
-                              out_union_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_union_v312_kea',
-                              out_core_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_core_v312_kea')
+                              out_union_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_union_v314_kea',
+                              out_core_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_core_v314_kea')
         
         self.pop_params_db()
-        self.create_slurm_sub_sh("convert_gmw_extent_mng_gtiff", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
+        self.create_slurm_sub_sh("calc_core_union", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
                                  run_script='run_exe_analysis.sh', job_dir="job_scripts",
                                  db_info_file=None, account_name='scw1376', n_cores_per_job=10, n_jobs=10,
                                  job_time_limit='2-23:59',
