@@ -31,10 +31,11 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
 
         for year in ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']:
-            self.gen_command_info(
-                img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v315/*.kea'.format(year),
-                out_lyr_name='mng_mjr_{}'.format(year),
-                out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v315_vecs/'.format(year))
+            for lyr in ['mjr', 'min', 'max']:
+                self.gen_command_info(
+                    img_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_{}_{}_v314/*.kea'.format(lyr, year),
+                    out_lyr_name='mng_{}_{}'.format(lyr, year),
+                    out_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_{}_{}_v314_vecs/'.format(lyr, year))
 
 
         self.pop_params_db()
