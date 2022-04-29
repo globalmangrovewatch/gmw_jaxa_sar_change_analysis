@@ -31,14 +31,14 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
 
         self.gen_command_info(
-            img_srch='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_union_v312_kea/*.kea',
+            img_srch='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_union_v314_kea/*.kea',
             out_lyr_name='mng_union',
-            out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_union_v312_vecs/')
+            out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_union_v314_vecs/')
 
         self.gen_command_info(
-            img_srch='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_core_v312_kea/*.kea',
+            img_srch='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_core_v314_kea/*.kea',
             out_lyr_name='mng_core',
-            out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_core_v312_vecs/')
+            out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_summaries/gmw_v3_core_v314_vecs/')
 
 
         self.pop_params_db()
