@@ -16,8 +16,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for gmw_tile in img_tiles:
             basename = self.get_file_basename(gmw_tile, n_comps=2)
 
-            gmw_chg_img = os.path.join(kwargs['gmw_chng_dir'], "{}_{}_mjr_v3_fnl.kea".format(basename, kwargs['year']))
-            out_img = os.path.join(kwargs['out_dir'], '{}_v3_chng_f1996_t{}.kea'.format(basename, kwargs['year']))
+            gmw_chg_img = os.path.join(kwargs['gmw_chng_dir'], "{}_{}_mjr_v314.kea".format(basename, kwargs['year']))
+            out_img = os.path.join(kwargs['out_dir'], '{}_chng_f1996_t{}_v314.kea'.format(basename, kwargs['year']))
 
             if not os.path.exists(out_img):
                 c_dict = dict()
@@ -30,10 +30,10 @@ class GenCmds(PBPTGenQProcessToolCmds):
     def run_gen_commands(self):
         years = ['2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
         for year in years:
-            self.gen_command_info(gmw_tile_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_1996_v312/*.kea',
-                                  gmw_chng_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v312'.format(year),
+            self.gen_command_info(gmw_tile_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_1996_v314/*.kea',
+                                  gmw_chng_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v314'.format(year),
                                   year=year,
-                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_chngs/gmw_v3_f1996_t{}_v312_kea'.format(year))
+                                  out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_chngs/gmw_v3_f1996_t{}_v314_kea'.format(year))
         
         self.pop_params_db()
         self.create_slurm_sub_sh("convert_gmw_extent_mng_gtiff", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
