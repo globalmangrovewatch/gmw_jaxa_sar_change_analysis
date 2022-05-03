@@ -35,7 +35,7 @@ class GenCmds(PBPTGenQProcessToolCmds):
                                       gmw_chng_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v314'.format(years[i+1]),
                                       base_year=year,
                                       chng_year=years[i+1],
-                                      out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_chngs/gmw_v3_f1996_t{}_v314_kea'.format(year, years[i+1]))
+                                      out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_chngs/gmw_v3_f{}_t{}_v314_kea'.format(year, years[i+1]))
         
         self.pop_params_db()
         self.create_slurm_sub_sh("convert_gmw_extent_mng_kea", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
