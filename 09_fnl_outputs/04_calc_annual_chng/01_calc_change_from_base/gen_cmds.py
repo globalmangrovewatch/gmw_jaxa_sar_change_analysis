@@ -16,8 +16,8 @@ class GenCmds(PBPTGenQProcessToolCmds):
         for gmw_tile in img_tiles:
             basename = self.get_file_basename(gmw_tile, n_comps=2)
 
-            gmw_chg_img = os.path.join(kwargs['gmw_chng_dir'], "{}_{}_mjr_v3_fnl.kea".format(basename, kwargs['chng_year']))
-            out_img = os.path.join(kwargs['out_dir'], '{}_v3_chng_f{}_t{}.kea'.format(basename, kwargs['base_year'], kwargs['chng_year']))
+            gmw_chg_img = os.path.join(kwargs['gmw_chng_dir'], "{}_{}_mjr_v314.kea".format(basename, kwargs['chng_year']))
+            out_img = os.path.join(kwargs['out_dir'], '{}_chng_f{}_t{}_v314.kea'.format(basename, kwargs['base_year'], kwargs['chng_year']))
 
             if not os.path.exists(out_img):
                 c_dict = dict()
@@ -31,11 +31,11 @@ class GenCmds(PBPTGenQProcessToolCmds):
         years = ['1996', '2007', '2008', '2009', '2010', '2015', '2016', '2017', '2018', '2019', '2020']
         for i, year in enumerate(years):
             if year != '2020':
-                self.gen_command_info(gmw_tile_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v312/*.kea'.format(year),
-                                      gmw_chng_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v312'.format(years[i+1]),
+                self.gen_command_info(gmw_tile_srch='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v314/*.kea'.format(year),
+                                      gmw_chng_dir='/scratch/a.pfb/gmw_v3_change/data/gmw_chng_data/gmw_v3_fnl_mjr_{}_v314'.format(years[i+1]),
                                       base_year=year,
                                       chng_year=years[i+1],
-                                      out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_chngs/gmw_v3_f{}_t{}_v312_kea'.format(year, years[i+1]))
+                                      out_dir='/scratch/a.pfb/gmw_v3_change/data/fnl_v3_prods/gmw_chngs/gmw_v3_f1996_t{}_v314_kea'.format(year, years[i+1]))
         
         self.pop_params_db()
         self.create_slurm_sub_sh("convert_gmw_extent_mng_kea", 16448, '/scratch/a.pfb/gmw_v3_change/logs',
