@@ -40,7 +40,7 @@ random.shuffle(acc_set_vld_files)
 
 #print(len(acc_set_vld_files))
 
-gmw_all_acc_pts = "gmw_chng_ref_acc_pts.geojson"
+gmw_all_acc_pts = "gmw_chng_ref_acc_pts_all.geojson"
 rsgislib.vectorutils.merge_vector_files(
     vec_files = acc_set_vld_files,
     out_vec_file = gmw_all_acc_pts,
@@ -49,10 +49,14 @@ rsgislib.vectorutils.merge_vector_files(
     out_epsg = None,
 )
 
-gmw_acc_stats_json = "gmw_chng_acc_stats.json"
-gmw_acc_stats_csv = "gmw_chng_acc_stats.csv"
-rsgislib.classification.classaccuracymetrics.calc_acc_ptonly_metrics_vecsamples(vec_file=gmw_all_acc_pts, vec_lyr="gmw_chng_ref_acc_pts", ref_col="chng_ref", cls_col="chng_cls", out_json_file=gmw_acc_stats_json, out_csv_file=gmw_acc_stats_csv)
+gmw_acc_stats_json = "gmw_chng_acc_stats_all.json"
+gmw_acc_stats_csv = "gmw_chng_acc_stats_all.csv"
+rsgislib.classification.classaccuracymetrics.calc_acc_ptonly_metrics_vecsamples(vec_file=gmw_all_acc_pts, vec_lyr="gmw_chng_ref_acc_pts_all", ref_col="chng_ref", cls_col="chng_cls", out_json_file=gmw_acc_stats_json, out_csv_file=gmw_acc_stats_csv)
 
+gmw_acc_stats_json = "gmw_chng_acc_stats_all_bs_cint.json"
+rsgislib.classification.classaccuracymetrics.calc_acc_ptonly_metrics_vecsamples_bootstrap_conf_interval(vec_file=gmw_all_acc_pts, vec_lyr="gmw_chng_ref_acc_pts_all", ref_col="chng_ref", cls_col="chng_cls", out_json_file=gmw_acc_stats_json, sample_frac=0.4, sample_n_smps=None, bootstrap_n=1000)
+
+"""
 tmp_dir = "tmp"
 if not os.path.exists(tmp_dir):
     os.mkdir(tmp_dir)
@@ -124,4 +128,4 @@ out_info["n_pts"] = culm_n_pts_lst
 out_info["acc_stats"] = acc_stats_dict
 
 rsgislib.tools.utils.write_dict_to_json(out_info, "gmw_chng_acc_stats_pt_smpls.json")
-
+"""

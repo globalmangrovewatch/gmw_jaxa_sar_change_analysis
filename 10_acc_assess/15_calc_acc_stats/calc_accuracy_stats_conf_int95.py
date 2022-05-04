@@ -1,7 +1,7 @@
 import os
 import glob
 import random
-
+import tqdm
 import geopandas
 import numpy
 
@@ -74,7 +74,7 @@ acc_stats_dict_iters["Not Mangroves"] = list()
 acc_stats_dict_iters["Not Mangroves > Mangroves"] = list()
 acc_stats_dict_iters["Overall"] = list()
 
-for i in range(50):
+for i in tqdm.tqdm(range(500)):
     random.shuffle(acc_set_vld_files)
     culm_n_pts = 0
     acc_culm_pts_lst_iters.append(list())
