@@ -1,35 +1,13 @@
 from pbprocesstools.pbpt_q_process import PBPTQProcessTool
 import logging
 import os
-import osgeo.gdal as gdal
+
 import rsgislib
 import rsgislib.imagecalc
-import numpy
+import rsgislib.tools.utils
+
 
 logger = logging.getLogger(__name__)
-
-
-def write_dict_to_json(data_dict: dict, out_file: str):
-    """
-    Write some data to a JSON file. The data would commonly be structured as a dict
-    but could also be a list.
-
-    :param data_dict: The dict (or list) to be written to the output JSON file.
-    :param out_file: The file path to the output file.
-
-    """
-    import json
-
-    with open(out_file, "w") as fp:
-        json.dump(
-            data_dict,
-            fp,
-            sort_keys=True,
-            indent=4,
-            separators=(",", ": "),
-            ensure_ascii=False,
-        )
-
 
 class CreateImageTile(PBPTQProcessTool):
 
@@ -39,8 +17,8 @@ class CreateImageTile(PBPTQProcessTool):
     def do_processing(self, **kwargs):
 
         if os.path.exists(self.params['tif_img']):
-            kea_pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['gmw_tile'], vals=[1,2])
-            tif_pxl_count = rsgislib.imagecalc.countPxlsOfVal(self.params['tif_img'], vals=[1,2])
+            kea_pxl_count = rsgislib.imagecalc.count_pxls_of_val(self.params['gmw_tile'], vals=[1,2])
+            tif_pxl_count = rsgislib.imagecalc.count_pxls_of_val(self.params['tif_img'], vals=[1,2])
 
             if (kea_pxl_count[0] != tif_pxl_count[0]) or (kea_pxl_count[1] != tif_pxl_count[1]):
                 os.remove(self.params['tif_img'])
@@ -50,7 +28,7 @@ class CreateImageTile(PBPTQProcessTool):
                 pxl_vals['tif_1'] = int(tif_pxl_count[0])
                 pxl_vals['kea_2'] = int(kea_pxl_count[1])
                 pxl_vals['tif_2'] = int(tif_pxl_count[1])
-                write_dict_to_json(pxl_vals, self.params['out_file'])
+                rsgislib.tools.utils.write_dict_to_json(pxl_vals, self.params['out_file'])
 
 
     def required_fields(self, **kwargs):
