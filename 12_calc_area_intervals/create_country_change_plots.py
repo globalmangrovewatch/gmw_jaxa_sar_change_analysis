@@ -81,6 +81,8 @@ def create_country_change_plots(mapped_file, lower_file, upper_file, out_dir, pl
         max_area = max_loss_area
         if max_gain_area > max_loss_area:
             max_area = max_gain_area
+            
+        max_area_plt_lim = max_area * 1.1
 
         fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 10))
 
@@ -90,7 +92,7 @@ def create_country_change_plots(mapped_file, lower_file, upper_file, out_dir, pl
         ax1.set_xlabel("Years")
         ax1.set_ylabel("Area (Ha)")
         ax1.set_xlim(2005, 2020)
-        ax1.set_ylim(min_area, max_area)
+        ax1.set_ylim(0, max_area_plt_lim)
 
         ax2.plot(years, mng_gain_map_areas, color="black")
         ax2.fill_between(years, mng_gain_low_areas, mng_gain_upp_areas, color=[0.9, 0.9, 0.9])
@@ -98,7 +100,7 @@ def create_country_change_plots(mapped_file, lower_file, upper_file, out_dir, pl
         ax2.set_xlabel("Years")
         ax2.set_ylabel("Area (Ha)")
         ax2.set_xlim(2005, 2020)
-        ax2.set_ylim(min_area, max_area)
+        ax2.set_ylim(0, max_area_plt_lim)
 
         fig.tight_layout()
 
@@ -147,8 +149,7 @@ def create_country_change_plots(mapped_file, lower_file, upper_file, out_dir, pl
     fig, (ax1, ax2) = plt.subplots(2, 1, figsize=(15, 10))
 
     ax1.plot(years, mng_loss_map_areas, color="black")
-    ax1.fill_between(years, mng_loss_low_areas, mng_loss_upp_areas, color=[0.9, 0.9,
-                                                                           0.9])
+    ax1.fill_between(years, mng_loss_low_areas, mng_loss_upp_areas, color=[0.9, 0.9, 0.9])
     ax1.set_title("Global Loss")
     ax1.set_xlabel("Years")
     ax1.set_ylabel("Area (Ha)")
@@ -156,8 +157,7 @@ def create_country_change_plots(mapped_file, lower_file, upper_file, out_dir, pl
     ax1.set_ylim(min_area, max_area)
 
     ax2.plot(years, mng_gain_map_areas, color="black")
-    ax2.fill_between(years, mng_gain_low_areas, mng_gain_upp_areas, color=[0.9, 0.9,
-                                                                           0.9])
+    ax2.fill_between(years, mng_gain_low_areas, mng_gain_upp_areas, color=[0.9, 0.9, 0.9])
     ax2.set_title("Global Gain")
     ax2.set_xlabel("Years")
     ax2.set_ylabel("Area (Ha)")
